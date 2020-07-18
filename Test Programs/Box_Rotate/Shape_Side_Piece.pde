@@ -1,9 +1,8 @@
 /**
  *  Class that can plot and draw a side piece to the screen.
- *  Created using examples as a source.
  *  By Cian O'Gorman 16-07-2020.
  */
-class Shape_Side_Piece implements Shape_Base {
+class Shape_Side_Piece extends Shape_Super_Template_Static {
 
   // Objects
   PShape sidePiece;                // Declaring the side piece shape
@@ -12,28 +11,19 @@ class Shape_Side_Piece implements Shape_Base {
   private boolean updateShape = false;     // When set to true, the vertices of the shape will be replotted.
 
   Shape_Side_Piece() {
-    // Side piece initialisation
     sidePiece = createShape();
     sidePiece.beginShape();
-    sidePiece.stroke(SHAPE_COLOR);
-    sidePiece.strokeWeight(STROKE_WEIGHT);
-    sidePiece.noFill();
-    plotShape();
+    initialise(sidePiece);
+    plotShape(sidePiece);
     sidePiece.endShape(CLOSE);
   }
 
-    void display() {
-    sidePiece.draw(getGraphics());
+  void draw() {
+    display(updateShape, sidePiece);
   }
 
-    void update() {
-    if (updateShape == true) {
-      updateShape = false;
-    }
-  }
-
-
-    void plotShape() {
+  @Override
+    void plotShape(PShape shape) {
     sidePiece.vertex(0, 0, 0);      // Significant
     sidePiece.vertex(0, 0, thickness);
     sidePiece.vertex(boxLength, 0, thickness);

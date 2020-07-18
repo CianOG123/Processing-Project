@@ -13,10 +13,10 @@ import shapes3d.path.*;
 import shapes3d.utils.*;
 
 // User modifiable dimension variables
-float boxLength = 300;
-float boxWidth = 150;
-float boxHeight = 20;
-float thickness = 10;
+float boxLength = 130;
+float boxWidth = 70;
+float boxHeight = 50;
+float thickness = 3;
 // Other Dimension variables
 float jointHeight = boxHeight / 5;
 float endPieceLength = boxWidth - (thickness * 2);
@@ -68,25 +68,25 @@ void draw() {
   
 
   // Render side piece one
-  sidePieceOne.display();
+  sidePieceOne.draw();
 
   // Render side piece two
   pushMatrix();
   translate(0, 0, -(boxWidth + thickness));     // Moving the graphics context on the z axis 
-  sidePieceTwo.display();
+  sidePieceTwo.draw();
   popMatrix();
 
   // Render end piece one
   pushMatrix();
   rotateY(radians(90));      // Rotating the graphic context 90 degrees
-  endPieceOne.display();
+  endPieceOne.draw();
   popMatrix();
 
   // Render end piece Two
   pushMatrix();
   rotateY(radians(90));      // Rotating the graphic context 90 degrees
   translate(0, 0, (boxLength - thickness));      // Translating on the local z axis.
-  endPieceTwo.display();
+  endPieceTwo.draw();
   popMatrix();
 
   popMatrix();
