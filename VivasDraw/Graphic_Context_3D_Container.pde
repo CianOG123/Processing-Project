@@ -19,7 +19,7 @@ class Graphic_Context_3D_Container {
     // Drawing within the graphic container
     graphicContainer.beginDraw();
     {
-      graphicContainer.background(111);
+      graphicContainer.background(#A4A4A4);
       boxOpenThrough.draw();
     }
     graphicContainer.endDraw();
