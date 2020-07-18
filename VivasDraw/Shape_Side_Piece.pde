@@ -36,7 +36,7 @@ class Shape_Side_Piece extends Shape_Super_Template_Static {
 
     sidePiece.vertex(boxLength, jointHeight, 0);      // Significant
     sidePiece.vertex(boxLength, jointHeight, thickness);
-    sidePiece.vertex(boxLength - thickness, 20, thickness);
+    sidePiece.vertex(boxLength - thickness, jointHeight, thickness);
     sidePiece.vertex(boxLength, jointHeight, 0);
 
     sidePiece.vertex(boxLength - thickness, jointHeight, 0);      // Significant

@@ -21,10 +21,14 @@ float thickness = 3;
 float jointHeight = boxHeight / 5;
 float endPieceLength = boxWidth - (thickness * 2);
 
+// Global Variables
+float globalYRotate = 0;                          // The rotation applied to the geometry every frame, used for auto rotate
+
 // Declaring Objects
 Graphic_Context_3D_Container container3D;
 
 void setup() {
+  frameRate(60);
   size(1280, 720, P3D); // Width, height, and depth of screen
 
   // Initialising Objects

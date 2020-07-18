@@ -1,3 +1,7 @@
+/** 
+ *  The 3D graphical context that all the boxes are drawn in
+ *  By Cian O'Gorman 18-07-2020
+ */
 class Graphic_Context_3D_Container {
 
   // Object declaration

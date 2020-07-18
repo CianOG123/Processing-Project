@@ -1,7 +1,5 @@
 /** 
- *  Super class designed for all static shapes. There is no 
- *  intention to create dynamic geometry, however another superclass 
- *  could be made for that reason if necessary in the future.
+ *  Super class designed for all static shapes.
  *  This class implements the shape interface.
  *  By Cian O'Gorman 18-07-2020
  */
