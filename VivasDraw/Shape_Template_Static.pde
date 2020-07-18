@@ -3,23 +3,27 @@
  *  This class implements the shape interface.
  *  By Cian O'Gorman 18-07-2020
  */
-class Shape_Super_Template_Static implements Shape_Interface {
+class Shape_Template_Static implements Shape_Interface {
 
   // Objects
-  PGraphics graphicContext;        // The graphical context in which the shape is placed
+  PGraphics graphicContext;        // The graphic context in which the shape is placed
 
   void setGraphicContext(PGraphics graphicContext) {
     this.graphicContext = graphicContext;
   }
 
   void initialise(PShape shape) {
-    shape.stroke(SHAPE_COLOR);
+    shape.stroke(GEO_GREEN);
     shape.strokeWeight(STROKE_WEIGHT);
     shape.noFill();
   }
 
   void display(boolean updateBoolean, PShape shape) {
     update(updateBoolean);
+    shape.draw(getGraphics());
+  }
+
+  void display(PShape shape) {
     shape.draw(getGraphics());
   }
 
@@ -31,5 +35,6 @@ class Shape_Super_Template_Static implements Shape_Interface {
   }
 
   void plotShape(PShape shape) {
+    println("\nShape override failure.");
   }
 }

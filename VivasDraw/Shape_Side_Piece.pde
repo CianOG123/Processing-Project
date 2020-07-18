@@ -2,7 +2,7 @@
  *  Class that can plot and draw a side piece to the screen.
  *  By Cian O'Gorman 16-07-2020.
  */
-class Shape_Side_Piece extends Shape_Super_Template_Static {
+class Shape_Side_Piece extends Shape_Template_Static {
 
   // Objects
   PShape sidePiece;                // Declaring the side piece shape

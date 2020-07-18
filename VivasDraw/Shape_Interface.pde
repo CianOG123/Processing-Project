@@ -6,7 +6,6 @@
 interface Shape_Interface {
 
   // Constants
-  public static final color SHAPE_COLOR = #00FF00;      // color of the shape
   public static final float STROKE_WEIGHT = 1.2;        // Stroke weight of the shape
   
   // Sets the graphical context for the shape
