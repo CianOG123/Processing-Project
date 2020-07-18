@@ -10,7 +10,7 @@ class Shape_Super_Template_Static implements Shape_Interface {
   // Objects
   PGraphics graphicContext;        // The graphical context in which the shape is placed
 
-  void setGraphicalContext(PGraphics graphicContext) {
+  void setGraphicContext(PGraphics graphicContext) {
     this.graphicContext = graphicContext;
   }
 

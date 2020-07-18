@@ -21,21 +21,13 @@ float thickness = 3;
 float jointHeight = boxHeight / 5;
 float endPieceLength = boxWidth - (thickness * 2);
 
-// Declaring 3D Objects
-Shape_Side_Piece sidePieceOne;
-Shape_Side_Piece sidePieceTwo;
-Shape_End_Piece endPieceOne;
-Shape_End_Piece endPieceTwo;
+// Declaring Objects
 Graphic_Context_3D_Container container3D;
 
 void setup() {
   size(1280, 720, P3D); // Width, height, and depth of screen
 
   // Initialising Objects
-  sidePieceOne = new Shape_Side_Piece();
-  sidePieceTwo = new Shape_Side_Piece();
-  endPieceOne = new Shape_End_Piece();
-  endPieceTwo = new Shape_End_Piece();
   container3D = new Graphic_Context_3D_Container();
 }
 
