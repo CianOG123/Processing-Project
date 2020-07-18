@@ -23,12 +23,7 @@ float endPieceLength = boxWidth - (thickness * 2);
 
 // Declaring 3D transform variables
 float xRotate = radians(-15);
-float yRotate, zRotate;  // Used to rotate the graphic context of the box on the x, y, z axis
-float xTrans, yTrans, zTrans;     // Used to translate the graphic context of the box on the x, y, z axis
-float xTransSlope = 1, yTransSlope = 1, zTransSlope = 1;
-float xScale, yScale, zScale;
-float xScaleSlope = 0.4, yScaleSlope = 0.4, zScaleSlope = 0.4;
-
+float yRotate, zRotate;
 
 // Declaring 3D Objects
 Shape_Side_Piece sidePieceOne;
@@ -37,7 +32,7 @@ Shape_End_Piece endPieceOne;
 Shape_End_Piece endPieceTwo;
 
 void setup() {
-  size(600, 600, P3D); // Width, height, and depth of screen
+  size(1280, 720, P3D); // Width, height, and depth of screen
 
   // Initialising Objects
   sidePieceOne = new Shape_Side_Piece();
@@ -53,9 +48,7 @@ void draw() {
 
   // Move the world view coordinates [0,0,0] to the centre of the display.
   // Moves the spawn point of the shape (world origin) to where you want it to be drawn.
-  translate((width / 2), (height / 2));
-  
-  translate(0, 0, 200);
+  translate((width / 2.5), (height / 2), 400);
 
   // Rotate the graphics context so we view the shape from different angles making it appear to be tumbling.
   rotateX(xRotate);
