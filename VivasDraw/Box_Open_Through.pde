@@ -27,9 +27,11 @@ class Box_Open_Through implements Box_Template {
   void positionGeometry() {
     pushMatrix();
 
-    // Move the world view coordinates [0,0,0] to the centre of the display.
-    // Moves the spawn point of the shape (world origin) to where you want it to be drawn.
-    translate((width / 2), (height / 2), 400);
+    // Centres the origin of the box (Top left) in the centre of the display
+    translate((width / 2), (height / 2), GRAPHIC_CONTEXT_VERTICLE_POSITION);
+    
+    // Moves the box down onto the grid
+    translate(0, -boxHeight);
 
     // Rotate the graphics context so we view the shape from different angles making it appear to be tumbling.
     rotateX(GLOBAL_X_ROTATE);

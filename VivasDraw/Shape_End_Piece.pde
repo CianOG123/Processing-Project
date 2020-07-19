@@ -12,10 +12,10 @@ class Shape_End_Piece extends Shape_Template_Static {
 
   Shape_End_Piece() {
     endPiece = createShape();
-    endPiece.beginShape();
+    endPiece.beginShape(TRIANGLE_STRIP);
     initialise(endPiece);
     plotShape(endPiece);
-    endPiece.endShape(CLOSE);
+    endPiece.endShape();
   }
 
   void draw() {
