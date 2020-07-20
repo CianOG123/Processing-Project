@@ -5,20 +5,20 @@
 class Shape_End_Piece extends Shape_Template_Static {
 
   // Objects
-  PShape endPiece;                // Declaring the end piece shape
+  private PShape endPiece;                // Declaring the end piece shape
 
   // Booleans
   private boolean updateShape = false;     // When set to true, the vertices of the shape will be replotted.
 
   Shape_End_Piece() {
     endPiece = createShape();
-    endPiece.beginShape(TRIANGLE_STRIP);
+    endPiece.beginShape();
     initialise(endPiece);
     plotShape(endPiece);
-    endPiece.endShape();
+    endPiece.endShape(CLOSE);
   }
 
-  void draw() {
+  private void draw() {
     display(updateShape, endPiece);
   }
 

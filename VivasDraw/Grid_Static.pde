@@ -5,9 +5,9 @@
 class Grid_Static extends Shape_Template_Static {
 
   // Constants
-  private static final int GRID_ORIGIN_CENTRE = 250;                 // The centre of the square grid on pixels (used for centering the grid on the screen)
-  private final float GRID_LENGTH = 500;                        // The size of the entire grid
-  private final float GRID_SQUARE_LENGTH = GRID_LENGTH / 5;     // The size of a grid square
+  private static final int GRID_ORIGIN_CENTRE = 250;         // The centre of the square grid on pixels (used for centering the grid on the screen)
+  private static final float GRID_LENGTH = 500;              // The size of the entire grid
+  private final float GRID_SQUARE_LENGTH = GRID_LENGTH / 5;  // The size of a grid square
 
   // Object initialisation
   private PShape gridStatic;
@@ -24,12 +24,12 @@ class Grid_Static extends Shape_Template_Static {
 
   @Override
     void initialise(PShape gridStatic) {
-    gridStatic.stroke(255);
+    gridStatic.stroke(LIGHT_GREY);
     gridStatic.strokeWeight(STROKE_WEIGHT);
     gridStatic.noFill();
   }
 
-  void draw() {
+  private void draw() {
     pushMatrix();
 
     // Centres the origin of the grid on the screen (Top left corner)

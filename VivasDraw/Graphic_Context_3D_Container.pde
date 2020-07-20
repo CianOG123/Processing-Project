@@ -4,12 +4,20 @@
  */
 class Graphic_Context_3D_Container {
 
+  // Variables
+  private boolean cursorCross = false;
+
+  // Constants
+  private static final int GRAPHIC_CONTAINER_OFFSET = -175;  // offset to create space for GUI on right of screen
+  private static final int CONTAINER_WIDTH = 930;
+  private static final int CONTAINER_Y_POSITION = 50;
+
   // Object declaration
-  PGraphics graphicContainer;    // The 3D Graphic Context that the 3D geometry are displayed in
-  Grid_Static grid;              // Grid floor
+  private PGraphics graphicContainer;    // The 3D Graphic Context that the 3D geometry are displayed in
+  private Grid_Static grid;              // Grid floor
 
   // Box Declaration
-  Box_Open_Through boxOpenThrough;
+  private Box_Open_Through boxOpenThrough;
 
   Graphic_Context_3D_Container() {
     graphicContainer = createGraphics(width, height, P3D);
@@ -17,17 +25,31 @@ class Graphic_Context_3D_Container {
     grid = new Grid_Static(graphicContainer);
   }
 
-  void draw() {
-      // Drawing within the graphic container
-      graphicContainer.beginDraw();
-      {
-        graphicContainer.background(#A4A4A4);
-        grid.draw();
-        boxOpenThrough.draw();
-      }
-      graphicContainer.endDraw();
+  private void draw() {
+    changeCursor();
+    // Drawing within the graphic container
+    graphicContainer.beginDraw();
+    {
+      graphicContainer.background(VOID_GREY);
+      grid.draw();
+      boxOpenThrough.draw();
+    }
+    graphicContainer.endDraw();
 
     // Drawing the graphic container to the screen
-    image(graphicContainer, 0, 0); //-350
+    image(graphicContainer, GRAPHIC_CONTAINER_OFFSET, 0);
+  }
+
+  // Changes the mouse cursor to the desired shape while over the 3D container
+  private void changeCursor() {
+    if ((mouseX >= 0) && (mouseX < CONTAINER_WIDTH) && (mouseY >= CONTAINER_Y_POSITION) && (mouseY <= width)) {
+      if (cursorCross == false) {
+        cursorCross = true;
+        cursor(CROSS);
+      }
+    } else if (cursorCross == true) {
+      cursorCross = false;
+      cursor(ARROW);
+    }
   }
 }

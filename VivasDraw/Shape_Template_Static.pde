@@ -6,7 +6,7 @@
 class Shape_Template_Static implements Shape_Interface {
 
   // Objects
-  PGraphics graphicContext;        // The graphic context in which the shape is placed
+  protected PGraphics graphicContext;        // The graphic context in which the shape is placed
 
   void setGraphicContext(PGraphics graphicContext) {
     this.graphicContext = graphicContext;

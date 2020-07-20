@@ -5,7 +5,7 @@
 class Shape_Side_Piece extends Shape_Template_Static {
 
   // Objects
-  PShape sidePiece;                // Declaring the side piece shape
+  private PShape sidePiece;                // Declaring the side piece shape
 
   // Booleans
   private boolean updateShape = false;     // When set to true, the vertices of the shape will be replotted.
@@ -18,7 +18,7 @@ class Shape_Side_Piece extends Shape_Template_Static {
     sidePiece.endShape(CLOSE);
   }
 
-  void draw() {
+  private void draw() {
     display(updateShape, sidePiece);
   }
 
