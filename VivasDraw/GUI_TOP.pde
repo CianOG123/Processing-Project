@@ -1,6 +1,6 @@
 /** 
  *  GUI top panel that is visible on the top of the screen
- *  By Cian O'Gorman 19-07-2020
+ *  By Cian O'Gorman 20-07-2020
  */
 class GUI_Top {
 
