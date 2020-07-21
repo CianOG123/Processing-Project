@@ -1,12 +1,4 @@
 /** 
- *  Class to handle buttons
- *  By Cian O'Gorman 20-07-2020
- */
-class Button {
-}
-
-
-/** 
  *  Class to handle text input boxes
  *  Cursor errors will occur if placed directly beside 3D Container
  *  By Cian O'Gorman 20-07-2020
@@ -23,6 +15,7 @@ class Text_Input {
   private String inputBuffer;
   private int charPressedBuffer = 0;                            // Stops the user from erasing all letters when pressing backspace, or double typing a letter
   private int mousePressedBuffer = 0;
+  private int measureType = 0;                                  // The type of measurements the button corresponds to (used for updating the public variables)
 
   // Booleans
   private boolean cursorChanged = false;                        // Used to change the cursor image
@@ -32,18 +25,19 @@ class Text_Input {
   private char[] validChars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'};   // The characters that are accepted as input from the user
 
 
-  Text_Input(int xPosition, int yPosition, int buttonWidth, int buttonHeight, String valueTitle, float value) {
+  Text_Input(int xPosition, int yPosition, int buttonHeight, String valueTitle, float value, int measureType) {
     this.xPosition = xPosition;
     this.yPosition = yPosition;
     this.buttonHeight = buttonHeight;
-    this.buttonWidth = buttonWidth;
     this.valueTitle = valueTitle;
     this.value = value;
     this.inputBuffer = Float.toString(value);
+    this.measureType = measureType;
   }
 
   private void draw() {
     changeCursor();
+    getTextWidth();
     userInput();
     enableInputMode();
     displayButton();
@@ -58,6 +52,11 @@ class Text_Input {
     } else {
       text(valueTitle + inputBuffer + "mm", xPosition, yPosition + textAscent() + textDescent());
     }
+  }
+  
+  // Returns the width of the text
+  private void getTextWidth(){
+    buttonWidth = (int) textWidth(valueTitle + value + "mm");
   }
 
   // Changes the cursor icon to indicate the user can change the value of the text
@@ -140,12 +139,34 @@ class Text_Input {
         float newValue = Float.parseFloat(inputBuffer);
         if (newValue != value) {
           value = newValue;
-          updateMeasurements = true;              // Position means, shapes are only updated if new measurement is valid
+          updateMeasurement();              // Position means, shapes are only updated if new measurement is valid
           println("\nMeasurement update");
         }
       } 
       catch(Exception NumberFormatException) {
       }
+    }
+  }
+
+  // Updates the public variables for length, width, height, etc
+  private void updateMeasurement() {
+    refreshBox = true;
+    switch (measureType) {
+    case LENGTH:
+      boxLength = value;
+      break;
+    case WIDTH:
+      boxWidth = value;
+      break;
+    case HEIGHT:
+      boxHeight = value;
+      break;
+    case THICKNESS:
+      thickness = value;
+      break;
+    case JOINT_AMOUNT:
+      jointAmount = (int) value;
+      break;
     }
   }
 }

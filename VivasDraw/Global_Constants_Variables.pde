@@ -9,7 +9,7 @@ int jointAmount = 5;
 
 // Other Dimension variables
 float jointHeight = boxHeight / jointAmount;
-boolean updateMeasurements = false;            // When set to true, a new box object will be created and measurements will be applied
+boolean refreshBox = false;            // When set to true, a new box object will be created and measurements will be applied
 //float endPieceLength = boxWidth - (thickness * 2);
 
 // Translation Variables
@@ -18,6 +18,15 @@ float globalYRotate = 0;                          // The rotation applied to the
 
 
 // Constants
+
+// Length type
+static final int LENGTH = 1;
+static final int WIDTH = 2;
+static final int HEIGHT = 3;
+static final int THICKNESS = 4;
+static final int JOINT_AMOUNT = 5;
+
+
 
 // 3D translation constants
 static final int GRAPHIC_CONTEXT_VERTICLE_POSITION = 400;  // The larger the number, the higher on the screen all 3D geometry will appear

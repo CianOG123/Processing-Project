@@ -34,7 +34,11 @@ class GUI_Options_Panel {
   
   
   GUI_Options_Panel(){
-    boxLengthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET, 200, INPUT_HEIGHT, "Length: ", boxLength);
+    boxLengthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET, INPUT_HEIGHT, "Length: ", boxLength, LENGTH);
+    boxWidthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET), INPUT_HEIGHT, "Width: ", boxWidth, WIDTH);
+    boxHeightInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 2), INPUT_HEIGHT, "Height: ", boxHeight, HEIGHT);
+    boxThicknessInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 3), INPUT_HEIGHT, "Material Thickness: ", thickness, THICKNESS);
+    boxJointAmountInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 4), INPUT_HEIGHT, "Joint Amount: ", jointAmount, JOINT_AMOUNT);
   }
   
   private void draw(){
@@ -48,13 +52,10 @@ class GUI_Options_Panel {
     textFont(robotoLight25);
     text("Box Type: ", UNDERLINE_TRIM_X_POSITION, HEADER_TRIM_Y_POSITION - VALUES_OFFSET);
     boxLengthInput.draw();
-    //text("Length: " + (int)boxLength + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - VALUES_OFFSET);
-    text("Width: " + (int)boxWidth + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET) - VALUES_OFFSET);
-    text("Height: " + (int)boxHeight + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 2) - VALUES_OFFSET);
-    text("Material Thickness: " + (int)thickness + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 3) - VALUES_OFFSET);
-    text("Joint Amount: " + jointAmount + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 4) - VALUES_OFFSET);
-    //text("Box Type:", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 5) - VALUES_OFFSET);
-    //text("Box Type:", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 6) - VALUES_OFFSET);
+    boxWidthInput.draw();
+    boxHeightInput.draw();
+    boxThicknessInput.draw();
+    boxJointAmountInput.draw();
   }
   
   // Draws the background of the panel

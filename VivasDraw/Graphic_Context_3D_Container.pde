@@ -27,7 +27,7 @@ class Graphic_Context_3D_Container {
 
   private void draw() {
     changeCursor();
-    updateMeasurements();
+    refreshBox();
     draw3DGeometry();
   }
   
@@ -61,10 +61,16 @@ class Graphic_Context_3D_Container {
   }
   
   // Updates the measurements of the box being displayed
-  private void updateMeasurements(){
-    if(updateMeasurements == true){
-      updateMeasurements = false;
+  private void refreshBox(){
+    if(refreshBox == true){
+      refreshBox = false;
+      refreshJointHeight();
       boxOpenThrough = new Box_Open_Through(graphicContainer);
     }
+  }
+  
+  // Updates the joint height
+  private void refreshJointHeight(){
+    jointHeight = boxHeight / jointAmount;
   }
 }
