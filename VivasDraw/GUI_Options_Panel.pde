@@ -22,6 +22,21 @@ class GUI_Options_Panel {
   private static final int UNDERLINE_TRIM_WIDTH = 310;
   private static final int TRIM_SELECT_Y_OFFSET = 55;
   
+  private static final int TEXT_BUTTON_Y_OFFSET = 35;
+  private static final int INPUT_HEIGHT = 27;
+  
+  // Objects
+  Text_Input boxLengthInput;
+  Text_Input boxWidthInput;
+  Text_Input boxHeightInput;
+  Text_Input boxThicknessInput;
+  Text_Input boxJointAmountInput;
+  
+  
+  GUI_Options_Panel(){
+    boxLengthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET, 200, INPUT_HEIGHT, "Length: ", boxLength);
+  }
+  
   private void draw(){
     drawBackground();
     drawValues();
@@ -32,7 +47,8 @@ class GUI_Options_Panel {
     fill(TEXT_WHITE);
     textFont(robotoLight25);
     text("Box Type: ", UNDERLINE_TRIM_X_POSITION, HEADER_TRIM_Y_POSITION - VALUES_OFFSET);
-    text("Length: " + (int)boxLength + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - VALUES_OFFSET);
+    boxLengthInput.draw();
+    //text("Length: " + (int)boxLength + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - VALUES_OFFSET);
     text("Width: " + (int)boxWidth + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET) - VALUES_OFFSET);
     text("Height: " + (int)boxHeight + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 2) - VALUES_OFFSET);
     text("Material Thickness: " + (int)thickness + "mm", UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 3) - VALUES_OFFSET);
