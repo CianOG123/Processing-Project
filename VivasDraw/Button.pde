@@ -137,7 +137,12 @@ class Text_Input {
     inputBuffer = inputBuffer.substring(0, inputBuffer.length() - 1);
     if (inputBuffer != "") {
       try {
-        value = Float.parseFloat(inputBuffer);
+        float newValue = Float.parseFloat(inputBuffer);
+        if (newValue != value) {
+          value = newValue;
+          updateMeasurements = true;              // Position means, shapes are only updated if new measurement is valid
+          println("\nMeasurement update");
+        }
       } 
       catch(Exception NumberFormatException) {
       }

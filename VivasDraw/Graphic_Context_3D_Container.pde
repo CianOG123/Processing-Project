@@ -27,6 +27,13 @@ class Graphic_Context_3D_Container {
 
   private void draw() {
     changeCursor();
+    updateMeasurements();
+    draw3DGeometry();
+  }
+  
+  // Draws all the 3D objects in the container
+  private void draw3DGeometry(){
+    
     // Drawing within the graphic container
     graphicContainer.beginDraw();
     {
@@ -50,6 +57,14 @@ class Graphic_Context_3D_Container {
     } else if (cursorCross == true) {
       cursorCross = false;
       cursor(ARROW);
+    }
+  }
+  
+  // Updates the measurements of the box being displayed
+  private void updateMeasurements(){
+    if(updateMeasurements == true){
+      updateMeasurements = false;
+      boxOpenThrough = new Box_Open_Through(graphicContainer);
     }
   }
 }

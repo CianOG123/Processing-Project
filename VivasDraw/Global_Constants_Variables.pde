@@ -9,6 +9,7 @@ int jointAmount = 5;
 
 // Other Dimension variables
 float jointHeight = boxHeight / jointAmount;
+boolean updateMeasurements = false;            // When set to true, a new box object will be created and measurements will be applied
 //float endPieceLength = boxWidth - (thickness * 2);
 
 // Translation Variables
