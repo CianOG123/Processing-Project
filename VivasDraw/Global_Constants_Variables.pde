@@ -11,6 +11,7 @@ int jointAmount = 5;
 float jointHeight = boxHeight / jointAmount;
 boolean refreshBox = false;            // When set to true, a new box object will be created and measurements will be applied
 float endPieceLength = boxWidth - (thickness * 2);
+int measurementType = MILLIMETRE;
 
 // Translation Variables
 float globalYRotate = 0;                          // The rotation applied to the geometry every frame, used for auto rotate
@@ -25,6 +26,13 @@ static final int WIDTH = 2;
 static final int HEIGHT = 3;
 static final int THICKNESS = 4;
 static final int JOINT_AMOUNT = 5;
+
+// Measurement Type
+static final int PIXEL = 0;
+static final int MILLIMETRE = 1;
+static final int METRE = 2;
+static final int INCH = 3;
+static final int FOOT = 4;
 
 
 

@@ -5,7 +5,6 @@
 class Grid_Static extends Shape_Template_Static {
 
   // Constants
-  private static final int GRID_ORIGIN_CENTRE = 250;         // The centre of the square grid on pixels (used for centering the grid on the screen)
   private static final float GRID_LENGTH = 500;              // The size of the entire grid
   private final float GRID_SQUARE_LENGTH = GRID_LENGTH / 5;  // The size of a grid square
 
@@ -29,7 +28,7 @@ class Grid_Static extends Shape_Template_Static {
     gridStatic.noFill();
   }
 
-  private void draw(PGraphics graphics) {
+  private void draw() {
     pushMatrix();
     {
       // Centering object on origin

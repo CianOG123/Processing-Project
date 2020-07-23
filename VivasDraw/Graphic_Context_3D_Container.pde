@@ -48,7 +48,7 @@ class Graphic_Context_3D_Container {
         globalYRotate += Y_ROTATE_SPEED;
         rotateY(globalYRotate);
 
-        grid.draw(graphicContainer);
+        grid.draw();
         boxOpenThrough.draw(graphicContainer);
       }
       popMatrix();
