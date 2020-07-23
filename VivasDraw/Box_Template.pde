@@ -5,7 +5,7 @@
 interface Box_Template{
   
   // Handles the positioning and rotation of each individual part of the box
-  void positionGeometry();
+  void positionGeometry(PGraphics graphics);
   
   // Sets the graphical context container of each part of the box
   void setGraphicContext(PGraphics graphicContext);

@@ -31,6 +31,6 @@ void draw() {
   userInterface.draw();  
   if(testSVG == false){
     testSVG = true;
-    svgTest.constructSVGSidePiece(50, 50);
+    svgTest.constructSVGPlan();
   }
 }

@@ -26,60 +26,60 @@ class Shape_End_Piece extends Shape_Template_Static {
   void plotShape(PShape shape) {
     shape.vertex(0, 0, 0);      // Significant
     shape.vertex(0, 0, thickness);
-    shape.vertex(boxWidth, 0, thickness);
+    shape.vertex(endPieceLength, 0, thickness);
     shape.vertex(0, 0, 0);
 
 
-    shape.vertex(boxWidth, 0, 0);       // Significant
-    shape.vertex(boxWidth, 0, thickness);
-    shape.vertex(boxWidth, jointHeight, thickness);
-    shape.vertex(boxWidth, 0, 0);
+    shape.vertex(endPieceLength, 0, 0);       // Significant
+    shape.vertex(endPieceLength, 0, thickness);
+    shape.vertex(endPieceLength, jointHeight, thickness);
+    shape.vertex(endPieceLength, 0, 0);
 
-    shape.vertex(boxWidth, jointHeight, 0);      // Significant
-    shape.vertex(boxWidth, jointHeight, thickness);
-    shape.vertex((boxWidth + thickness), jointHeight, thickness);
-    shape.vertex(boxWidth, jointHeight, 0);
+    shape.vertex(endPieceLength, jointHeight, 0);      // Significant
+    shape.vertex(endPieceLength, jointHeight, thickness);
+    shape.vertex((endPieceLength + thickness), jointHeight, thickness);
+    shape.vertex(endPieceLength, jointHeight, 0);
 
-    shape.vertex((boxWidth + thickness), jointHeight, 0);      // Significant
-    shape.vertex((boxWidth + thickness), jointHeight, thickness);
-    shape.vertex((boxWidth + thickness), (jointHeight * 2), thickness);
-    shape.vertex((boxWidth + thickness), jointHeight, 0);
+    shape.vertex((endPieceLength + thickness), jointHeight, 0);      // Significant
+    shape.vertex((endPieceLength + thickness), jointHeight, thickness);
+    shape.vertex((endPieceLength + thickness), (jointHeight * 2), thickness);
+    shape.vertex((endPieceLength + thickness), jointHeight, 0);
 
-    shape.vertex((boxWidth + thickness), (jointHeight * 2), 0);      // Significant
-    shape.vertex((boxWidth + thickness), (jointHeight * 2), thickness); 
-    shape.vertex(boxWidth, (jointHeight * 2), thickness); 
-    shape.vertex((boxWidth + thickness), (jointHeight * 2), 0);
+    shape.vertex((endPieceLength + thickness), (jointHeight * 2), 0);      // Significant
+    shape.vertex((endPieceLength + thickness), (jointHeight * 2), thickness); 
+    shape.vertex(endPieceLength, (jointHeight * 2), thickness); 
+    shape.vertex((endPieceLength + thickness), (jointHeight * 2), 0);
 
-    shape.vertex(boxWidth, (jointHeight * 2), 0);      // Significant
-    shape.vertex(boxWidth, (jointHeight * 2), thickness); 
-    shape.vertex(boxWidth, (jointHeight * 3), thickness);
-    shape.vertex(boxWidth, (jointHeight * 2), 0);
+    shape.vertex(endPieceLength, (jointHeight * 2), 0);      // Significant
+    shape.vertex(endPieceLength, (jointHeight * 2), thickness); 
+    shape.vertex(endPieceLength, (jointHeight * 3), thickness);
+    shape.vertex(endPieceLength, (jointHeight * 2), 0);
 
-    shape.vertex(boxWidth, (jointHeight * 3), 0);      // Significant
-    shape.vertex(boxWidth, (jointHeight * 3), thickness);
-    shape.vertex((boxWidth + thickness), (jointHeight * 3), thickness);
-    shape.vertex(boxWidth, (jointHeight * 3), 0);
+    shape.vertex(endPieceLength, (jointHeight * 3), 0);      // Significant
+    shape.vertex(endPieceLength, (jointHeight * 3), thickness);
+    shape.vertex((endPieceLength + thickness), (jointHeight * 3), thickness);
+    shape.vertex(endPieceLength, (jointHeight * 3), 0);
 
-    shape.vertex((boxWidth + thickness), (jointHeight * 3), 0);      // Significant
-    shape.vertex((boxWidth + thickness), (jointHeight * 3), thickness); 
-    shape.vertex((boxWidth + thickness), (jointHeight * 4), thickness);
-    shape.vertex((boxWidth + thickness), (jointHeight * 3), 0);
+    shape.vertex((endPieceLength + thickness), (jointHeight * 3), 0);      // Significant
+    shape.vertex((endPieceLength + thickness), (jointHeight * 3), thickness); 
+    shape.vertex((endPieceLength + thickness), (jointHeight * 4), thickness);
+    shape.vertex((endPieceLength + thickness), (jointHeight * 3), 0);
 
 
-    shape.vertex((boxWidth + thickness), (jointHeight * 4), 0);      // Significant
-    shape.vertex((boxWidth + thickness), (jointHeight * 4), thickness);
-    shape.vertex(boxWidth, (jointHeight * 4), thickness);
-    shape.vertex((boxWidth + thickness), (jointHeight * 4), 0);
+    shape.vertex((endPieceLength + thickness), (jointHeight * 4), 0);      // Significant
+    shape.vertex((endPieceLength + thickness), (jointHeight * 4), thickness);
+    shape.vertex(endPieceLength, (jointHeight * 4), thickness);
+    shape.vertex((endPieceLength + thickness), (jointHeight * 4), 0);
 
-    shape.vertex(boxWidth, (jointHeight * 4), 0);      // Significant
-    shape.vertex(boxWidth, (jointHeight * 4), thickness);
-    shape.vertex(boxWidth, boxHeight, thickness);
-    shape.vertex(boxWidth, (jointHeight * 4), 0);
+    shape.vertex(endPieceLength, (jointHeight * 4), 0);      // Significant
+    shape.vertex(endPieceLength, (jointHeight * 4), thickness);
+    shape.vertex(endPieceLength, boxHeight, thickness);
+    shape.vertex(endPieceLength, (jointHeight * 4), 0);
 
-    shape.vertex(boxWidth, boxHeight, 0);      // Significant
-    shape.vertex(boxWidth, boxHeight, thickness);
+    shape.vertex(endPieceLength, boxHeight, 0);      // Significant
+    shape.vertex(endPieceLength, boxHeight, thickness);
     shape.vertex(0, boxHeight, thickness);
-    shape.vertex(boxWidth, boxHeight, 0);
+    shape.vertex(endPieceLength, boxHeight, 0);
 
     shape.vertex(0, boxHeight, 0);      // Significant
     shape.vertex(0, boxHeight, thickness);

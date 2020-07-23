@@ -20,34 +20,26 @@ class Box_Open_Through implements Box_Template {
     setGraphicContext(graphicContext);
   }
 
-  private void draw() {
-    positionGeometry();
+  private void draw(PGraphics graphics) {
+    positionGeometry(graphics);
   }
 
-  void positionGeometry() {
+  void positionGeometry(PGraphics graphics) {
     pushMatrix();
-    {
-      // Centres the origin of the box (Top left) in the centre of the display
-      translate((width / 2), (height / 2), GRAPHIC_CONTEXT_VERTICLE_POSITION);
-
-      // Moves the box down onto the grid
-      translate(0, -boxHeight);
-
-      // Rotate the graphics context so we view the shape from different angles making it appear to be tumbling.
-      rotateX(GLOBAL_X_ROTATE);
-      globalYRotate -= Y_ROTATE_SPEED;
-      rotateY(globalYRotate);
-
-      // Moves the origin so the box rotates in the centre of the screen
-      translate(-(boxLength / 2), 0, (boxWidth / 2));
-
+    {      
+      // Centering object on origin
+      translate(-(boxLength / 2), -(boxHeight / 2), (boxWidth / 2));
+      translate(0, 0, -thickness);
+      
+      
+      // Individual piece positioning
+      
       // Render side piece one
       sidePieceOne.draw();
-
-      // Render side piece two
+      
       pushMatrix();
       {
-        translate(0, 0, -(boxWidth + thickness)); // Moving the graphics context on the z axis 
+        translate(0, 0, -(endPieceLength + thickness)); // Moving the graphics context on the z axis 
         sidePieceTwo.draw();
       }
       popMatrix();

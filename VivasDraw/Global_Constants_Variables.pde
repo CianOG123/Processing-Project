@@ -10,7 +10,7 @@ int jointAmount = 5;
 // Other Dimension variables
 float jointHeight = boxHeight / jointAmount;
 boolean refreshBox = false;            // When set to true, a new box object will be created and measurements will be applied
-//float endPieceLength = boxWidth - (thickness * 2);
+float endPieceLength = boxWidth - (thickness * 2);
 
 // Translation Variables
 float globalYRotate = 0;                          // The rotation applied to the geometry every frame, used for auto rotate

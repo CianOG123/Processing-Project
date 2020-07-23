@@ -30,19 +30,31 @@ class Graphic_Context_3D_Container {
     refreshBox();
     draw3DGeometry();
   }
-  
+
   // Draws all the 3D objects in the container
-  private void draw3DGeometry(){
-    
+  private void draw3DGeometry() {
+
     // Drawing within the graphic container
     graphicContainer.beginDraw();
     {
       graphicContainer.background(VOID_GREY);
-      grid.draw();
-      boxOpenThrough.draw();
+
+      pushMatrix();
+      {
+        //Global postioning
+        // Moving origin to centre of screen
+        translate(width / 2, height / 2);
+        rotateX(GLOBAL_X_ROTATE);
+        globalYRotate += Y_ROTATE_SPEED;
+        rotateY(globalYRotate);
+
+        grid.draw(graphicContainer);
+        boxOpenThrough.draw(graphicContainer);
+      }
+      popMatrix();
     }
     graphicContainer.endDraw();
-
+    
     // Drawing the graphic container to the screen
     image(graphicContainer, GRAPHIC_CONTAINER_OFFSET, 0);
   }
@@ -59,18 +71,24 @@ class Graphic_Context_3D_Container {
       cursor(ARROW);
     }
   }
-  
+
   // Updates the measurements of the box being displayed
-  private void refreshBox(){
-    if(refreshBox == true){
+  private void refreshBox() {
+    if (refreshBox == true) {
       refreshBox = false;
       refreshJointHeight();
+      refreshEndPieceLength();
       boxOpenThrough = new Box_Open_Through(graphicContainer);
     }
   }
-  
+
   // Updates the joint height
-  private void refreshJointHeight(){
+  private void refreshJointHeight() {
     jointHeight = boxHeight / jointAmount;
+  }
+
+  // Updates the end piece length (excluding joints)
+  private void refreshEndPieceLength() {
+    endPieceLength = boxWidth - (thickness * 2);
   }
 }
