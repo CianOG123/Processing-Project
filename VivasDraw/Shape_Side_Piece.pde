@@ -12,7 +12,7 @@ class Shape_Side_Piece extends Shape_Template_Static {
 
   Shape_Side_Piece() {
     sidePiece = createShape();
-    sidePiece.beginShape();
+    sidePiece.beginShape(TRIANGLE_STRIP);
     initialise(sidePiece);
     plotShape(sidePiece);
     sidePiece.endShape(CLOSE);
@@ -24,104 +24,67 @@ class Shape_Side_Piece extends Shape_Template_Static {
 
   @Override
     void plotShape(PShape shape) {
-    sidePiece.vertex(0, 0, 0);      // Significant
+    sidePiece.vertex(0, 0, 0);  // Significant
     sidePiece.vertex(0, 0, thickness);
+
+    sidePiece.vertex(boxLength, 0, 0);  // Significant
     sidePiece.vertex(boxLength, 0, thickness);
-    sidePiece.vertex(0, 0, 0);
 
-    sidePiece.vertex(boxLength, 0, 0);       // Significant
-    sidePiece.vertex(boxLength, 0, thickness);
+    sidePiece.vertex(boxLength, jointHeight, 0);  // Significant
     sidePiece.vertex(boxLength, jointHeight, thickness);
-    sidePiece.vertex(boxLength, 0, 0);
 
-    sidePiece.vertex(boxLength, jointHeight, 0);      // Significant
-    sidePiece.vertex(boxLength, jointHeight, thickness);
+    sidePiece.vertex(boxLength - thickness, jointHeight, 0);  // Significant
     sidePiece.vertex(boxLength - thickness, jointHeight, thickness);
-    sidePiece.vertex(boxLength, jointHeight, 0);
 
-    sidePiece.vertex(boxLength - thickness, jointHeight, 0);      // Significant
-    sidePiece.vertex(boxLength - thickness, jointHeight, thickness);
+    sidePiece.vertex(boxLength - thickness, (jointHeight * 2), 0);  // Significant
     sidePiece.vertex(boxLength - thickness, (jointHeight * 2), thickness);
-    sidePiece.vertex(boxLength - thickness, jointHeight, 0);
 
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 2), 0);      // Significant
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 2), thickness);
+    sidePiece.vertex(boxLength, (jointHeight * 2), 0);  // Significant
     sidePiece.vertex(boxLength, (jointHeight * 2), thickness);
-    sidePiece.vertex((boxLength - thickness), (jointHeight * 2), 0);
 
-    sidePiece.vertex(boxLength, (jointHeight * 2), 0);      // Significant
-    sidePiece.vertex(boxLength, (jointHeight * 2), thickness);
+    sidePiece.vertex(boxLength, (jointHeight * 3), 0);  // Significant
     sidePiece.vertex(boxLength, (jointHeight * 3), thickness);
-    sidePiece.vertex(boxLength, (jointHeight * 2), 0);
 
-    sidePiece.vertex(boxLength, (jointHeight * 3), 0);      // Significant
-    sidePiece.vertex(boxLength, (jointHeight * 3), thickness);
-    sidePiece.vertex((boxLength - thickness), (jointHeight * 3), thickness);
-    sidePiece.vertex(boxLength, (jointHeight * 3), 0);
-
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 3), 0);      // Significant
+    sidePiece.vertex(boxLength - thickness, (jointHeight * 3), 0);  // Significant
     sidePiece.vertex(boxLength - thickness, (jointHeight * 3), thickness); 
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 4), thickness);
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 3), 0);
 
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 4), 0);      // Significant
+    sidePiece.vertex(boxLength - thickness, (jointHeight * 4), 0);  // Significant
     sidePiece.vertex(boxLength - thickness, (jointHeight * 4), thickness);
-    sidePiece.vertex(boxLength, (jointHeight * 4), thickness); 
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 4), 0); 
 
-    sidePiece.vertex(boxLength, (jointHeight * 4), 0);      // Significant
+    sidePiece.vertex(boxLength, (jointHeight * 4), 0);  // Significant
     sidePiece.vertex(boxLength, (jointHeight * 4), thickness);
-    sidePiece.vertex(boxLength, boxHeight, thickness); 
-    sidePiece.vertex(boxLength, (jointHeight * 4), 0);
 
-    sidePiece.vertex(boxLength, boxHeight, 0);      // Significant
+    sidePiece.vertex(boxLength, boxHeight, 0);  // Significant
     sidePiece.vertex(boxLength, boxHeight, thickness);
+
+    sidePiece.vertex(0, boxHeight, 0);  // Significant
     sidePiece.vertex(0, boxHeight, thickness);
-    sidePiece.vertex(boxLength, boxHeight, 0);
 
-    sidePiece.vertex(0, boxHeight, 0);      // Significant
-    sidePiece.vertex(0, boxHeight, thickness);
+    sidePiece.vertex(0, (jointHeight * 4), 0);  // Significant
     sidePiece.vertex(0, (jointHeight * 4), thickness);
-    sidePiece.vertex(0, boxHeight, 0);
 
-    sidePiece.vertex(0, (jointHeight * 4), 0);      // Significant
-    sidePiece.vertex(0, (jointHeight * 4), thickness);
+    sidePiece.vertex(thickness, (jointHeight * 4), 0);  // Significant
     sidePiece.vertex(thickness, (jointHeight * 4), thickness);
-    sidePiece.vertex(0, (jointHeight * 4), 0);
 
-    sidePiece.vertex(thickness, (jointHeight * 4), 0);      // Significant
-    sidePiece.vertex(thickness, (jointHeight * 4), thickness);
+    sidePiece.vertex(thickness, (jointHeight * 3), 0);  // Significant
     sidePiece.vertex(thickness, (jointHeight * 3), thickness);
-    sidePiece.vertex(thickness, (jointHeight * 4), 0);
 
-    sidePiece.vertex(thickness, (jointHeight * 3), 0);      // Significant
-    sidePiece.vertex(thickness, (jointHeight * 3), thickness);
-    sidePiece.vertex(0, (jointHeight * 3), thickness);
-    sidePiece.vertex(thickness, (jointHeight * 3), 0);
-
-    sidePiece.vertex(0, (jointHeight * 3), 0);      // Significant
+    sidePiece.vertex(0, (jointHeight * 3), 0);  // Significant
     sidePiece.vertex(0, (jointHeight * 3), thickness); 
-    sidePiece.vertex(0, (jointHeight * 2), thickness); 
-    sidePiece.vertex(0, (jointHeight * 3), 0);
 
-    sidePiece.vertex(0, (jointHeight * 2), 0);      // Significant
+    sidePiece.vertex(0, (jointHeight * 2), 0);  // Significant
     sidePiece.vertex(0, (jointHeight * 2), thickness);
-    sidePiece.vertex(thickness, (jointHeight * 2), thickness);
-    sidePiece.vertex(0, (jointHeight * 2), 0);
 
-    sidePiece.vertex(thickness, (jointHeight * 2), 0);      // Significant
+    sidePiece.vertex(thickness, (jointHeight * 2), 0);  // Significant
     sidePiece.vertex(thickness, (jointHeight * 2), thickness);
-    sidePiece.vertex(thickness, jointHeight, thickness); 
-    sidePiece.vertex(thickness, (jointHeight * 2), 0);
 
-    sidePiece.vertex(thickness, jointHeight, 0);      // Significant
+    sidePiece.vertex(thickness, jointHeight, 0);  // Significant
     sidePiece.vertex(thickness, jointHeight, thickness);
-    sidePiece.vertex(0, jointHeight, thickness);
-    sidePiece.vertex(thickness, jointHeight, 0);
 
-    sidePiece.vertex(0, jointHeight, 0);      // Significant
+    sidePiece.vertex(0, jointHeight, 0);  // Significant
     sidePiece.vertex(0, jointHeight, thickness);
+
+    sidePiece.vertex(0, 0, 0);  // Significant
     sidePiece.vertex(0, 0, thickness);
-    sidePiece.vertex(0, jointHeight, 0);
   }
 }

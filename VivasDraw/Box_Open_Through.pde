@@ -35,12 +35,12 @@ class Box_Open_Through implements Box_Template {
       // Individual piece positioning
       
       // Render side piece one
-      sidePieceOne.draw();
+      //sidePieceOne.draw();
       
       pushMatrix();
       {
         translate(0, 0, -(endPieceLength + thickness)); // Moving the graphics context on the z axis 
-        sidePieceTwo.draw();
+        //sidePieceTwo.draw();
       }
       popMatrix();
 
@@ -48,7 +48,7 @@ class Box_Open_Through implements Box_Template {
       pushMatrix();
       {
         rotateY(radians(90));                     // Rotating the graphic context 90 degrees
-        endPieceOne.draw();
+        //endPieceOne.draw();
       }
       popMatrix();
 
