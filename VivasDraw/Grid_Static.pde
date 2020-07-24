@@ -28,15 +28,15 @@ class Grid_Static extends Shape_Template_Static {
     gridStatic.noFill();
   }
 
-  private void draw() {
-    pushMatrix();
+  private void draw(PGraphics graphics) {
+    graphics.pushMatrix();
     {
       // Centering object on origin
-      translate(-(GRID_LENGTH / 2), (boxHeight / 2), -(GRID_LENGTH / 2));
+      graphics.translate(-(GRID_LENGTH / 2), (boxHeight / 2), -(GRID_LENGTH / 2));
 
       display(gridStatic);
     }
-    popMatrix();
+    graphics.popMatrix();
   }
 
   @Override

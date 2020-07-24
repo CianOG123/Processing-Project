@@ -25,11 +25,11 @@ class Box_Open_Through implements Box_Template {
   }
 
   void positionGeometry(PGraphics graphics) {
-    pushMatrix();
+    graphics.pushMatrix();
     {      
       // Centering object on origin
-      translate(-(boxLength / 2), -(boxHeight / 2), (boxWidth / 2));
-      translate(0, 0, -thickness);
+      graphics.translate(-(boxLength / 2), -(boxHeight / 2), (boxWidth / 2));
+      graphics.translate(0, 0, -thickness);
       
       
       // Individual piece positioning
@@ -37,31 +37,31 @@ class Box_Open_Through implements Box_Template {
       // Render side piece one
       //sidePieceOne.draw();
       
-      pushMatrix();
+      graphics.pushMatrix();
       {
-        translate(0, 0, -(endPieceLength + thickness)); // Moving the graphics context on the z axis 
+        graphics.translate(0, 0, -(endPieceLength + thickness)); // Moving the graphics context on the z axis 
         //sidePieceTwo.draw();
       }
-      popMatrix();
+      graphics.popMatrix();
 
       // Render end piece one
-      pushMatrix();
+      graphics.pushMatrix();
       {
-        rotateY(radians(90));                     // Rotating the graphic context 90 degrees
+        graphics.rotateY(radians(90));                     // Rotating the graphic context 90 degrees
         //endPieceOne.draw();
       }
-      popMatrix();
+      graphics.popMatrix();
 
       // Render end piece Two
-      pushMatrix();
+      graphics.pushMatrix();
       {
-        rotateY(radians(90));                     // Rotating the graphic context 90 degrees
-        translate(0, 0, (boxLength - thickness)); // Translating on the local z axis.
+        graphics.rotateY(radians(90));                     // Rotating the graphic context 90 degrees
+        graphics.translate(0, 0, (boxLength - thickness)); // Translating on the local z axis.
         endPieceTwo.draw();
       }
-      popMatrix();
+      graphics.popMatrix();
     }
-    popMatrix();
+    graphics.popMatrix();
   }
 
   void setGraphicContext(PGraphics graphicContext) {
