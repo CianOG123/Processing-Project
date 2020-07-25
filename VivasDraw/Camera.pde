@@ -8,8 +8,7 @@ class Camera {
   // Objects
   PGraphics graphicsContext;
 
-  private boolean centerReleased = false, leftReleased = false;  // Is the button after being released
-  private boolean centerPressed = false, leftPressed = false;  // Is the button after being pressed
+  private boolean rotatingY = false, rotatingX = false;  // Is the axis being rotated
   private int savedMouseX, savedMouseY;  // The saved mouse position on screen
   private int currentYRotation = 0, currentXRotation = 0;  // The amount of radians the y position has changed while the current button has been pressed
   private int yRotation = 0, xRotation = 0;
@@ -36,8 +35,8 @@ class Camera {
     if (mousePressed == true) {
       if (mouseButton == CENTER) {
         // When button is initially pressed
-        if (centerPressed == false) {
-          centerPressed = true;
+        if (rotatingY == false) {
+          rotatingY = true;
           savedMouseX = mouseX;
         }
         // While button is pressed
@@ -47,8 +46,8 @@ class Camera {
         }
       }
       // When mouse is released
-    } else if (centerPressed == true) {
-      centerPressed = false;
+    } else if (rotatingY == true) {
+      rotatingY = false;
       yRotation += currentYRotation;
       currentYRotation = 0;
     }
@@ -57,10 +56,10 @@ class Camera {
   // Rotates the graphic context on the x-axis when the center mouse buton is pressed
   private void rotateXAxis() {
     if (mousePressed == true) {
-      if (mouseButton == LEFT) {
+      if (mouseButton == CENTER) {
         // When button is initially pressed
-        if (centerPressed == false) {
-          centerPressed = true;
+        if (rotatingX == false) {
+          rotatingX = true;
           savedMouseY = mouseY;
         }
         // While button is pressed
@@ -70,8 +69,8 @@ class Camera {
         }
       }
       // When mouse is released
-    } else if (centerPressed == true) {
-      centerPressed = false;
+    } else if (rotatingX == true) {
+      rotatingX = false;
       xRotation += currentXRotation;
       currentXRotation = 0;
     }
