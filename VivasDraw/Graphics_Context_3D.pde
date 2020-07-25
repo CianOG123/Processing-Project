@@ -35,9 +35,8 @@ class Graphic_Context_3D_Container {
   private void draw3DGeometry() {
 
     // Drawing within the graphic container
-    beginDraw(graphicContainer);
+    graphicContainer.beginDraw();
     {
-      graphicContainer.pushStyle();
       graphicContainer.background(VOID_GREY);
       
 
@@ -45,20 +44,18 @@ class Graphic_Context_3D_Container {
       {
         //Global postioning
         // Moving origin to centre of screen
-        //graphicContainer.translate(width / 2, height / 2);
-        //graphicContainer.rotateX(GLOBAL_X_ROTATE);
-        //globalYRotate += Y_ROTATE_SPEED;
-        //graphicContainer.rotateY(-(GLOBAL_X_ROTATE * 3));//
+        graphicContainer.translate(width / 2, height / 2);
+        graphicContainer.rotateX(GLOBAL_X_ROTATE);
+        globalYRotate += Y_ROTATE_SPEED;
+        graphicContainer.rotateY(globalYRotate);//
 
         grid.draw(graphicContainer);
         boxOpenThrough.draw(graphicContainer);
       }
       graphicContainer.popMatrix();
-      graphicContainer.popStyle();
     }
-    endDraw(graphicContainer);
+    graphicContainer.endDraw();
     
-    cam.getState().apply(graphicContainer);
     // Drawing the graphic container to the screen
     image(graphicContainer, GRAPHIC_CONTAINER_OFFSET, 0);
   }
