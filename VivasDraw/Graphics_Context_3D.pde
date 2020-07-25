@@ -13,6 +13,7 @@ class Graphic_Context_3D_Container {
   private static final int CONTAINER_Y_POSITION = 50;
 
   // Object declaration
+  private Camera camera;
   private PGraphics graphicContainer;    // The 3D Graphic Context that the 3D geometry are displayed in
   private Grid_Static grid;              // Grid floor
 
@@ -23,6 +24,7 @@ class Graphic_Context_3D_Container {
     graphicContainer = createGraphics(width, height, P3D);
     boxOpenThrough = new Box_Open_Through(graphicContainer);
     grid = new Grid_Static(graphicContainer);
+    camera = new Camera(graphicContainer);
   }
 
   private void draw() {
@@ -45,10 +47,11 @@ class Graphic_Context_3D_Container {
         //Global postioning
         // Moving origin to centre of screen
         graphicContainer.translate(width / 2, height / 2);
-        graphicContainer.rotateX(GLOBAL_X_ROTATE);
-        globalYRotate += Y_ROTATE_SPEED;
-        graphicContainer.rotateY(globalYRotate);//
+        //graphicContainer.rotateX(GLOBAL_X_ROTATE);
+        //globalYRotate += Y_ROTATE_SPEED;
+        //graphicContainer.rotateY(globalYRotate);//
 
+        camera.draw();
         grid.draw(graphicContainer);
         boxOpenThrough.draw(graphicContainer);
       }
