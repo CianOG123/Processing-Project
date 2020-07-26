@@ -47,9 +47,7 @@ class Graphic_Context_3D_Container {
         //Global postioning
         // Moving origin to centre of screen
         graphicContainer.translate(width / 2, height / 2);
-        //graphicContainer.rotateX(GLOBAL_X_ROTATE);
-        //globalYRotate += Y_ROTATE_SPEED;
-        //graphicContainer.rotateY(globalYRotate);//
+        graphicContainer.rotateX(GLOBAL_X_ROTATE);
 
         camera.draw();
         grid.draw(graphicContainer);

@@ -34,3 +34,7 @@ void draw() {
     svgTest.constructSVGPlan();
   }
 }
+
+void mouseWheel(MouseEvent event){
+  container3D.camera.mouseWheel(event);
+}

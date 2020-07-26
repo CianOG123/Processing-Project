@@ -15,6 +15,7 @@ int measurementType = MILLIMETRE;
 
 // Translation Variables
 float globalYRotate = 0;                          // The rotation applied to the geometry every frame, used for auto rotate
+float   accumulatedScroll = 5;                    // Accumulates the scroll of the users mouse
 
 
 
