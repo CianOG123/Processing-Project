@@ -24,66 +24,55 @@ class Shape_Side_Piece extends Shape_Template_Static {
 
   @Override
     void plotShape(PShape shape) {
+    // Construct top
     sidePiece.vertex(0, 0, 0);  // Significant
     sidePiece.vertex(0, 0, thickness);
 
     sidePiece.vertex(boxLength, 0, 0);  // Significant
     sidePiece.vertex(boxLength, 0, thickness);
 
-    sidePiece.vertex(boxLength, jointHeight, 0);  // Significant
-    sidePiece.vertex(boxLength, jointHeight, thickness);
+    // Construct joints
+    for (int i = 1; i <= (jointAmount - 1); i++) {
+      if (i % 2 == 0) {
+        sidePiece.vertex(boxLength - thickness, (jointHeight * i), 0);  // Significant
+        sidePiece.vertex(boxLength - thickness, (jointHeight * i), thickness);
 
-    sidePiece.vertex(boxLength - thickness, jointHeight, 0);  // Significant
-    sidePiece.vertex(boxLength - thickness, jointHeight, thickness);
+        sidePiece.vertex(boxLength, (jointHeight * i), 0);  // Significant
+        sidePiece.vertex(boxLength, (jointHeight * i), thickness);
+      } else {
+        sidePiece.vertex(boxLength, (jointHeight * i), 0);  // Significant
+        sidePiece.vertex(boxLength, (jointHeight * i), thickness);
 
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 2), 0);  // Significant
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 2), thickness);
+        sidePiece.vertex(boxLength - thickness, (jointHeight * i), 0);  // Significant
+        sidePiece.vertex(boxLength - thickness, (jointHeight * i), thickness);
+      }
+    }
 
-    sidePiece.vertex(boxLength, (jointHeight * 2), 0);  // Significant
-    sidePiece.vertex(boxLength, (jointHeight * 2), thickness);
-
-    sidePiece.vertex(boxLength, (jointHeight * 3), 0);  // Significant
-    sidePiece.vertex(boxLength, (jointHeight * 3), thickness);
-
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 3), 0);  // Significant
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 3), thickness); 
-
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 4), 0);  // Significant
-    sidePiece.vertex(boxLength - thickness, (jointHeight * 4), thickness);
-
-    sidePiece.vertex(boxLength, (jointHeight * 4), 0);  // Significant
-    sidePiece.vertex(boxLength, (jointHeight * 4), thickness);
-
+    // Construct bottom
     sidePiece.vertex(boxLength, boxHeight, 0);  // Significant
     sidePiece.vertex(boxLength, boxHeight, thickness);
 
     sidePiece.vertex(0, boxHeight, 0);  // Significant
     sidePiece.vertex(0, boxHeight, thickness);
 
-    sidePiece.vertex(0, (jointHeight * 4), 0);  // Significant
-    sidePiece.vertex(0, (jointHeight * 4), thickness);
+    // Construct joints
+    for (int i = (jointAmount - 1); i >= 1; i--) {
+      if (i % 2 == 0) {
+        sidePiece.vertex(0, (jointHeight * i), 0);  // Significant
+        sidePiece.vertex(0, (jointHeight * i), thickness);
 
-    sidePiece.vertex(thickness, (jointHeight * 4), 0);  // Significant
-    sidePiece.vertex(thickness, (jointHeight * 4), thickness);
+        sidePiece.vertex(thickness, (jointHeight * i), 0);  // Significant
+        sidePiece.vertex(thickness, (jointHeight * i), thickness);
+      } else {
+        sidePiece.vertex(thickness, (jointHeight * i), 0);  // Significant
+        sidePiece.vertex(thickness, (jointHeight * i), thickness);
 
-    sidePiece.vertex(thickness, (jointHeight * 3), 0);  // Significant
-    sidePiece.vertex(thickness, (jointHeight * 3), thickness);
+        sidePiece.vertex(0, (jointHeight * i), 0);  // Significant
+        sidePiece.vertex(0, (jointHeight * i), thickness);
+      }
+    }
 
-    sidePiece.vertex(0, (jointHeight * 3), 0);  // Significant
-    sidePiece.vertex(0, (jointHeight * 3), thickness); 
-
-    sidePiece.vertex(0, (jointHeight * 2), 0);  // Significant
-    sidePiece.vertex(0, (jointHeight * 2), thickness);
-
-    sidePiece.vertex(thickness, (jointHeight * 2), 0);  // Significant
-    sidePiece.vertex(thickness, (jointHeight * 2), thickness);
-
-    sidePiece.vertex(thickness, jointHeight, 0);  // Significant
-    sidePiece.vertex(thickness, jointHeight, thickness);
-
-    sidePiece.vertex(0, jointHeight, 0);  // Significant
-    sidePiece.vertex(0, jointHeight, thickness);
-
+    // Close
     sidePiece.vertex(0, 0, 0);  // Significant
     sidePiece.vertex(0, 0, thickness);
   }
@@ -115,67 +104,60 @@ class Shape_End_Piece extends Shape_Template_Static {
   }
 
   @Override
-  void plotShape(PShape shape) {
+    void plotShape(PShape shape) {
+    // Construct top
     shape.vertex(0, 0, 0);      // Significant
     shape.vertex(0, 0, thickness);
 
     shape.vertex(endPieceLength, 0, 0);       // Significant
     shape.vertex(endPieceLength, 0, thickness);
 
-    shape.vertex(endPieceLength, jointHeight, 0);      // Significant
-    shape.vertex(endPieceLength, jointHeight, thickness);
+    // Construct joints
+    for (int i = 1; i <= (jointAmount - 1); i++) {
+      if (i % 2 == 0) {
+        shape.vertex((endPieceLength + thickness), (jointHeight * i), 0);      // Significant
+        shape.vertex((endPieceLength + thickness), (jointHeight * i), thickness); 
 
-    shape.vertex((endPieceLength + thickness), jointHeight, 0);      // Significant
-    shape.vertex((endPieceLength + thickness), jointHeight, thickness);
+        shape.vertex(endPieceLength, (jointHeight * i), 0);      // Significant
+        shape.vertex(endPieceLength, (jointHeight * i), thickness);
+      } else {
+        shape.vertex(endPieceLength, (jointHeight * i), 0);      // Significant
+        shape.vertex(endPieceLength, (jointHeight * i), thickness);
 
-    shape.vertex((endPieceLength + thickness), (jointHeight * 2), 0);      // Significant
-    shape.vertex((endPieceLength + thickness), (jointHeight * 2), thickness); 
+        shape.vertex((endPieceLength + thickness), (jointHeight * i), 0);      // Significant
+        shape.vertex((endPieceLength + thickness), (jointHeight * i), thickness);
+      }
+    }
 
-    shape.vertex(endPieceLength, (jointHeight * 2), 0);      // Significant
-    shape.vertex(endPieceLength, (jointHeight * 2), thickness); 
 
-    shape.vertex(endPieceLength, (jointHeight * 3), 0);      // Significant
-    shape.vertex(endPieceLength, (jointHeight * 3), thickness);
-
-    shape.vertex((endPieceLength + thickness), (jointHeight * 3), 0);      // Significant
-    shape.vertex((endPieceLength + thickness), (jointHeight * 3), thickness); 
-
-    shape.vertex((endPieceLength + thickness), (jointHeight * 4), 0);      // Significant
-    shape.vertex((endPieceLength + thickness), (jointHeight * 4), thickness);
-    
-    shape.vertex(endPieceLength, (jointHeight * 4), 0);      // Significant
-    shape.vertex(endPieceLength, (jointHeight * 4), thickness);
-
+    // Construct bottom
     shape.vertex(endPieceLength, boxHeight, 0);      // Significant
     shape.vertex(endPieceLength, boxHeight, thickness);
 
     shape.vertex(0, boxHeight, 0);      // Significant
     shape.vertex(0, boxHeight, thickness);
 
-    shape.vertex(0, (jointHeight * 4), 0);      // Significant
-    shape.vertex(0, (jointHeight * 4), thickness);
+    // Construct joints
+    for (int i = (jointAmount - 1); i >= 1; i--) {
+      if (i % 2 == 0) {
+        shape.vertex(0, (jointHeight * i), 0);      // Significant
+        shape.vertex(0, (jointHeight * i), thickness);
 
-    shape.vertex(-thickness, (jointHeight * 4), 0);      // Significant
-    shape.vertex(-thickness, (jointHeight * 4), thickness);
+        shape.vertex(-thickness, (jointHeight * i), 0);      // Significant
+        shape.vertex(-thickness, (jointHeight * i), thickness);
+      } else {
+        shape.vertex(-thickness, (jointHeight * i), 0);      // Significant
+        shape.vertex(-thickness, (jointHeight * i), thickness);
 
-    shape.vertex(-thickness, (jointHeight * 3), 0);      // Significant
-    shape.vertex(-thickness, (jointHeight * 3), thickness);
+        shape.vertex(0, (jointHeight * i), 0);      // Significant
+        shape.vertex(0, (jointHeight * i), thickness);
+      }
+    } 
 
-    shape.vertex(0, (jointHeight * 3), 0);      // Significant
-    shape.vertex(0, (jointHeight * 3), thickness); 
-
-    shape.vertex(0, (jointHeight * 2), 0);      // Significant
-    shape.vertex(0, (jointHeight * 2), thickness);
-
-    shape.vertex(-thickness, (jointHeight * 2), 0);      // Significant
-    shape.vertex(-thickness, (jointHeight * 2), thickness);
-
-    shape.vertex(-thickness, jointHeight, 0);      // Significant
-    shape.vertex(-thickness, jointHeight, thickness); 
-
+    // Construct bottom
     shape.vertex(0, jointHeight, 0);      // Significant
     shape.vertex(0, jointHeight, thickness);
-    
+
     shape.vertex(0, 0, 0);                // Significant
     shape.vertex(0, 0, thickness);
   }

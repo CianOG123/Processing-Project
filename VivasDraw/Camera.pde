@@ -10,21 +10,20 @@ class Camera {
   // Constants
   private static final int SCROLL_SPEED = 10;     // Higher is slower, lower is faster
   private static final float SCROLL_MAX = 0.333;  // The max scroll distance
-  private static final float SCROLL_MIN = 3;      // The minimum scroll distance
+  private static final float SCROLL_MIN = 5;      // The minimum scroll distance
 
   // Objects
-  private PGraphics graphicsContext;
+  private PGraphics graphicsContext;              // Reference to the graphic context used
 
-  // SettingsVariables
-  private static final int ROTATE_BUTTON = CENTER;
+  // Settings Variables
+  private static final int ROTATE_BUTTON = CENTER;         // The button that will be used to rotate around the geometry
 
   // General Variables
-  private boolean rotatingX = false, rotatingY = false;  // Is the axis being rotated
-  private int savedMouseX, savedMouseY;  // The saved mouse position on screen
+  private boolean rotatingX = false, rotatingY = false;    // Is the axis being rotated
+  private int savedMouseX, savedMouseY;                    // The saved mouse position on screen
   private int currentXRotation = 0, currentYRotation = 0;  // The amount of radians the y position has changed while the current button has been pressed
-  private int xRotation = 10, yRotation = 30;    // The X and Y Rotation of the Graphic Context, set to 10, 30 on start up
-  private float scaleAmount = 2;  // The scale of the objects in the graphic context, used for zoom
-  private int scrollSlope = 0; // If the scroll is increasing or decreasing
+  private int xRotation = 10, yRotation = 30;              // The X and Y Rotation of the Graphic Context, set to 10, 30 on start up
+  private float scaleAmount = 2;                           // The scale of the objects in the graphic context, used for zoom
 
   Camera(PGraphics graphics) {
     graphicsContext = graphics;
@@ -37,10 +36,8 @@ class Camera {
     applyRotations();
   }
 
-  // Applies all rotations and translations to the graphic context
+  // Applies all rotations to the graphic context
   private void applyRotations() {
-    //graphicsContext.camera(0, height / 2, (height/2) / tan(PI * 30 / 180), 0, 0, 0, 0, 1, 0);
-
     graphicsContext.scale(scaleAmount, scaleAmount, scaleAmount);
 
     // Rotating the X-axis after the Y-axis results in an undesirable tilt.
@@ -98,9 +95,8 @@ class Camera {
     }
   }
 
-  // Zooms by scaling the graphics context
+  // Scales the graphics context using the scroll wheel value
   private void zoom() {
-    println(scaleAmount);
     if ((scaleAmount >= SCROLL_MIN) && (scrollSlope > 0)) {
       scaleAmount = SCROLL_MIN;
       accumulatedScroll = scaleAmount * SCROLL_SPEED;
@@ -111,10 +107,5 @@ class Camera {
     }else {
       scaleAmount = ((accumulatedScroll / SCROLL_SPEED));
     }
-  }
-
-  private void mouseWheel(MouseEvent event) {
-    scrollSlope = -event.getCount();
-    accumulatedScroll += scrollSlope;
   }
 }

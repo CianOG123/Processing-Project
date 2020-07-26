@@ -35,6 +35,7 @@ void draw() {
   }
 }
 
-void mouseWheel(MouseEvent event){
-  container3D.camera.mouseWheel(event);
+void mouseWheel(MouseEvent event) {
+  scrollSlope = -event.getCount();
+  accumulatedScroll += scrollSlope;
 }
