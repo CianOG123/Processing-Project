@@ -89,8 +89,7 @@ class Shape_Floor_Piece extends Shape_Template_Static {
     
     floorPiece.vertex(0, 0, 0); 
     floorPiece.vertex(0, thickness, 0);
-    
-    
+ 
   }
 }
 

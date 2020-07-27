@@ -22,7 +22,7 @@ void setup() {
   // Initialising Objects
   container3D = new Graphic_Context_3D_Container();
   userInterface = new GUI_Main();
-  svgTest = new SVG_Export(true, true);
+  svgTest = new SVG_Export(true, true, 1);
 }
 
 void draw() {

@@ -28,6 +28,13 @@ boolean inputEnabledElseWhere = false;  // set to true if text input is enalbed 
 
 // Constants
 
+// Box being displayed
+static final int BOX_OPEN_TOP = 1;
+static final int BOX_CLOSED = 2;
+static final int BOX_OPEN_THROUGH = 3;
+static final int BOX_CENTRE_PART = 4;
+static final int BOX_CROSS_SECTION = 5;
+
 // Length type
 static final int LENGTH = 1;
 static final int WIDTH = 2;
