@@ -5,7 +5,7 @@ float boxLength = 200;
 float boxWidth = 100;
 float boxHeight = 50;
 float thickness = 10;
-int jointAmount = 9;
+int jointAmount = 5;
 
 // Other Dimension variables
 float jointHeight = boxHeight / jointAmount;
@@ -14,9 +14,12 @@ float endPieceLength = boxWidth - (thickness * 2);
 int measurementType = MILLIMETRE;
 
 // Translation Variables
-float globalYRotate = 0;                          // The rotation applied to the geometry every frame, used for auto rotate
-float   accumulatedScroll = 15;                    // Accumulates the scroll of the users mouse
-int scrollSlope = 0;                              // If the scroll is increasing or decreasing
+  float globalYRotate = 0;     // The rotation applied to the geometry every frame, used for auto rotate
+float accumulatedScroll = 15;  // Accumulates the scroll of the users mouse
+int scrollSlope = 0;           // If the scroll is increasing or decreasing
+
+// Booleans
+boolean inputEnabledElseWhere = false;  // set to true if text input is enalbed anywhere, used to stop the user typing in two boxes at once
 
 
 

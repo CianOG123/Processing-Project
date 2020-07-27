@@ -6,23 +6,24 @@
 class Text_Input {
 
   // Constants
-  private static final int INPUT_TIME_LIMIT = 9;            // The amount of frames that will elapse between considered user inputs
+  protected static final int INPUT_TIME_LIMIT = 9;            // The amount of frames that will elapse between considered user inputs
 
   // Variables
-  private int xPosition, yPosition, buttonHeight, buttonWidth;  // Positioning and size of the button on screen
-  private String valueTitle;
-  private float value;
-  private String inputBuffer;
-  private int charPressedBuffer = 0;                            // Stops the user from erasing all letters when pressing backspace, or double typing a letter
-  private int mousePressedBuffer = 0;
-  private int measureType = 0;                                  // The type of measurements the button corresponds to (used for updating the public variables)
+  protected int xPosition, yPosition, buttonHeight, buttonWidth;  // Positioning and size of the button on screen
+  protected String valueTitle;
+  protected float value;
+  protected String inputBuffer;
+  protected int charPressedBuffer = 0;                            // Stops the user from erasing all letters when pressing backspace, or double typing a letter
+  protected int mousePressedBuffer = 0;
+  protected int measureType = 0;                                  // The type of measurements the button corresponds to (used for updating the public variables)
+  protected String measurementString = "";
 
   // Booleans
-  private boolean cursorChanged = false;                        // Used to change the cursor image
-  private boolean inputMode = false;                            // Set to true when user is inputting values
+  protected boolean cursorChanged = false;                        // Used to change the cursor image
+  protected boolean inputMode = false;                            // Set to true when user is inputting values
 
   // Arrays
-  private char[] validChars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'};   // The characters that are accepted as input from the user
+  protected char[] validChars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'};   // The characters that are accepted as input from the user
 
 
   Text_Input(int xPosition, int yPosition, String valueTitle, float value, int measureType) {
@@ -34,9 +35,10 @@ class Text_Input {
     this.value = value;
     this.inputBuffer = Float.toString(value);
     this.measureType = measureType;
+    setMeasurementString();
   }
 
-  private void draw() {
+  protected void draw() {
     changeCursor();
     getTextWidth();
     userInput();
@@ -45,23 +47,23 @@ class Text_Input {
   }
 
   // Displays the button on the screen
-  private void displayButton() {
+  protected void displayButton() {
     textFont(robotoLight25);
     fill(TEXT_WHITE);
     if (inputMode == false) {
-      text(valueTitle + value + "mm", xPosition, yPosition + textAscent() + textDescent());
+      text(valueTitle + value + measurementString, xPosition, yPosition + textAscent() + textDescent());
     } else {
-      text(valueTitle + inputBuffer + "mm", xPosition, yPosition + textAscent() + textDescent());
+      text(valueTitle + inputBuffer + measurementString, xPosition, yPosition + textAscent() + textDescent());
     }
   }
-  
+
   // Returns the width of the text
-  private void getTextWidth(){
-    buttonWidth = (int) textWidth(valueTitle + value + "mm");
+  protected void getTextWidth() {
+    buttonWidth = (int) textWidth(valueTitle + value + measurementString);
   }
 
   // Changes the cursor icon to indicate the user can change the value of the text
-  private void changeCursor() {
+  protected void changeCursor() {
     if ((mouseX > xPosition) && (mouseX < xPosition + buttonWidth) && (mouseY >= yPosition) && (mouseY <= yPosition + buttonHeight)) {
       if (cursorChanged == false) {
         cursorChanged = true;
@@ -74,7 +76,7 @@ class Text_Input {
   }
 
   // Handles user input
-  private void userInput() {
+  protected void userInput() {
     if ((inputMode == true) && (keyPressed) && (charPressedBuffer == 0)) {
       charPressedBuffer = 1;
       switch(key) {
@@ -87,6 +89,7 @@ class Text_Input {
       case ENTER:
         saveToValue();
         inputMode = false;
+        inputEnabledElseWhere = false;
         break;
       default:
         for (int i = 0; i < validChars.length; i++) {
@@ -109,18 +112,20 @@ class Text_Input {
   }
 
   // Checks to see if the box has been clicked and enables input mode if it has
-  private void enableInputMode() {
+  protected void enableInputMode() {
     if (mousePressed == true) {
       if ((mouseX > xPosition) && (mouseX < xPosition + buttonWidth) && (mouseY >= yPosition) && (mouseY <= yPosition + buttonHeight)) {
         if (mousePressedBuffer == 0) {
           mousePressedBuffer = 1;
-          if (inputMode == false) {
+          if ((inputMode == false) && (inputEnabledElseWhere == false)) {
+            inputMode = true;
+            inputEnabledElseWhere = true;
             inputBuffer = String.valueOf(value);
             inputBuffer += '_';
-            inputMode = true;
           } else {
             saveToValue();
             inputMode = false;
+            inputEnabledElseWhere = false;
           }
         } else {
           mousePressedBuffer++;
@@ -133,7 +138,7 @@ class Text_Input {
   }
 
   // Saves the inputBuffer to value
-  private void saveToValue() {
+  protected void saveToValue() {
     inputBuffer = inputBuffer.substring(0, inputBuffer.length() - 1);
     if (inputBuffer != "") {
       try {
@@ -150,7 +155,7 @@ class Text_Input {
   }
 
   // Updates the public variables for length, width, height, etc
-  private void updateMeasurement() {
+  protected void updateMeasurement() {
     refreshBox = true;
     switch (measureType) {
     case LENGTH:
@@ -168,6 +173,66 @@ class Text_Input {
     case JOINT_AMOUNT:
       jointAmount = (int) value;
       break;
+    }
+  }
+
+  // Sets the measurement string base on the button type
+  protected void setMeasurementString() {
+    if (measureType == JOINT_AMOUNT) {
+      measurementString = "";
+    } else {
+      measurementString = "mm";
+    }
+  }
+}
+
+
+/** 
+ *  Modified subclass for dealing with joint amount input
+ *  By Cian O'Gorman 27-07-2020
+ */
+class Joint_Input extends Text_Input {
+
+  Joint_Input(int xPosition, int yPosition, String valueTitle, int value, int measureType) {
+    super(xPosition, yPosition, valueTitle, value, measureType);
+  }
+
+  // Displays the button on the screen
+  @Override
+    protected void displayButton() {
+    textFont(robotoLight25);
+    fill(TEXT_WHITE);
+    if (inputMode == false) {
+      text(valueTitle + (int) value + measurementString, xPosition, yPosition + textAscent() + textDescent());
+    } else {
+      text(valueTitle + inputBuffer + measurementString, xPosition, yPosition + textAscent() + textDescent());
+    }
+  }
+  
+  // Saves the inputBuffer to value
+  @Override
+  protected void saveToValue() {
+    inputBuffer = inputBuffer.substring(0, inputBuffer.length() - 1);
+    if (inputBuffer != "") {
+      try {
+        float newValue = Float.parseFloat(inputBuffer);
+        if (newValue != value) {
+          value = newValue;
+          if(value % 1 != 0){
+            value = (int) value;
+          }
+          if(value < 3){
+            value = 3;
+          }
+          if(value % 2 == 0){
+            value++;
+          }
+          updateMeasurement();              // Position means, shapes are only updated if new measurement is valid
+          println("\nMeasurement update");
+        }
+      } 
+      catch(Exception NumberFormatException) {
+      }
     }
   }
 }
