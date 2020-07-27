@@ -19,6 +19,10 @@ interface Box_Template {
  *  By Cian O'Gorman 18-07-2020.
  */
 class Box_Open_Through implements Box_Template {
+  
+  // Constants
+  private static final boolean ENABLE_TOP = false;
+  private static final boolean ENABLE_FLOOR = false;
 
   // Declaring Objects
   private Shape_Side_Piece sidePieceOne;
@@ -28,10 +32,10 @@ class Box_Open_Through implements Box_Template {
 
   Box_Open_Through(PGraphics graphicContext) {
     // Initialising Box Objects
-    sidePieceOne = new Shape_Side_Piece();
-    sidePieceTwo = new Shape_Side_Piece();
-    endPieceOne = new Shape_End_Piece();
-    endPieceTwo = new Shape_End_Piece();
+    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceOne = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
     setGraphicContext(graphicContext);
   }
 

@@ -80,6 +80,8 @@ class Graphic_Context_3D_Container {
       refreshBox = false;
       refreshJointHeight();
       refreshEndPieceLength();
+      refreshEndPieceJointLength();
+      refreshSidePieceJointLength();
       boxOpenThrough = new Box_Open_Through(graphicContainer);
     }
   }
@@ -92,5 +94,13 @@ class Graphic_Context_3D_Container {
   // Updates the end piece length (excluding joints)
   private void refreshEndPieceLength() {
     endPieceLength = boxWidth - (thickness * 2);
+  }
+  
+  private void refreshEndPieceJointLength(){
+    endPieceJointLength = endPieceLength / 3;
+  }
+  
+  private void refreshSidePieceJointLength(){
+    sidePieceJointLength = (boxLength - (thickness * 2)) / 3;
   }
 }

@@ -17,9 +17,6 @@ interface Shape_Interface {
   // Draws the shape to the screen (functions as draw loop)
   void display(boolean updateBoolean, PShape shape);
 
-  // Updates the dimensions of the shape if the update boolean is set to true
-  void update(boolean updateBoolean);
-
   // Plots the vertices of the shape 
   void plotShape(PShape shape);
 }
@@ -46,19 +43,11 @@ class Shape_Template_Static implements Shape_Interface {
   }
 
   void display(boolean updateBoolean, PShape shape) {
-    update(updateBoolean);
     shape.draw(graphicContext);
   }
 
   void display(PShape shape) {
     shape.draw(graphicContext);
-  }
-
-  //TODO
-  void update(boolean updateBoolean) {
-    if (updateBoolean == true) {
-      updateBoolean = false;
-    }
   }
 
   void plotShape(PShape shape) {
