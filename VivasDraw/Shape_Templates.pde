@@ -15,7 +15,7 @@ interface Shape_Interface {
   void initialise(PShape shape);
 
   // Draws the shape to the screen (functions as draw loop)
-  void display(boolean updateBoolean, PShape shape);
+  void display(PShape shape);
 
   // Plots the vertices of the shape 
   void plotShape(PShape shape);
@@ -40,10 +40,6 @@ class Shape_Template_Static implements Shape_Interface {
     shape.stroke(GEO_GREEN);
     shape.strokeWeight(STROKE_WEIGHT);
     shape.noFill();
-  }
-
-  void display(boolean updateBoolean, PShape shape) {
-    shape.draw(graphicContext);
   }
 
   void display(PShape shape) {

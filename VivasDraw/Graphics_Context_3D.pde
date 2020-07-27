@@ -19,10 +19,14 @@ class Graphic_Context_3D_Container {
 
   // Box Declaration
   private Box_Open_Through boxOpenThrough;
+  private Box_Open_Top boxOpenTop;
+  private Box_Closed boxClosed;
 
   Graphic_Context_3D_Container() {
     graphicContainer = createGraphics(width, height, P3D);
+    boxClosed = new Box_Closed(graphicContainer);
     boxOpenThrough = new Box_Open_Through(graphicContainer);
+    boxOpenTop = new Box_Open_Top(graphicContainer);
     grid = new Grid_Static(graphicContainer);
     camera = new Camera(graphicContainer);
   }
@@ -40,7 +44,7 @@ class Graphic_Context_3D_Container {
     graphicContainer.beginDraw();
     {
       graphicContainer.background(VOID_GREY);
-      
+
 
       graphicContainer.pushMatrix();
       {
@@ -51,12 +55,14 @@ class Graphic_Context_3D_Container {
 
         camera.draw();
         grid.draw(graphicContainer);
-        boxOpenThrough.draw(graphicContainer);
+        boxClosed.draw(graphicContainer);
+        //boxOpenTop.draw(graphicContainer);
+        //boxOpenThrough.draw(graphicContainer);
       }
       graphicContainer.popMatrix();
     }
     graphicContainer.endDraw();
-    
+
     // Drawing the graphic container to the screen
     image(graphicContainer, GRAPHIC_CONTAINER_OFFSET, 0);
   }
@@ -81,8 +87,11 @@ class Graphic_Context_3D_Container {
       refreshJointHeight();
       refreshEndPieceLength();
       refreshEndPieceJointLength();
+      refreshSidePieceLength();
       refreshSidePieceJointLength();
       boxOpenThrough = new Box_Open_Through(graphicContainer);
+      boxOpenTop = new Box_Open_Top(graphicContainer);
+      boxClosed = new Box_Closed(graphicContainer);
     }
   }
 
@@ -95,12 +104,19 @@ class Graphic_Context_3D_Container {
   private void refreshEndPieceLength() {
     endPieceLength = boxWidth - (thickness * 2);
   }
-  
-  private void refreshEndPieceJointLength(){
+
+  // Updates the end piece joint length
+  private void refreshEndPieceJointLength() {
     endPieceJointLength = endPieceLength / 3;
   }
-  
-  private void refreshSidePieceJointLength(){
-    sidePieceJointLength = (boxLength - (thickness * 2)) / 3;
+
+  // Updates the side piece joint length
+  private void refreshSidePieceJointLength() {
+    sidePieceJointLength = (sidePieceLength / 3);
+  }
+
+// Updates the side piece length (excluding joints)
+  private void refreshSidePieceLength() {
+    sidePieceLength = boxLength - (thickness * 2);
   }
 }

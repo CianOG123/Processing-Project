@@ -122,7 +122,7 @@ class Text_Input {
             inputEnabledElseWhere = true;
             inputBuffer = String.valueOf(value);
             inputBuffer += '_';
-          } else {
+          } else if (inputEnabledElseWhere == false) {
             saveToValue();
             inputMode = false;
             inputEnabledElseWhere = false;
@@ -208,23 +208,23 @@ class Joint_Input extends Text_Input {
       text(valueTitle + inputBuffer + measurementString, xPosition, yPosition + textAscent() + textDescent());
     }
   }
-  
+
   // Saves the inputBuffer to value
   @Override
-  protected void saveToValue() {
+    protected void saveToValue() {
     inputBuffer = inputBuffer.substring(0, inputBuffer.length() - 1);
     if (inputBuffer != "") {
       try {
         float newValue = Float.parseFloat(inputBuffer);
         if (newValue != value) {
           value = newValue;
-          if(value % 1 != 0){
+          if (value % 1 != 0) {
             value = (int) value;
           }
-          if(value < 3){
+          if (value < 3) {
             value = 3;
           }
-          if(value % 2 == 0){
+          if (value % 2 == 0) {
             value++;
           }
           updateMeasurement();              // Position means, shapes are only updated if new measurement is valid

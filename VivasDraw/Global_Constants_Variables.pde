@@ -11,8 +11,9 @@ int jointAmount = 5;
 float jointHeight = boxHeight / jointAmount;
 boolean refreshBox = false;                                // When set to true, a new box object will be created and measurements will be applied
 float endPieceLength = boxWidth - (thickness * 2);
+float sidePieceLength = boxLength - (thickness * 2);
 float endPieceJointLength = endPieceLength / 3;                        // Used to set the starting position of the top and bottom joint
-float sidePieceJointLength = (boxLength - (thickness * 2)) / 3;
+float sidePieceJointLength = (sidePieceLength / 3);
 int measurementType = MILLIMETRE;
 
 // Translation Variables
