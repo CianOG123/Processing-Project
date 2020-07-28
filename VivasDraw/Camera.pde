@@ -6,7 +6,7 @@
  *  By Cian O'Gorman 25-07-2020
  */
 class Camera {
-  
+
   // Constants
   private static final int SCROLL_SPEED = 10;     // Higher is slower, lower is faster
   private static final float SCROLL_MAX = 0.333;  // The max scroll distance
@@ -34,6 +34,15 @@ class Camera {
     rotateXAxis();
     zoom();
     applyRotations();
+    autoRotate();
+  }
+
+  // Applies the auto-rotate rotation
+  private void autoRotate() {
+    if (buttonAutoRotate == true) {
+      globalYRotate +=  Y_ROTATE_SPEED;
+    }
+    graphicsContext.rotateY(globalYRotate);
   }
 
   // Applies all rotations to the graphic context
@@ -100,11 +109,10 @@ class Camera {
     if ((scaleAmount >= SCROLL_MIN) && (scrollSlope > 0)) {
       scaleAmount = SCROLL_MIN;
       accumulatedScroll = scaleAmount * SCROLL_SPEED;
-    } 
-    else if((scaleAmount <= SCROLL_MAX) && (scrollSlope < 0)){
+    } else if ((scaleAmount <= SCROLL_MAX) && (scrollSlope < 0)) {
       scaleAmount = SCROLL_MAX;
       accumulatedScroll = scaleAmount * SCROLL_SPEED;
-    }else {
+    } else {
       scaleAmount = ((accumulatedScroll / SCROLL_SPEED));
     }
   }

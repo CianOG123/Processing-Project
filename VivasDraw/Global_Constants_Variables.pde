@@ -24,6 +24,9 @@ int scrollSlope = 0;           // If the scroll is increasing or decreasing
 // Booleans
 boolean inputEnabledElseWhere = false;  // set to true if text input is enalbed anywhere, used to stop the user typing in two boxes at once
 
+// Button Events
+boolean buttonAutoRotate = false;  // Set to true if the auto rotate checkbox has been pressed
+
 
 
 // Constants

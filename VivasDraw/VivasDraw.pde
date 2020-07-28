@@ -39,3 +39,7 @@ void mouseWheel(MouseEvent event) {
   scrollSlope = -event.getCount();
   accumulatedScroll += scrollSlope;
 }
+
+void mousePressed(){
+  container3D.checkBox.mousePressed();
+}

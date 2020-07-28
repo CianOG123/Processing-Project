@@ -17,6 +17,9 @@ class Graphic_Context_3D_Container {
   private PGraphics graphicContainer;    // The 3D Graphic Context that the 3D geometry are displayed in
   private Grid_Static grid;              // Grid floor
 
+  // Button Declaration
+  Check_Box checkBox;
+
   // Box Declaration
   private Box_Open_Through boxOpenThrough;
   private Box_Open_Top boxOpenTop;
@@ -24,10 +27,18 @@ class Graphic_Context_3D_Container {
 
   Graphic_Context_3D_Container() {
     graphicContainer = createGraphics(width, height, P3D);
+
+    // Button Initialisation
+    checkBox = new Check_Box(-GRAPHIC_CONTAINER_OFFSET + 10, 700, 15, 15, "Enable auto-rotate", GRAPHIC_CONTAINER_OFFSET, graphicContainer);
+
+    // Box Initialisation
     boxClosed = new Box_Closed(graphicContainer);
     boxOpenThrough = new Box_Open_Through(graphicContainer);
     boxOpenTop = new Box_Open_Top(graphicContainer);
+    // Grid Initialisation
     grid = new Grid_Static(graphicContainer);
+
+    // Camera Initialisation
     camera = new Camera(graphicContainer);
   }
 
@@ -45,14 +56,12 @@ class Graphic_Context_3D_Container {
     {
       graphicContainer.background(VOID_GREY);
 
-
       graphicContainer.pushMatrix();
       {
         //Global postioning
         // Moving origin to centre of screen
         graphicContainer.translate(width / 2, height / 2);
         graphicContainer.rotateX(GLOBAL_X_ROTATE);
-
         camera.draw();
         grid.draw(graphicContainer);
         boxClosed.draw(graphicContainer);
@@ -60,6 +69,8 @@ class Graphic_Context_3D_Container {
         //boxOpenThrough.draw(graphicContainer);
       }
       graphicContainer.popMatrix();
+
+      checkBox.draw(graphicContainer);
     }
     graphicContainer.endDraw();
 
@@ -115,7 +126,7 @@ class Graphic_Context_3D_Container {
     sidePieceJointLength = (sidePieceLength / 3);
   }
 
-// Updates the side piece length (excluding joints)
+  // Updates the side piece length (excluding joints)
   private void refreshSidePieceLength() {
     sidePieceLength = boxLength - (thickness * 2);
   }

@@ -1,3 +1,71 @@
+class Check_Box {
+  // Variables
+  private int xPosition, yPosition;
+  private int checkBoxWidth, checkBoxHeight;
+  private String label;
+  private boolean buttonSelected = false;
+  private int xOffset;  
+  private PGraphics graphics;
+  
+  // Constants
+  private static final int BOUNDARY = 10;
+  private static final color LABEL_COLOR = TEXT_WHITE;
+  private static final color BUTTON_COLOR = TEXT_WHITE;
+  private final PFont BUTTON_FONT = robotoLight25;
+
+  Check_Box(int xPosition, int yPosition, int checkBoxWidth, int checkBoxHeight, String label, int xOffset, PGraphics pg) {
+    this.xPosition = xPosition;
+    this.yPosition = yPosition;
+    this.checkBoxWidth = checkBoxWidth;
+    this.checkBoxHeight = checkBoxHeight;
+    this.label = label;
+    this.xOffset = xOffset;
+    graphics = pg;
+  }
+
+  void draw(PGraphics graphicContext) {
+    if ((isMouseHovering()) || (buttonAutoRotate == true)) {
+      graphics.stroke(BUTTON_COLOR);
+    }
+    else {
+      graphics.stroke(HEADING_DARK_GREY);
+    }
+    if (buttonSelected) {
+      graphicContext.fill(BUTTON_COLOR);
+      graphicContext.rect(xPosition, yPosition, checkBoxWidth, checkBoxHeight);
+      graphicContext.fill(LABEL_COLOR);
+      graphicContext.textFont(BUTTON_FONT);
+      graphicContext.text(label, (xPosition + checkBoxWidth + BOUNDARY), yPosition + ((textAscent() + textDescent()) / 2));
+    } else {
+      graphicContext.fill(LABEL_COLOR);
+      graphicContext.rect(xPosition, yPosition, checkBoxWidth, checkBoxHeight);
+      graphicContext.textFont(BUTTON_FONT);
+      graphicContext.textSize(15);
+      graphicContext.text(label, (xPosition + checkBoxWidth + BOUNDARY), yPosition + ((textAscent() + textDescent()) / 2));
+    }
+  }
+
+  private void isCheckBoxPressed() {
+    if (isMouseHovering()) {
+      buttonAutoRotate = !buttonAutoRotate;
+    }
+  }
+  
+  private void mousePressed(){
+    isCheckBoxPressed();
+  }
+  
+  boolean isMouseHovering() {
+    boolean enableHover = false;
+    if((mouseX > xPosition + xOffset) && (mouseX < (xPosition + checkBoxWidth + xOffset))){
+      if((mouseY > yPosition) && (mouseY < (yPosition + checkBoxHeight))){
+        enableHover = true;
+      }
+    }
+    return enableHover;
+  }
+}
+
 /** 
  *  Class to handle text input boxes
  *  Cursor errors will occur if placed directly beside 3D Container
