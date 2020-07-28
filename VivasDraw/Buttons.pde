@@ -3,20 +3,109 @@
  *  By Cian O'Gorman 28-07-2020
  */
 private class Scroll_Bar {
+
+  // Constants
+  private static final int SCROLL_BUTTON = LEFT;
+  private static final int BAR_X_INSET = 10;
+  private static final int BAR_Y_INSET = 4;
+  private static final float CIRCLE_OFFSET = .5;
+  private static final float GRABBER_WIDTH = 20;
+
+  // Objects
+  PGraphics graphics;
+
   // Variables
   private int xPosition;
   private int yPosition;
   private int scrollWidth;
   private int scrollHeight;
+  private int contextXOffset;
+  private int contextYOffset;
+  private int mouseOffset;
+
+  // Booleans
+  private boolean mouseHeld = false;   // Set to true if the mouse button is being held down
+  private boolean cursorChanged = false;  // Set to true if the cursor is anything but the arrow
+
 
   // Return Variables
   private int scrollOffset = 0;  // The amount of pixels the scroll bar is displaced by
 
-  Scroll_Bar(int xPosition, int yPosition, int scrollWidth, int scrollHeight) {
+  Scroll_Bar(int xPosition, int yPosition, int scrollWidth, int scrollHeight, PGraphics graphics, int contextXOffset, int contextYOffset) {
+    this.graphics = graphics;
     this.xPosition = xPosition;
     this.yPosition = yPosition;
     this.scrollWidth = scrollWidth;
     this.scrollHeight = scrollHeight;
+    this.contextXOffset = contextXOffset;
+    this.contextYOffset = contextYOffset;
+  }
+
+  private void draw() {
+    clickGrabber();
+    moveGrabber();
+
+    graphics.fill(STANDARD_GREY);
+    graphics.noStroke();
+    graphics.rect(xPosition, yPosition, scrollWidth, scrollHeight);
+    graphics.fill(LIGHT_GREY);
+    graphics.rect(xPosition + BAR_X_INSET, yPosition + 2, scrollWidth - 20, scrollHeight - BAR_Y_INSET);
+    graphics.circle(xPosition + BAR_X_INSET - CIRCLE_OFFSET, yPosition + (scrollHeight / 2) + CIRCLE_OFFSET, scrollHeight - BAR_Y_INSET);
+    graphics.circle(xPosition + scrollWidth - BAR_X_INSET, yPosition + (scrollHeight / 2) + CIRCLE_OFFSET, scrollHeight - BAR_Y_INSET);
+
+    // Grabber
+    graphics.fill(HEADING_DARK_GREY);
+    graphics.rect(xPosition + BAR_X_INSET + scrollOffset, yPosition + 2, GRABBER_WIDTH, scrollHeight - BAR_Y_INSET);
+    graphics.circle(xPosition + BAR_X_INSET - CIRCLE_OFFSET + scrollOffset, yPosition + (scrollHeight / 2) + CIRCLE_OFFSET, scrollHeight - BAR_Y_INSET);
+    graphics.circle(xPosition + BAR_X_INSET + GRABBER_WIDTH + scrollOffset, yPosition + (scrollHeight / 2) + CIRCLE_OFFSET, scrollHeight - BAR_Y_INSET);
+  }
+
+  // Gets whether the grabber is being pressed
+  private void clickGrabber() {
+    if (mouseHeld == false) {
+      if ((mouseX > xPosition + BAR_X_INSET + scrollOffset + contextXOffset) && (mouseX < xPosition + BAR_X_INSET + GRABBER_WIDTH + scrollOffset + contextXOffset)) {
+        if ((mouseY > yPosition + contextYOffset) && (mouseY < yPosition + scrollHeight + contextYOffset)) {
+          if (mousePressed == true) {
+            if (mouseButton == SCROLL_BUTTON) {
+              cursor(MOVE);
+              mouseHeld = true;
+              cursorChanged = true;
+              mouseOffset = mouseX - (contextXOffset + scrollOffset);
+            }
+          } else {
+            cursor(HAND);
+            cursorChanged = true;
+          }
+        } else if (cursorChanged == true) {
+          cursor(ARROW);
+          cursorChanged = false;
+        }
+      } else if (cursorChanged == true) {
+        cursor(ARROW);
+        cursorChanged = false;
+      }
+    }
+  }
+
+  // Moves the grabber if its being pressed
+  private void moveGrabber() {
+    if (mouseHeld == true) {
+      scrollOffset = mouseX - (contextXOffset + mouseOffset);
+      if(scrollOffset <= 0){
+        scrollOffset = 0;
+      } else if(scrollOffset >= scrollWidth - (20 + GRABBER_WIDTH)){
+        scrollOffset =  scrollWidth - (20 + (int) GRABBER_WIDTH);
+      }
+      if (mousePressed == false) {
+        mouseHeld = false;
+      }
+    }
+  }
+
+
+  // 
+  private int getScrollOffset() {
+    return scrollOffset;
   }
 }
 

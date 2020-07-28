@@ -30,6 +30,7 @@ private class GUI_Selector_Box {
 
   //Objects
   private PGraphics graphics;
+  private Scroll_Bar scrollBar;
 
   // Constants
   private static final int X_POSITION = 960;
@@ -44,16 +45,16 @@ private class GUI_Selector_Box {
 
   private GUI_Selector_Box() {
     graphics = createGraphics(BOX_WIDTH, BOX_HEIGHT, P2D);
+    scrollBar = new Scroll_Bar(0, SCROLL_Y, BOX_WIDTH, SCROLL_HEIGHT, graphics, X_POSITION, Y_POSITION);
   }
 
   private void draw() {
     graphics.beginDraw();
     {
       graphics.fill(255);
-      noStroke();
+      graphics.noStroke();
       graphics.rect(0, 0, BOX_WIDTH, BOX_HEIGHT);
-      graphics.fill(0);
-      graphics.rect(0, SCROLL_Y, BOX_WIDTH, SCROLL_HEIGHT);
+      scrollBar.draw();
     }
     graphics.endDraw();
 

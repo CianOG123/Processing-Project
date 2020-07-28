@@ -52,10 +52,6 @@ private class Camera {
     // Rotating the X-axis after the Y-axis results in an undesirable tilt.
     graphicsContext.rotateX(radians(-(xRotation + currentXRotation)));
     graphicsContext.rotateY(radians(yRotation + currentYRotation));
-
-    // Auto-rotate
-    //globalYRotate += Y_ROTATE_SPEED;
-    //graphicsContext.rotateY(globalYRotate);
   }
 
   // Rotates the graphic context on the y-axis when the center mouse buton is pressed
