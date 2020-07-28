@@ -51,7 +51,7 @@ class Graphic_Context_3D_Container {
   // Draws all the 3D objects in the container
   private void draw3DGeometry() {
 
-    // Drawing within the graphic container
+    // Drawing 3D elements within the graphic context
     graphicContainer.beginDraw();
     {
       graphicContainer.background(VOID_GREY);
@@ -69,10 +69,16 @@ class Graphic_Context_3D_Container {
         //boxOpenThrough.draw(graphicContainer);
       }
       graphicContainer.popMatrix();
+    }
+    graphicContainer.endDraw();
 
+    // Drawing 2D elements (HUD)
+    graphicContainer.beginDraw();
+    {
       checkBox.draw(graphicContainer);
     }
     graphicContainer.endDraw();
+
 
     // Drawing the graphic container to the screen
     image(graphicContainer, GRAPHIC_CONTAINER_OFFSET, 0);
