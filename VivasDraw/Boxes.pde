@@ -2,7 +2,7 @@
  *  Interface designed for all boxes to use and follow.
  *  By Cian O'Gorman 18-07-2020
  */
-interface Box_Template {
+private interface Box_Template {
 
   // Handles the positioning and rotation of each individual part of the box
   void positionGeometry(PGraphics graphics);
@@ -17,7 +17,7 @@ interface Box_Template {
  *  Implements the box template interface.
  *  By Cian O'Gorman 27-07-2020.
  */
-class Box_Closed implements Box_Template {
+private class Box_Closed implements Box_Template {
 
   // Constants
   private static final boolean ENABLE_TOP = false;
@@ -119,7 +119,7 @@ class Box_Closed implements Box_Template {
  *  Implements the box template interface.
  *  By Cian O'Gorman 27-07-2020.
  */
-class Box_Open_Top implements Box_Template {
+private class Box_Open_Top implements Box_Template {
 
   // Constants
   private static final boolean ENABLE_TOP = false;
@@ -212,7 +212,7 @@ class Box_Open_Top implements Box_Template {
  *  Implements the box template interface.
  *  By Cian O'Gorman 18-07-2020.
  */
-class Box_Open_Through implements Box_Template {
+private class Box_Open_Through implements Box_Template {
 
   // Constants
   private static final boolean ENABLE_TOP = false;

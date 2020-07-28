@@ -2,7 +2,7 @@
  *  Class to handle check boxes
  *  By Cian O'Gorman 28-07-2020
  */
-class Check_Box {
+private class Check_Box {
   // Variables
   private int xPosition, yPosition;
   private int checkBoxWidth, checkBoxHeight;
@@ -76,10 +76,10 @@ class Check_Box {
  *  Cursor errors will occur if placed directly beside 3D Container
  *  By Cian O'Gorman 20-07-2020
  */
-class Text_Input {
+private class Text_Input {
 
   // Constants
-  protected static final int INPUT_TIME_LIMIT = 9;            // The amount of frames that will elapse between considered user inputs
+  protected static final int INPUT_TIME_LIMIT = 15;            // The amount of frames that will elapse between considered user inputs
 
   // Variables
   protected int xPosition, yPosition, buttonHeight, buttonWidth;  // Positioning and size of the button on screen
@@ -178,7 +178,7 @@ class Text_Input {
       }
     } else if (charPressedBuffer != 0) {
       charPressedBuffer++;
-      if (charPressedBuffer >= INPUT_TIME_LIMIT) {
+      if ((charPressedBuffer >= INPUT_TIME_LIMIT) || (keyPressed == false)) {
         charPressedBuffer = 0;
       }
     }
@@ -264,7 +264,7 @@ class Text_Input {
  *  Modified subclass for dealing with joint amount input
  *  By Cian O'Gorman 27-07-2020
  */
-class Joint_Input extends Text_Input {
+private class Joint_Input extends Text_Input {
 
   Joint_Input(int xPosition, int yPosition, String valueTitle, int value, int measureType) {
     super(xPosition, yPosition, valueTitle, value, measureType);

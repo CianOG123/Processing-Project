@@ -2,7 +2,7 @@
  *  Handles all exporting to .svg file types
  *  By Cian O'Gorman 18-07-2020
  */
-class SVG_Export {
+private class SVG_Export {
 
   // Constants
   private static final int BOUNDARY = 10;      // The distance from the vector to the edge of the image

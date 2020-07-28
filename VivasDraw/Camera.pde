@@ -5,7 +5,7 @@
  *  I have left these as separate functions
  *  By Cian O'Gorman 25-07-2020
  */
-class Camera {
+private class Camera {
 
   // Constants
   private static final int SCROLL_SPEED = 10;     // Higher is slower, lower is faster

@@ -2,20 +2,63 @@
  *  Main GUI class responsible for containing all GUI related objects
  *  By Cian O'Gorman 19-07-2020
  */
-class GUI_Main {
-  
+private class GUI_Main {
+
   // Objects
   private GUI_Options_Panel optionsPanel;
   private GUI_Top topPanel;
-  
-  GUI_Main(){
+  private GUI_Selector_Box selectorBox;
+
+  GUI_Main() {
     optionsPanel = new GUI_Options_Panel();
     topPanel = new GUI_Top();
+    selectorBox = new GUI_Selector_Box();
   }
-  
-  private void draw(){
+
+  private void draw() {
     optionsPanel.draw();
     topPanel.draw();
+    selectorBox.draw();
+  }
+}
+
+/** 
+ *  GUI box selector visible on left side of screen
+ *  By Cian O'Gorman 20-07-2020
+ */
+private class GUI_Selector_Box {
+
+  //Objects
+  private PGraphics graphics;
+
+  // Constants
+  private static final int X_POSITION = 960;
+  private static final int Y_POSITION = 115;
+  private static final int BOX_WIDTH = 310;
+  private static final int BOX_HEIGHT = 150;
+  
+  private static final int SCROLL_Y = 137;
+  private static final int SCROLL_HEIGHT = 13;
+  
+
+
+  GUI_Selector_Box() {
+    graphics = createGraphics(BOX_WIDTH, BOX_HEIGHT, P2D);
+  }
+
+  private void draw() {
+    graphics.beginDraw();
+    {
+      graphics.fill(255);
+      noStroke();
+      graphics.rect(0, 0, BOX_WIDTH, BOX_HEIGHT);
+      graphics.fill(0);
+      graphics.rect(0, SCROLL_Y, BOX_WIDTH, SCROLL_HEIGHT);
+    }
+    graphics.endDraw();
+
+    // Drawing the graphic context to the screen
+    image(graphics, X_POSITION, Y_POSITION);
   }
 }
 
@@ -23,7 +66,7 @@ class GUI_Main {
  *  GUI top panel that is visible on the top of the screen
  *  By Cian O'Gorman 20-07-2020
  */
-class GUI_Top {
+private class GUI_Top {
 
   // Constants
   private static final int BACKGROUND_HEIGHT = 50;
@@ -36,9 +79,9 @@ class GUI_Top {
     drawBackground();
     drawValues();
   }
-  
+
   // Draws the text and figures to the screen
-  private void drawValues(){
+  private void drawValues() {
     fill(TEXT_WHITE);
     textFont(robotoLight25);
     text("VivasDraw", LOGO_X_POSITION, LOGO_Y_POSITION + (textAscent() + textDescent()));
@@ -83,16 +126,16 @@ class GUI_Top {
  *  GUI Options panel that is visible on the right hand side of the screen
  *  By Cian O'Gorman 19-07-2020
  */
-class GUI_Options_Panel {
-  
+private class GUI_Options_Panel {
+
   // Constants
   private static final int PANEL_ORIGIN_X_POSITION = 930;
   private static final int PANEL_ORIGIN_Y_POSITION = 50;
   private static final int PANEL_WIDTH = 350;
   private static final int PANEL_HEIGHT = 670;
-  
+
   private static final int VALUES_OFFSET = 10;
-  
+
   private static final int TRIM_THICKNESS = 1;
   private static final int SCROLL_TRIM_X_POSITION = 950;
   private static final int SCROLL_TRIM_Y_POSITION = 60;
@@ -102,32 +145,32 @@ class GUI_Options_Panel {
   private static final int UNDERLINE_TRIM_Y_POSITION = 310;
   private static final int UNDERLINE_TRIM_WIDTH = 310;
   private static final int TRIM_SELECT_Y_OFFSET = 55;
-  
+
   private static final int TEXT_BUTTON_Y_OFFSET = 35;
-  
+
   // Objects
   Text_Input boxLengthInput;
   Text_Input boxWidthInput;
   Text_Input boxHeightInput;
   Text_Input boxThicknessInput;
   Joint_Input boxJointAmountInput;
-  
-  
-  GUI_Options_Panel(){
+
+
+  GUI_Options_Panel() {
     boxLengthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET, "Length: ", boxLength, LENGTH);
     boxWidthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET), "Width: ", boxWidth, WIDTH);
     boxHeightInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 2), "Height: ", boxHeight, HEIGHT);
     boxThicknessInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 3), "Material Thickness: ", thickness, THICKNESS);
     boxJointAmountInput = new Joint_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 4), "Joint Amount: ", jointAmount, JOINT_AMOUNT);
   }
-  
-  private void draw(){
+
+  private void draw() {
     drawBackground();
     drawValues();
   }
-  
+
   // Draws the text and values
-  private void drawValues(){
+  private void drawValues() {
     fill(TEXT_WHITE);
     textFont(robotoLight25);
     text("Box Type: ", UNDERLINE_TRIM_X_POSITION, HEADER_TRIM_Y_POSITION - VALUES_OFFSET);
@@ -137,14 +180,14 @@ class GUI_Options_Panel {
     boxThicknessInput.draw();
     boxJointAmountInput.draw();
   }
-  
+
   // Draws the background of the panel
-  private void drawBackground(){
+  private void drawBackground() {
     // Background Square
     fill(STANDARD_GREY);
     noStroke();
     rect(PANEL_ORIGIN_X_POSITION, PANEL_ORIGIN_Y_POSITION, PANEL_WIDTH, PANEL_HEIGHT);
-    
+
     // Trim Lines
     fill(TRIM_GREY);
     noStroke();

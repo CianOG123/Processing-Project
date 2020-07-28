@@ -2,7 +2,7 @@
  *  Class that can plot and draw a floor/ top piece to the screen.
  *  By Cian O'Gorman 16-07-2020.
  */
-class Shape_Floor_Piece extends Shape_Template_Static {
+private class Shape_Floor_Piece extends Shape_Template_Static {
 
   // Objects
   private PShape floorPiece;                // Declaring the side piece shape
@@ -21,75 +21,74 @@ class Shape_Floor_Piece extends Shape_Template_Static {
 
   @Override
     void plotShape(PShape shape) {
-      
+
     floorPiece.vertex(0, 0, 0);
     floorPiece.vertex(0, thickness, 0);
-    
-    
+
+
     floorPiece.vertex(sidePieceJointLength, 0, 0);
     floorPiece.vertex(sidePieceJointLength, thickness, 0);
-    
+
     floorPiece.vertex(sidePieceJointLength, 0, -thickness);
     floorPiece.vertex(sidePieceJointLength, thickness, -thickness);
-    
+
     floorPiece.vertex((sidePieceJointLength * 2), 0, -thickness); 
     floorPiece.vertex((sidePieceJointLength * 2), thickness, -thickness); 
-    
+
     floorPiece.vertex((sidePieceJointLength * 2), 0, 0); 
     floorPiece.vertex((sidePieceJointLength * 2), thickness, 0); 
-    
-    
+
+
     floorPiece.vertex(sidePieceLength, 0, 0); 
     floorPiece.vertex(sidePieceLength, thickness, 0);
-    
+
     floorPiece.vertex(sidePieceLength, 0, endPieceJointLength); 
     floorPiece.vertex(sidePieceLength, thickness, endPieceJointLength); 
-    
+
     floorPiece.vertex((sidePieceLength + thickness), 0, endPieceJointLength); 
     floorPiece.vertex((sidePieceLength + thickness), thickness, endPieceJointLength); 
-    
+
     floorPiece.vertex((sidePieceLength + thickness), 0, (endPieceJointLength * 2)); 
     floorPiece.vertex((sidePieceLength + thickness), thickness, (endPieceJointLength * 2)); 
-    
+
     floorPiece.vertex(sidePieceLength, 0, (endPieceJointLength * 2)); 
     floorPiece.vertex(sidePieceLength, thickness, (endPieceJointLength * 2)); 
-    
-    
+
+
     floorPiece.vertex(sidePieceLength, 0, endPieceLength); 
     floorPiece.vertex(sidePieceLength, thickness, endPieceLength); 
-    
+
     floorPiece.vertex((sidePieceJointLength * 2), 0, endPieceLength); 
     floorPiece.vertex((sidePieceJointLength * 2), thickness, endPieceLength);
-    
+
     floorPiece.vertex((sidePieceJointLength * 2), 0, endPieceLength + thickness); 
     floorPiece.vertex((sidePieceJointLength * 2), thickness, endPieceLength + thickness);
-    
+
     floorPiece.vertex(sidePieceJointLength, 0, endPieceLength + thickness); 
     floorPiece.vertex(sidePieceJointLength, thickness, endPieceLength + thickness); 
-    
+
     floorPiece.vertex(sidePieceJointLength, 0, endPieceLength);
     floorPiece.vertex(sidePieceJointLength, thickness, endPieceLength);
-    
-    
+
+
     floorPiece.vertex(0, 0, endPieceLength); 
     floorPiece.vertex(0, thickness, endPieceLength);
-    
+
     floorPiece.vertex(0, 0, (endPieceJointLength * 2)); 
     floorPiece.vertex(0, thickness, (endPieceJointLength * 2));
-    
+
     floorPiece.vertex(-thickness, 0, (endPieceJointLength * 2)); 
     floorPiece.vertex(-thickness, thickness, (endPieceJointLength * 2));
-    
+
     floorPiece.vertex(-thickness, 0, endPieceJointLength); 
     floorPiece.vertex(-thickness, thickness, endPieceJointLength);
-    
+
     floorPiece.vertex(0, 0, endPieceJointLength); 
     floorPiece.vertex(0, thickness, endPieceJointLength);
-    
-    
+
+
     floorPiece.vertex(0, 0, 0); 
     floorPiece.vertex(0, thickness, 0);
- 
   }
 }
 
@@ -97,7 +96,7 @@ class Shape_Floor_Piece extends Shape_Template_Static {
  *  Class that can plot and draw a side piece to the screen.
  *  By Cian O'Gorman 16-07-2020.
  */
-class Shape_Side_Piece extends Shape_Template_Static {
+private class Shape_Side_Piece extends Shape_Template_Static {
 
   // Objects
   private PShape sidePiece;                // Declaring the side piece shape
@@ -211,7 +210,7 @@ class Shape_Side_Piece extends Shape_Template_Static {
  *  Class that can plot and draw a side piece to the screen.
  *  By Cian O'Gorman 16-07-2020.
  */
-class Shape_End_Piece extends Shape_Template_Static {
+private class Shape_End_Piece extends Shape_Template_Static {
 
   // Objects
   private PShape endPiece;                // Declaring the end piece shape

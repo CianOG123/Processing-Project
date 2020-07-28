@@ -2,7 +2,7 @@
  *  Draws the grid to the screen
  *  By Cian O'Gorman 18-07-2020
  */
-class Grid_Static extends Shape_Template_Static {
+private class Grid_Static extends Shape_Template_Static {
 
   // Constants
   private static final float GRID_LENGTH = 500;              // The size of the entire grid
