@@ -1,3 +1,7 @@
+/** 
+ *  Class to handle check boxes
+ *  By Cian O'Gorman 28-07-2020
+ */
 class Check_Box {
   // Variables
   private int xPosition, yPosition;
@@ -9,6 +13,7 @@ class Check_Box {
   
   // Constants
   private static final int BOUNDARY = 10;
+  private static final int TEXT_SIZE = 15;
   private static final color LABEL_COLOR = TEXT_WHITE;
   private static final color BUTTON_COLOR = TEXT_WHITE;
   private final PFont BUTTON_FONT = robotoLight25;
@@ -23,7 +28,7 @@ class Check_Box {
     graphics = pg;
   }
 
-  void draw(PGraphics graphicContext) {
+  private void draw(PGraphics graphicContext) {
     if ((isMouseHovering()) || (buttonAutoRotate == true)) {
       graphics.stroke(BUTTON_COLOR);
     }
@@ -40,7 +45,7 @@ class Check_Box {
       graphicContext.fill(LABEL_COLOR);
       graphicContext.rect(xPosition, yPosition, checkBoxWidth, checkBoxHeight);
       graphicContext.textFont(BUTTON_FONT);
-      graphicContext.textSize(15);
+      graphicContext.textSize(TEXT_SIZE);
       graphicContext.text(label, (xPosition + checkBoxWidth + BOUNDARY), yPosition + ((textAscent() + textDescent()) / 2));
     }
   }
@@ -55,7 +60,7 @@ class Check_Box {
     isCheckBoxPressed();
   }
   
-  boolean isMouseHovering() {
+  private boolean isMouseHovering() {
     boolean enableHover = false;
     if((mouseX > xPosition + xOffset) && (mouseX < (xPosition + checkBoxWidth + xOffset))){
       if((mouseY > yPosition) && (mouseY < (yPosition + checkBoxHeight))){
