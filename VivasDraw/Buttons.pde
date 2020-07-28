@@ -1,4 +1,27 @@
 /** 
+ *  Class to handle scroll bars
+ *  By Cian O'Gorman 28-07-2020
+ */
+private class Scroll_Bar {
+  // Variables
+  private int xPosition;
+  private int yPosition;
+  private int scrollWidth;
+  private int scrollHeight;
+
+  // Return Variables
+  private int scrollOffset = 0;  // The amount of pixels the scroll bar is displaced by
+
+  Scroll_Bar(int xPosition, int yPosition, int scrollWidth, int scrollHeight) {
+    this.xPosition = xPosition;
+    this.yPosition = yPosition;
+    this.scrollWidth = scrollWidth;
+    this.scrollHeight = scrollHeight;
+  }
+}
+
+
+/** 
  *  Class to handle check boxes
  *  By Cian O'Gorman 28-07-2020
  */
@@ -10,7 +33,7 @@ private class Check_Box {
   private boolean buttonSelected = false;
   private int xOffset;  
   private PGraphics graphics;
-  
+
   // Constants
   private static final int BOUNDARY = 10;
   private static final int TEXT_SIZE = 15;
@@ -31,8 +54,7 @@ private class Check_Box {
   private void draw(PGraphics graphicContext) {
     if ((isMouseHovering()) || (buttonAutoRotate == true)) {
       graphics.stroke(BUTTON_COLOR);
-    }
-    else {
+    } else {
       graphics.stroke(HEADING_DARK_GREY);
     }
     if (buttonSelected) {
@@ -55,15 +77,15 @@ private class Check_Box {
       buttonAutoRotate = !buttonAutoRotate;
     }
   }
-  
-  private void mousePressed(){
+
+  private void mousePressed() {
     isCheckBoxPressed();
   }
-  
+
   private boolean isMouseHovering() {
     boolean enableHover = false;
-    if((mouseX > xPosition + xOffset) && (mouseX < (xPosition + checkBoxWidth + xOffset))){
-      if((mouseY > yPosition) && (mouseY < (yPosition + checkBoxHeight))){
+    if ((mouseX > xPosition + xOffset) && (mouseX < (xPosition + checkBoxWidth + xOffset))) {
+      if ((mouseY > yPosition) && (mouseY < (yPosition + checkBoxHeight))) {
         enableHover = true;
       }
     }

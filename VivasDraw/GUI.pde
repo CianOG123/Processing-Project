@@ -9,7 +9,7 @@ private class GUI_Main {
   private GUI_Top topPanel;
   private GUI_Selector_Box selectorBox;
 
-  GUI_Main() {
+  private GUI_Main() {
     optionsPanel = new GUI_Options_Panel();
     topPanel = new GUI_Top();
     selectorBox = new GUI_Selector_Box();
@@ -36,13 +36,13 @@ private class GUI_Selector_Box {
   private static final int Y_POSITION = 115;
   private static final int BOX_WIDTH = 310;
   private static final int BOX_HEIGHT = 150;
-  
+
   private static final int SCROLL_Y = 137;
   private static final int SCROLL_HEIGHT = 13;
-  
 
 
-  GUI_Selector_Box() {
+
+  private GUI_Selector_Box() {
     graphics = createGraphics(BOX_WIDTH, BOX_HEIGHT, P2D);
   }
 
@@ -75,6 +75,9 @@ private class GUI_Top {
   private static final int LOGO_X_POSITION = 15;
   private static final int LOGO_Y_POSITION = 10;
 
+  private GUI_Top() {
+  }
+
   private void draw() {
     drawBackground();
     drawValues();
@@ -102,7 +105,7 @@ private class GUI_Top {
   }
 
   // Creates a gradient (Used for the background)
-  void setGradient(int xPosition, int yPosition, float gradientWidth, float gradientHeight, color color1, color color2, int axis ) {
+  private void setGradient(int xPosition, int yPosition, float gradientWidth, float gradientHeight, color color1, color color2, int axis ) {
     noFill();
     if (axis == Y_AXIS) {  // Top to bottom gradient
       for (int i = yPosition; i <= yPosition + gradientHeight; i++) {

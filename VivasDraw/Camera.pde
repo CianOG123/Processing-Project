@@ -25,7 +25,7 @@ private class Camera {
   private int xRotation = 10, yRotation = 30;              // The X and Y Rotation of the Graphic Context, set to 10, 30 on start up
   private float scaleAmount = 2;                           // The scale of the objects in the graphic context, used for zoom
 
-  Camera(PGraphics graphics) {
+  private Camera(PGraphics graphics) {
     graphicsContext = graphics;
   }
 

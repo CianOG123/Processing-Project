@@ -25,7 +25,7 @@ private class Graphic_Context_3D_Container {
   private Box_Open_Top boxOpenTop;
   private Box_Closed boxClosed;
 
-  Graphic_Context_3D_Container() {
+  private Graphic_Context_3D_Container() {
     graphicContainer = createGraphics(width, height, P3D);
 
     // Button Initialisation

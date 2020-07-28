@@ -11,7 +11,7 @@ private class Grid_Static extends Shape_Template_Static {
   // Object initialisation
   private PShape gridStatic;
 
-  Grid_Static(PGraphics graphicContext) {
+  private Grid_Static(PGraphics graphicContext) {
     setGraphicContext(graphicContext);
     gridStatic = createShape();
     gridStatic.beginShape(LINES);      // Draws the vertices as lines between every other pair of vertices
