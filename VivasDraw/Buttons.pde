@@ -12,24 +12,33 @@ private class Image_Button {
   private int yPosition;
   private int buttonWidth;
   private int buttonHeight;
+  private int textXOffset;
+  private int textYOffset;
   private int buttonEvent;
+  private String buttonText;
 
   // Booleans
   private boolean cursorChanged = false;  // Set to true if the cursor has been changed to anything other than ARROW
   private boolean canPress = false;       // Set to true if the user can press the button
 
   //Constants
+  private static final int TEXT_BOUNDARY = 25;  // Separates the text from the image button
+  // Fonts
+  private final PFont BUTTON_FONT = robotoLight25;
   // Colors
   private static final color BORDER_COLOR = HEADING_DARK_GREY;
   private static final color CENTER_COLOR = 255;
 
-  Image_Button(int xPosition, int yPosition, int buttonWidth, int buttonHeight, PGraphics graphics, int buttonEvent) {
+  Image_Button(int xPosition, int yPosition, int buttonWidth, int buttonHeight, PGraphics graphics, int buttonEvent, String buttonText) {
     this.xPosition = xPosition;
     this.yPosition = yPosition;
     this.buttonWidth = buttonWidth;
     this.buttonHeight = buttonHeight;
+    this.textXOffset = xPosition + (buttonWidth / 2);
+    this.textYOffset = buttonHeight + TEXT_BOUNDARY;
     this.graphics = graphics;
     this.buttonEvent = buttonEvent;
+    this.buttonText = buttonText;
   }
 
   private void draw(float scrollOffset) {
@@ -37,6 +46,18 @@ private class Image_Button {
     graphics.stroke(BORDER_COLOR);
     graphics.fill(CENTER_COLOR);
     graphics.rect(xPosition + scrollOffset, yPosition, buttonWidth, buttonHeight);
+    drawText(scrollOffset);
+  }
+  
+  // Writes the buttons text to the screen
+  private void drawText(float scrollOffset){
+    fill(111);
+    textFont(BUTTON_FONT);
+    graphics.textSize(14);
+    graphics.textLeading(18);
+    graphics.textAlign(CENTER);
+    graphics.text(buttonText, textXOffset + scrollOffset, textYOffset);
+    graphics.textAlign(LEFT);
   }
 
   // Function handles the cursor image

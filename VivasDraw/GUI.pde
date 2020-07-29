@@ -89,12 +89,12 @@ private class GUI_Selector_Box {
 
   // Initialises and positions all buttons
   private void initialiseButtons() {
-    boxOpenThroughButton = new Image_Button(BUTTON_X_BOUNDARY, BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_OPEN_THROUGH);
-    boxOpenTopButton = new Image_Button(BUTTON_X_BOUNDARY + AREA_WIDTH, BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_OPEN_TOP);
-    boxClosedButton = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 2), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_CLOSED);
-    boxCenterPart = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 3), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_CENTER_PART);
-    boxCrossSection = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 4), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_CROSS_SECTION);
-    boxRaisedFloor = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 5), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_RAISED_FLOOR);
+    boxOpenThroughButton = new Image_Button(BUTTON_X_BOUNDARY, BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_OPEN_THROUGH, "Open Top and\nBottom Box");
+    boxOpenTopButton = new Image_Button(BUTTON_X_BOUNDARY + AREA_WIDTH, BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_OPEN_TOP, "Open Top Box");
+    boxClosedButton = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 2), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_CLOSED, "Closed Box");
+    boxCenterPart = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 3), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_CENTER_PART, "Box with Centre\nPart");
+    boxCrossSection = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 4), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_CROSS_SECTION, "Box with Cross\n Section");
+    boxRaisedFloor = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 5), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_RAISED_FLOOR, "Box with Raised\nFloor");
   }
 
   // Draws the button to the screen

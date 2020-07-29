@@ -60,6 +60,15 @@ private class Graphic_Context_3D_Container {
     case BOX_OPEN_THROUGH:
       boxOpenThrough.draw(graphicContainer);
       break;
+    case BOX_CENTER_PART:
+      boxOpenThrough.draw(graphicContainer);
+      break;
+    case BOX_CROSS_SECTION:
+      boxOpenThrough.draw(graphicContainer);
+      break;
+    case BOX_RAISED_FLOOR:
+      boxOpenThrough.draw(graphicContainer);
+      break;
     default:
       boxOpenTop.draw(graphicContainer);
       break;
