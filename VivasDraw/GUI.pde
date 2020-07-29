@@ -32,34 +32,71 @@ private class GUI_Selector_Box {
   private PGraphics graphics;
   private Scroll_Bar scrollBar;
 
+  // Variables
+  private float shiftAmount;    // The amount the selector is shifted on the x-axis
+  private int areaWidth;  // The width of the area that can be scrolled
+
   // Constants
   private static final int X_POSITION = 960;
   private static final int Y_POSITION = 115;
   private static final int BOX_WIDTH = 310;
   private static final int BOX_HEIGHT = 150;
+  private static final int BOX_EDGE_OFFSET = 10;  // Used to stop scroll surpassing edge of box
 
   private static final int SCROLL_Y = 137;
   private static final int SCROLL_HEIGHT = 13;
+  private static final float SCROLLABLE_WIDTH = 270;  // The amount of pixels the scroll bar can move (between 0 and 270)
+
+  private static final int BUTTON_AMOUNT = 3;                           // The amount of selection buttons being displayed
+  private static final int BUTTON_WIDTH = BOX_HEIGHT;                   // The width of an option button
+  private static final int BUTTON_HEIGHT = BOX_HEIGHT - SCROLL_HEIGHT;  // The height of an option button
 
 
 
   private GUI_Selector_Box() {
     graphics = createGraphics(BOX_WIDTH, BOX_HEIGHT, P2D);
     scrollBar = new Scroll_Bar(0, SCROLL_Y, BOX_WIDTH, SCROLL_HEIGHT, graphics, X_POSITION, Y_POSITION);
+    areaWidth = (BUTTON_AMOUNT - 2) * BUTTON_WIDTH;
   }
 
   private void draw() {
+    calculateShift();
     graphics.beginDraw();
     {
       graphics.fill(255);
       graphics.noStroke();
       graphics.rect(0, 0, BOX_WIDTH, BOX_HEIGHT);
+      drawScrollableContext(shiftAmount);
       scrollBar.draw();
     }
     graphics.endDraw();
 
     // Drawing the graphic context to the screen
     image(graphics, X_POSITION, Y_POSITION);
+  }
+
+  // Creates the scrollable context area
+  private void drawScrollableContext(float shiftAmount) {
+    // Variables
+    float trimXPosition = BUTTON_WIDTH;
+    int trimYPosition = 10;
+    int trimWidth = 1;
+    int trimHeight = BUTTON_HEIGHT - 20;
+
+    for (int i = 0; i < BUTTON_AMOUNT; i++) {
+        graphics.fill(STANDARD_GREY);
+        graphics.rect(((i * BUTTON_WIDTH) + shiftAmount), 0, BUTTON_WIDTH, BUTTON_HEIGHT);
+      graphics.fill(TRIM_GREY);
+      graphics.rect(((i * trimXPosition) + shiftAmount), trimYPosition, trimWidth, trimHeight);
+    }
+    graphics.rect(((BUTTON_AMOUNT * trimXPosition) + shiftAmount) - 1, trimYPosition, trimWidth, trimHeight);
+  }
+
+  // Used to calculate the shift amount of the dialogue box 
+  private void calculateShift() {
+    float scrollBarOffset = scrollBar.getScrollOffset();
+    float scrollInset = scrollBarOffset / SCROLLABLE_WIDTH; // The percentage to the right the scroll bar has moved
+    shiftAmount = ((areaWidth - BOX_EDGE_OFFSET) * -scrollInset);  // Applying the ratio to the scrollable area
   }
 }
 
