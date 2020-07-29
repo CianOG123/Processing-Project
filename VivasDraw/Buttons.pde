@@ -1,4 +1,95 @@
 /** 
+ *  Class to Image buttons
+ *  By Cian O'Gorman 29-07-2020
+ */
+private class Image_Button {
+
+  // Objects
+  PGraphics graphics;
+
+  // Variables
+  private int xPosition;
+  private int yPosition;
+  private int buttonWidth;
+  private int buttonHeight;
+  private int buttonEvent;
+
+  // Booleans
+  private boolean cursorChanged = false;  // Set to true if the cursor has been changed to anything other than ARROW
+  private boolean canPress = false;       // Set to true if the user can press the button
+
+  //Constants
+  // Colors
+  private static final color BORDER_COLOR = HEADING_DARK_GREY;
+  private static final color CENTER_COLOR = 255;
+
+  Image_Button(int xPosition, int yPosition, int buttonWidth, int buttonHeight, PGraphics graphics, int buttonEvent) {
+    this.xPosition = xPosition;
+    this.yPosition = yPosition;
+    this.buttonWidth = buttonWidth;
+    this.buttonHeight = buttonHeight;
+    this.graphics = graphics;
+    this.buttonEvent = buttonEvent;
+  }
+
+  private void draw(float scrollOffset) {
+    changeCursor(scrollOffset);
+    graphics.stroke(BORDER_COLOR);
+    graphics.fill(CENTER_COLOR);
+    graphics.rect(xPosition + scrollOffset, yPosition, buttonWidth, buttonHeight);
+  }
+
+  // Function handles the cursor image
+  private void changeCursor(float scrollOffset) {
+
+    // Checking to see if mouse is within the scroll graphic context limits
+    if ((mouseX > SCROLL_CONTEXT_X_POSITION) && (mouseX < SCROLL_CONTEXT_X_POSITION + SCROLL_CONTEXT_BOX_WIDTH)) {
+      if ((mouseY > SCROLL_CONTEXT_Y_POSITION) && (mouseY < SCROLL_CONTEXT_Y_POSITION + SCROLL_CONTEXT_BOX_HEIGHT)) {
+
+        // Checking to see if the mouse is within the limits of the button
+        if ((mouseX > xPosition + SCROLL_CONTEXT_X_POSITION + scrollOffset) && (mouseX < xPosition + buttonWidth + SCROLL_CONTEXT_X_POSITION + scrollOffset)) {
+          if ((mouseY > yPosition + SCROLL_CONTEXT_Y_POSITION) && (mouseY < yPosition + buttonHeight + SCROLL_CONTEXT_Y_POSITION)) {
+
+            if (cursorChanged == false) {
+              cursorChanged = true;
+              canPress = true;
+              println("\nCan press");
+              cursor(HAND);
+            }
+          } else {
+            resetCursor();
+          }
+        } else {
+          resetCursor();
+        }
+      } else {
+        resetCursor();
+      }
+    } else {
+      resetCursor();
+    }
+  }
+
+  // Resets the cursor to ARROW
+  private void resetCursor() {
+    if (cursorChanged == true) {
+      cursorChanged = false;
+      canPress = false;
+      cursor(ARROW);
+    }
+  }
+
+  // Handles what happens if the mouse is pressed
+  private void mousePressed() {
+    if (canPress == true) {
+      if (mouseButton == LEFT) {
+        displayedBox = buttonEvent;
+      }
+    }
+  }
+}
+
+/** 
  *  Class to handle scroll bars
  *  By Cian O'Gorman 28-07-2020
  */

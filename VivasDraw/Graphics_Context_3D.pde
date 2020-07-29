@@ -48,6 +48,25 @@ private class Graphic_Context_3D_Container {
     draw3DGeometry();
   }
 
+  // Switches the boxes being displayed based on the value stored in the displayedBox variable and draws it to the screen
+  private void drawBox() {
+    switch (displayedBox) {
+    case BOX_OPEN_TOP:
+      boxOpenTop.draw(graphicContainer);
+      break;
+    case BOX_CLOSED:
+      boxClosed.draw(graphicContainer);
+      break;
+    case BOX_OPEN_THROUGH:
+      boxOpenThrough.draw(graphicContainer);
+      break;
+    default:
+      boxOpenTop.draw(graphicContainer);
+      break;
+    }
+  }
+
+
   // Draws all the 3D objects in the container
   private void draw3DGeometry() {
 
@@ -64,9 +83,7 @@ private class Graphic_Context_3D_Container {
         graphicContainer.rotateX(GLOBAL_X_ROTATE);
         camera.draw();
         grid.draw(graphicContainer);
-        boxClosed.draw(graphicContainer);
-        //boxOpenTop.draw(graphicContainer);
-        //boxOpenThrough.draw(graphicContainer);
+        drawBox();
       }
       graphicContainer.popMatrix();
     }

@@ -31,7 +31,14 @@ boolean buttonAutoRotate = false;  // Set to true if the auto rotate checkbox ha
 
 // Constants
 
+// Scroll box graphic context 
+static final int SCROLL_CONTEXT_X_POSITION = 960;
+static final int SCROLL_CONTEXT_Y_POSITION = 115;
+static final int SCROLL_CONTEXT_BOX_WIDTH = 310;
+static final int SCROLL_CONTEXT_BOX_HEIGHT = 150;
+
 // Box being displayed
+int displayedBox = 0;
 static final int BOX_OPEN_TOP = 1;
 static final int BOX_CLOSED = 2;
 static final int BOX_OPEN_THROUGH = 3;

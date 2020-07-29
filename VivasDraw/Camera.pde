@@ -13,10 +13,10 @@ private class Camera {
   private static final float SCROLL_MIN = 5;      // The minimum scroll distance
 
   // Objects
-  private PGraphics graphicsContext;              // Reference to the graphic context used
+  private PGraphics graphicsContext;  // Reference to the graphic context used
 
   // Settings Variables
-  private static final int ROTATE_BUTTON = CENTER;         // The button that will be used to rotate around the geometry
+  private static final int ROTATE_BUTTON = CENTER;  // The button that will be used to rotate around the geometry
 
   // General Variables
   private boolean rotatingX = false, rotatingY = false;    // Is the axis being rotated
