@@ -42,8 +42,9 @@ int displayedBox = 0;
 static final int BOX_OPEN_TOP = 1;
 static final int BOX_CLOSED = 2;
 static final int BOX_OPEN_THROUGH = 3;
-static final int BOX_CENTRE_PART = 4;
+static final int BOX_CENTER_PART = 4;
 static final int BOX_CROSS_SECTION = 5;
+static final int BOX_RAISED_FLOOR = 6;
 
 // Length type
 static final int LENGTH = 1;

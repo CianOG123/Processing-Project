@@ -38,6 +38,9 @@ private class GUI_Selector_Box {
   private Image_Button boxOpenTopButton;
   private Image_Button boxClosedButton;
   private Image_Button boxOpenThroughButton;
+  private Image_Button boxCenterPart;
+  private Image_Button boxCrossSection;
+  private Image_Button boxRaisedFloor;
 
   // Variables
   private float shiftAmount;    // The amount the selector is shifted on the x-axis
@@ -50,7 +53,7 @@ private class GUI_Selector_Box {
   private static final int SCROLL_HEIGHT = 13;
   private static final float SCROLLABLE_WIDTH = 270;  // The amount of pixels the scroll bar can move (between 0 and 270)
 
-  private static final int BUTTON_AMOUNT = 3;                                         // The amount of selection buttons being displayed
+  private static final int BUTTON_AMOUNT = 6;                                        // The amount of selection buttons being displayed
   private static final int AREA_WIDTH = SCROLL_CONTEXT_BOX_HEIGHT;                   // The width of an option button
   private static final int AREA_HEIGHT = SCROLL_CONTEXT_BOX_HEIGHT - SCROLL_HEIGHT;  // The height of an option button
   private static final int BUTTON_WIDTH = 120;
@@ -89,13 +92,19 @@ private class GUI_Selector_Box {
     boxOpenThroughButton = new Image_Button(BUTTON_X_BOUNDARY, BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_OPEN_THROUGH);
     boxOpenTopButton = new Image_Button(BUTTON_X_BOUNDARY + AREA_WIDTH, BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_OPEN_TOP);
     boxClosedButton = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 2), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_CLOSED);
+    boxCenterPart = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 3), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_CENTER_PART);
+    boxCrossSection = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 4), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_CROSS_SECTION);
+    boxRaisedFloor = new Image_Button(BUTTON_X_BOUNDARY + (AREA_WIDTH * 5), BUTTON_Y_BOUNDARY, BUTTON_WIDTH, BUTTON_HEIGHT, graphics, BOX_RAISED_FLOOR);
   }
-  
+
   // Draws the button to the screen
-  private void drawButtons(){
+  private void drawButtons() {
     boxOpenTopButton.draw(shiftAmount);
     boxClosedButton.draw(shiftAmount);
     boxOpenThroughButton.draw(shiftAmount);
+    boxCenterPart.draw(shiftAmount);
+    boxCrossSection.draw(shiftAmount);
+    boxRaisedFloor.draw(shiftAmount);
   }
 
   // Creates the scrollable context area
@@ -129,6 +138,9 @@ private class GUI_Selector_Box {
     boxOpenThroughButton.mousePressed();
     boxOpenTopButton.mousePressed();
     boxClosedButton.mousePressed();
+    boxCenterPart.mousePressed();
+    boxCrossSection.mousePressed();
+    boxRaisedFloor.mousePressed();
   }
 }
 

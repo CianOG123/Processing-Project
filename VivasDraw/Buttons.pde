@@ -53,7 +53,6 @@ private class Image_Button {
             if (cursorChanged == false) {
               cursorChanged = true;
               canPress = true;
-              println("\nCan press");
               cursor(HAND);
             }
           } else {
