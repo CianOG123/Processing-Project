@@ -22,9 +22,9 @@ private class Image_Button {
   private boolean canPress = false;       // Set to true if the user can press the button
 
   //Constants
-  private static final int TEXT_BOUNDARY = 25;  // Separates the text from the image button
+  private static final int TEXT_BOUNDARY = 30;  // Separates the text from the image button
   // Fonts
-  private final PFont BUTTON_FONT = robotoLight25;
+  private final PFont BUTTON_FONT = robotoLight16;
   // Colors
   private static final color BORDER_COLOR = HEADING_DARK_GREY;
   private static final color CENTER_COLOR = 255;
@@ -43,18 +43,20 @@ private class Image_Button {
 
   private void draw(float scrollOffset) {
     changeCursor(scrollOffset);
-    graphics.stroke(BORDER_COLOR);
+    if (canPress == true) {
+      graphics.stroke(TEXT_WHITE);
+    } else {
+      graphics.stroke(BORDER_COLOR);
+    }
     graphics.fill(CENTER_COLOR);
     graphics.rect(xPosition + scrollOffset, yPosition, buttonWidth, buttonHeight);
     drawText(scrollOffset);
   }
-  
+
   // Writes the buttons text to the screen
-  private void drawText(float scrollOffset){
+  private void drawText(float scrollOffset) {
     fill(111);
-    textFont(BUTTON_FONT);
-    graphics.textSize(14);
-    graphics.textLeading(18);
+    graphics.textFont(BUTTON_FONT);
     graphics.textAlign(CENTER);
     graphics.text(buttonText, textXOffset + scrollOffset, textYOffset);
     graphics.textAlign(LEFT);
@@ -263,10 +265,9 @@ private class Check_Box {
 
   // Constants
   private static final int BOUNDARY = 10;
-  private static final int TEXT_SIZE = 15;
   private static final color LABEL_COLOR = TEXT_WHITE;
   private static final color BUTTON_COLOR = TEXT_WHITE;
-  private final PFont BUTTON_FONT = robotoLight25;
+  private final PFont BUTTON_FONT = robotoLight15;
 
   Check_Box(int xPosition, int yPosition, int checkBoxWidth, int checkBoxHeight, String label, int xOffset, PGraphics pg) {
     this.xPosition = xPosition;
@@ -286,17 +287,13 @@ private class Check_Box {
     }
     if (buttonSelected) {
       graphicContext.fill(BUTTON_COLOR);
-      graphicContext.rect(xPosition, yPosition, checkBoxWidth, checkBoxHeight);
-      graphicContext.fill(LABEL_COLOR);
-      graphicContext.textFont(BUTTON_FONT);
-      graphicContext.text(label, (xPosition + checkBoxWidth + BOUNDARY), yPosition + ((textAscent() + textDescent()) / 2));
     } else {
       graphicContext.fill(LABEL_COLOR);
-      graphicContext.rect(xPosition, yPosition, checkBoxWidth, checkBoxHeight);
-      graphicContext.textFont(BUTTON_FONT);
-      graphicContext.textSize(TEXT_SIZE);
-      graphicContext.text(label, (xPosition + checkBoxWidth + BOUNDARY), yPosition + ((textAscent() + textDescent()) / 2));
     }
+    graphicContext.rect(xPosition, yPosition, checkBoxWidth, checkBoxHeight);
+    graphicContext.fill(LABEL_COLOR);
+    graphicContext.textFont(BUTTON_FONT);
+    graphicContext.text(label, (xPosition + checkBoxWidth + BOUNDARY), yPosition  + 13);
   }
 
   private void isCheckBoxPressed() {

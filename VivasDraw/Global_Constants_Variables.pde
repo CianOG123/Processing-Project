@@ -78,13 +78,17 @@ static final color TEXT_WHITE = #FAFAFA;
 static final color CANCEL_RED = #E53935;
 static final color GEO_GREEN = #00FF00;
 
-// Fonts
-PFont robotoLight25;
-
 // Gradient
 static final int X_AXIS = 0;
 static final int Y_AXIS = 1;
 
+// Fonts
+PFont robotoLight25;
+PFont robotoLight15;
+PFont robotoLight16;
+
 void initialiseFonts() {
   robotoLight25 = loadFont("Roboto-Light-25.vlw");
+  robotoLight15 = loadFont("Roboto-Light-15.vlw");
+  robotoLight16 = loadFont("Roboto-Light-16.vlw");
 }
