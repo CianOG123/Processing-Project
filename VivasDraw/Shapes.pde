@@ -1,4 +1,107 @@
 /**
+ *  Class that can plot and draw a centre partition piece to the screen.
+ *  By Cian O'Gorman 16-07-2020.
+ */
+private class Shape_Center_Part extends Shape_Template_Static {
+
+  // Objects
+  private PShape centerPart;                // Declaring the side piece shape
+
+  // Booleans
+  // Extrude joints
+  // note: A minimum of one extrude boolean must be set to true otherwise a floating piece will be created
+  private static final boolean extrudeThroughSide = false;  // When set to true the joints of the centre part will extend through the side of the piece
+  private static final boolean extrudeThroughTop = false;
+  private static final boolean extrudeThroughFloor = false;
+
+  // Joint Options
+  private static final boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
+  private static final boolean singleTopJoint = false;
+  private static final boolean singleFloorJoint = false;
+
+  Shape_Center_Part() {
+    centerPart = createShape();
+    centerPart.beginShape(TRIANGLE_STRIP);
+    initialise(centerPart);
+    plotShape(centerPart);
+    centerPart.endShape(CLOSE);
+  }
+
+  private void draw() {
+    display(centerPart);
+  }
+
+  @Override
+    void plotShape(PShape shape) {
+      centerPart.vertex(thickness, thickness);
+      centerPart.vertex(thickness, thickness, thickness);
+      
+      centerPart.vertex(sidePieceJointLength + thickness, thickness);
+      centerPart.vertex(sidePieceJointLength + thickness, thickness,  thickness);
+      
+      centerPart.vertex(sidePieceJointLength + thickness, 0);
+      centerPart.vertex(sidePieceJointLength + thickness, 0, thickness);
+      
+      centerPart.vertex((sidePieceJointLength * 2) + thickness, 0);
+      centerPart.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
+     
+      centerPart.vertex((sidePieceJointLength * 2) + thickness, thickness);
+      centerPart.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
+      
+      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness);
+      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness, thickness);
+      
+      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + endPieceCenterJointLength);
+      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + endPieceCenterJointLength, thickness);
+      
+      centerPart.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + endPieceCenterJointLength);
+      centerPart.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + endPieceCenterJointLength, thickness);
+      
+      centerPart.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + (endPieceCenterJointLength * 2));
+      centerPart.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + (endPieceCenterJointLength * 2), thickness);
+      
+      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2));
+      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2), thickness);
+      
+      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3)); 
+      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3), thickness); 
+      
+      centerPart.vertex((sidePieceJointLength * 2) + thickness, thickness + (endPieceCenterJointLength * 3));
+      centerPart.vertex((sidePieceJointLength * 2) + thickness, thickness + (endPieceCenterJointLength * 3), thickness);
+      
+      centerPart.vertex((sidePieceJointLength * 2) + thickness, (thickness * 2) + (endPieceCenterJointLength * 3));
+      centerPart.vertex((sidePieceJointLength * 2) + thickness, (thickness * 2) + (endPieceCenterJointLength * 3), thickness);
+      
+      centerPart.vertex(sidePieceJointLength + thickness, (thickness * 2) + (endPieceCenterJointLength * 3));
+      centerPart.vertex(sidePieceJointLength + thickness, (thickness * 2) + (endPieceCenterJointLength * 3), thickness);
+      
+      centerPart.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3));
+      centerPart.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3), thickness);
+      
+      centerPart.vertex(thickness, thickness + (endPieceCenterJointLength * 3));
+      centerPart.vertex(thickness, thickness + (endPieceCenterJointLength * 3), thickness);
+      
+      centerPart.vertex(thickness, thickness + (endPieceCenterJointLength * 2));
+      centerPart.vertex(thickness, thickness + (endPieceCenterJointLength * 2), thickness);
+      
+      centerPart.vertex(0, thickness + (endPieceCenterJointLength * 2));
+      centerPart.vertex(0, thickness + (endPieceCenterJointLength * 2), thickness);
+      
+       centerPart.vertex(0, thickness + endPieceCenterJointLength);
+       centerPart.vertex(0, thickness + endPieceCenterJointLength, thickness);
+       
+       centerPart.vertex(thickness, thickness + endPieceCenterJointLength);
+       centerPart.vertex(thickness, thickness + endPieceCenterJointLength, thickness);
+       
+       centerPart.vertex(thickness, thickness);
+       centerPart.vertex(thickness, thickness, thickness);
+       
+       
+  }
+}
+
+
+/**
  *  Class that can plot and draw a floor/ top piece to the screen.
  *  By Cian O'Gorman 16-07-2020.
  */

@@ -12,7 +12,7 @@ private interface Box_Template {
 }
 
 /**
- *  Open Top Box
+ *  Closed Top Box
  *  Class that can plot and draw an open top box to the screen.
  *  Implements the box template interface.
  *  By Cian O'Gorman 27-07-2020.
@@ -85,7 +85,7 @@ private class Box_Closed implements Box_Template {
         graphics.pushMatrix();
         {    
           graphics.rotateY(radians(90));                      // Rotating the graphic context 90 degrees
-          topPiece.draw();
+         topPiece.draw();
         }
         graphics.popMatrix();
 

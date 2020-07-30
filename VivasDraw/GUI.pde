@@ -272,7 +272,7 @@ private class GUI_Options_Panel {
   private void drawValues() {
     fill(TEXT_WHITE);
     textFont(robotoLight25);
-    text("Box Type: ", UNDERLINE_TRIM_X_POSITION, HEADER_TRIM_Y_POSITION - VALUES_OFFSET);
+    text("Box Presets: ", UNDERLINE_TRIM_X_POSITION, HEADER_TRIM_Y_POSITION - VALUES_OFFSET);
     boxLengthInput.draw();
     boxWidthInput.draw();
     boxHeightInput.draw();
