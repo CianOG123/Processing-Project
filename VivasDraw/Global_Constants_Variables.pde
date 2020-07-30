@@ -31,6 +31,10 @@ boolean buttonAutoRotate = false;  // Set to true if the auto rotate checkbox ha
 
 // Constants
 
+// GUI Top button events
+static final int EVENT_NULL = 0;
+static final int BUTTON_EXPORT = 1;
+
 // Scroll box graphic context 
 static final int SCROLL_CONTEXT_X_POSITION = 960;
 static final int SCROLL_CONTEXT_Y_POSITION = 115;
@@ -86,9 +90,11 @@ static final int Y_AXIS = 1;
 PFont robotoLight25;
 PFont robotoLight15;
 PFont robotoLight16;
+PFont robotoLight20;
 
 void initialiseFonts() {
   robotoLight25 = loadFont("Roboto-Light-25.vlw");
   robotoLight15 = loadFont("Roboto-Light-15.vlw");
   robotoLight16 = loadFont("Roboto-Light-16.vlw");
+  robotoLight20 = loadFont("Roboto-Light-20.vlw");
 }

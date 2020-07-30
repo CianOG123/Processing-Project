@@ -7,10 +7,10 @@ private abstract interface Shape_Interface {
 
   // Constants
   public static final float STROKE_WEIGHT = 1.2;        // Stroke weight of the shape
-  
+
   // Sets the graphical context for the shape
   abstract void setGraphicContext(PGraphics graphicContext);
-  
+
   // Sets the stroke, stroke weight, and other appearance settings of the shape
   abstract void initialise(PShape shape);
 

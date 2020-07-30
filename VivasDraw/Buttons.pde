@@ -1,5 +1,83 @@
 /** 
- *  Class to Image buttons
+ *  Class to create text buttons
+ *  By Cian O'Gorman 30-07-2020
+ */
+private class Text_Button {
+
+  // Variables
+  private int xPosition;
+  private int yPosition;
+  private String text;
+  private int buttonEvent;
+
+  // Booleans
+  private boolean cursorChanged = false;
+
+  // Constants
+  private final PFont BUTTON_FONT = robotoLight20;
+
+  Text_Button(int xPosition, int yPosition, String text, int buttonEvent) {
+    this.xPosition = xPosition;
+    this.yPosition = yPosition;
+    this.text = text;
+    this.buttonEvent = buttonEvent;
+  }
+
+  private void draw() {
+    changeCursor();
+    drawText();
+  }
+
+  // Draws the button text to the screen
+  private void drawText() {
+    textAlign(CENTER, CENTER);
+    textFont(BUTTON_FONT);
+    fill(TEXT_WHITE);
+    if (mouseHover() == true) {
+      textSize(22);
+    }
+    text(text, xPosition, yPosition);
+    textAlign(LEFT, BOTTOM);
+  }
+
+  // Checks to see if the mouse is hovering over the button
+  private boolean mouseHover() {
+    if ((mouseX > xPosition - (textWidth(text) / 2)) && (mouseX < xPosition + (textWidth(text) / 2))) {
+      if ((mouseY > yPosition - textAscent()) && (mouseY < yPosition + textAscent())) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  // Changes the mouse cursor
+  private void changeCursor() {
+    if (mouseHover() == true) {
+      if (cursorChanged == false) {
+        cursorChanged = true;
+        cursor(HAND);
+      }
+    } else if ((cursorChanged == true)) {
+      cursorChanged = false;
+      cursor(ARROW);
+    }
+  }
+
+  // Returns the buttons event if the button is pressed
+  private int mousePressed() {
+    if (mouseHover() == true) {
+      return buttonEvent;
+    } else {
+      return EVENT_NULL;
+    }
+  }
+}
+
+/** 
+ *  Class to create Image buttons
  *  By Cian O'Gorman 29-07-2020
  */
 private class Image_Button {

@@ -23,6 +23,7 @@ private class GUI_Main {
 
   private void mousePressed() {
     selectorBox.mousePressed();
+    topPanel.mousePressed();
   }
 }
 
@@ -150,6 +151,10 @@ private class GUI_Selector_Box {
  */
 private class GUI_Top {
 
+  // Objects
+  Text_Button exportButton;
+  SVG_Export svgExporter;
+
   // Constants
   private static final int BACKGROUND_HEIGHT = 50;
   private static final int TRIM_WIDTH = 1;
@@ -158,15 +163,17 @@ private class GUI_Top {
   private static final int LOGO_Y_POSITION = 10;
 
   private GUI_Top() {
+    exportButton = new Text_Button(1220, 25, "export", BUTTON_EXPORT);
   }
 
   private void draw() {
     drawBackground();
-    drawValues();
+    drawLogo();
+    exportButton.draw();
   }
 
-  // Draws the text and figures to the screen
-  private void drawValues() {
+  // Draws the logo to the screen
+  private void drawLogo() {
     fill(TEXT_WHITE);
     textFont(robotoLight25);
     text("VivasDraw", LOGO_X_POSITION, LOGO_Y_POSITION + (textAscent() + textDescent()));
@@ -178,12 +185,19 @@ private class GUI_Top {
     fill(HEADING_DARK_GREY);
     noStroke();
     rect(0, 0, width, BACKGROUND_HEIGHT);
-    setGradient(GRADIENT_X_POSITION, 0, width, BACKGROUND_HEIGHT, HEADING_DARK_GREY, HEADING_LIGHT_GREY, X_AXIS);
+    //setGradient(GRADIENT_X_POSITION, 0, width, BACKGROUND_HEIGHT, HEADING_DARK_GREY, HEADING_LIGHT_GREY, X_AXIS);
 
     // Bottom Trim
     fill(TRIM_GREY);
     noStroke();
     rect(0, BACKGROUND_HEIGHT, width, TRIM_WIDTH);
+  }
+
+  // Handles the events that happen if a button is pressed
+  private void mousePressed() {
+    if (exportButton.mousePressed() != EVENT_NULL) {
+      svgExporter = new SVG_Export(displayedBox);
+    }
   }
 
   // Creates a gradient (Used for the background)
