@@ -2,10 +2,10 @@
  *  Class that can plot and draw a centre partition piece to the screen.
  *  By Cian O'Gorman 16-07-2020.
  */
-private class Shape_Center_Part extends Shape_Template_Static {
+private class Shape_Center_Piece extends Shape_Template_Static {
 
   // Objects
-  private PShape centerPart;                // Declaring the side piece shape
+  private PShape centerPiece;                // Declaring the side piece shape
 
   // Booleans
   // Extrude joints
@@ -19,84 +19,82 @@ private class Shape_Center_Part extends Shape_Template_Static {
   private static final boolean singleTopJoint = false;
   private static final boolean singleFloorJoint = false;
 
-  Shape_Center_Part() {
-    centerPart = createShape();
-    centerPart.beginShape(TRIANGLE_STRIP);
-    initialise(centerPart);
-    plotShape(centerPart);
-    centerPart.endShape(CLOSE);
+  Shape_Center_Piece() {
+    centerPiece = createShape();
+    centerPiece.beginShape(TRIANGLE_STRIP);
+    initialise(centerPiece);
+    plotShape(centerPiece);
+    centerPiece.endShape(CLOSE);
   }
 
   private void draw() {
-    display(centerPart);
+    display(centerPiece);
   }
 
   @Override
     void plotShape(PShape shape) {
-      centerPart.vertex(thickness, thickness);
-      centerPart.vertex(thickness, thickness, thickness);
+      centerPiece.vertex(thickness, thickness);
+      centerPiece.vertex(thickness, thickness, thickness);
       
-      centerPart.vertex(sidePieceJointLength + thickness, thickness);
-      centerPart.vertex(sidePieceJointLength + thickness, thickness,  thickness);
+      centerPiece.vertex(sidePieceJointLength + thickness, thickness);
+      centerPiece.vertex(sidePieceJointLength + thickness, thickness,  thickness);
       
-      centerPart.vertex(sidePieceJointLength + thickness, 0);
-      centerPart.vertex(sidePieceJointLength + thickness, 0, thickness);
+      centerPiece.vertex(sidePieceJointLength + thickness, 0);
+      centerPiece.vertex(sidePieceJointLength + thickness, 0, thickness);
       
-      centerPart.vertex((sidePieceJointLength * 2) + thickness, 0);
-      centerPart.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
+      centerPiece.vertex((sidePieceJointLength * 2) + thickness, 0);
+      centerPiece.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
      
-      centerPart.vertex((sidePieceJointLength * 2) + thickness, thickness);
-      centerPart.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
+      centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness);
+      centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
       
-      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness);
-      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness, thickness);
+      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness);
+      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness, thickness);
       
-      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + endPieceCenterJointLength);
-      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + endPieceCenterJointLength, thickness);
+      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + endPieceCenterJointLength);
+      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + endPieceCenterJointLength, thickness);
       
-      centerPart.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + endPieceCenterJointLength);
-      centerPart.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + endPieceCenterJointLength, thickness);
+      centerPiece.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + endPieceCenterJointLength);
+      centerPiece.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + endPieceCenterJointLength, thickness);
       
-      centerPart.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + (endPieceCenterJointLength * 2));
-      centerPart.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + (endPieceCenterJointLength * 2), thickness);
+      centerPiece.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + (endPieceCenterJointLength * 2));
+      centerPiece.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + (endPieceCenterJointLength * 2), thickness);
       
-      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2));
-      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2), thickness);
+      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2));
+      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2), thickness);
       
-      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3)); 
-      centerPart.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3), thickness); 
+      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3)); 
+      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3), thickness); 
       
-      centerPart.vertex((sidePieceJointLength * 2) + thickness, thickness + (endPieceCenterJointLength * 3));
-      centerPart.vertex((sidePieceJointLength * 2) + thickness, thickness + (endPieceCenterJointLength * 3), thickness);
+      centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness + (endPieceCenterJointLength * 3));
+      centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness + (endPieceCenterJointLength * 3), thickness);
       
-      centerPart.vertex((sidePieceJointLength * 2) + thickness, (thickness * 2) + (endPieceCenterJointLength * 3));
-      centerPart.vertex((sidePieceJointLength * 2) + thickness, (thickness * 2) + (endPieceCenterJointLength * 3), thickness);
+      centerPiece.vertex((sidePieceJointLength * 2) + thickness, (thickness * 2) + (endPieceCenterJointLength * 3));
+      centerPiece.vertex((sidePieceJointLength * 2) + thickness, (thickness * 2) + (endPieceCenterJointLength * 3), thickness);
       
-      centerPart.vertex(sidePieceJointLength + thickness, (thickness * 2) + (endPieceCenterJointLength * 3));
-      centerPart.vertex(sidePieceJointLength + thickness, (thickness * 2) + (endPieceCenterJointLength * 3), thickness);
+      centerPiece.vertex(sidePieceJointLength + thickness, (thickness * 2) + (endPieceCenterJointLength * 3));
+      centerPiece.vertex(sidePieceJointLength + thickness, (thickness * 2) + (endPieceCenterJointLength * 3), thickness);
       
-      centerPart.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3));
-      centerPart.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3), thickness);
+      centerPiece.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3));
+      centerPiece.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3), thickness);
       
-      centerPart.vertex(thickness, thickness + (endPieceCenterJointLength * 3));
-      centerPart.vertex(thickness, thickness + (endPieceCenterJointLength * 3), thickness);
+      centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 3));
+      centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 3), thickness);
       
-      centerPart.vertex(thickness, thickness + (endPieceCenterJointLength * 2));
-      centerPart.vertex(thickness, thickness + (endPieceCenterJointLength * 2), thickness);
+      centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 2));
+      centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 2), thickness);
       
-      centerPart.vertex(0, thickness + (endPieceCenterJointLength * 2));
-      centerPart.vertex(0, thickness + (endPieceCenterJointLength * 2), thickness);
+      centerPiece.vertex(0, thickness + (endPieceCenterJointLength * 2));
+      centerPiece.vertex(0, thickness + (endPieceCenterJointLength * 2), thickness);
       
-       centerPart.vertex(0, thickness + endPieceCenterJointLength);
-       centerPart.vertex(0, thickness + endPieceCenterJointLength, thickness);
+       centerPiece.vertex(0, thickness + endPieceCenterJointLength);
+       centerPiece.vertex(0, thickness + endPieceCenterJointLength, thickness);
        
-       centerPart.vertex(thickness, thickness + endPieceCenterJointLength);
-       centerPart.vertex(thickness, thickness + endPieceCenterJointLength, thickness);
+       centerPiece.vertex(thickness, thickness + endPieceCenterJointLength);
+       centerPiece.vertex(thickness, thickness + endPieceCenterJointLength, thickness);
        
-       centerPart.vertex(thickness, thickness);
-       centerPart.vertex(thickness, thickness, thickness);
-       
-       
+       centerPiece.vertex(thickness, thickness);
+       centerPiece.vertex(thickness, thickness, thickness);      
   }
 }
 

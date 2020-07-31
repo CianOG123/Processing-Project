@@ -23,17 +23,21 @@ private class SVG_Export {
   private float endPieceLengthConvert;
   private float endPieceJointLengthConvert;
   private float sidePieceJointLengthConvert;
+  private float endPieceCenterJointLengthConvert;
+  private float yOffset;
 
   // Booleans
-  private boolean constructTop = false;    // When set to true a top piece will be constructed and all relevant joints
-  private boolean constructBottom = false;  // When set to true a bootom piece will be constructed and all relevant joints
+  private boolean constructTop = false;     // When set to true a top piece will be constructed and all relevant joints
+  private boolean constructBottom = false;  // When set to true a bottom piece will be constructed and all relevant joints
+  private boolean constructCenter = false;  // When set to true a center piece will be constructed and all relevant joints
 
-  SVG_Export(boolean constructTop, boolean constructBottom, int boxType) {
+  SVG_Export(boolean constructTop, boolean constructBottom, boolean constructCenter, int boxType) {
     this.boxType = boxType;
     this.constructTop = constructTop;
     this.constructBottom = constructBottom;
+    this.constructCenter = constructCenter;
     convertMeasurements();
-    svg = createGraphics((int) ((boxLengthConvert * 3) + boxWidthConvert + (thicknessConvert * 2) + (BOUNDARY * 5)), ((int)boxHeightConvert * 2) + (BOUNDARY * 3), SVG, "Project.svg");
+    svg = createGraphics(calculateCanvasWidth(), calculateCanvasHeight(), SVG, "Project.svg");
   }
 
   SVG_Export(int boxType) {
@@ -51,6 +55,11 @@ private class SVG_Export {
       constructTop = false;
       constructBottom = false;
       break;
+    case BOX_CENTER_PART:
+      constructTop = true;
+      constructBottom = true;
+      constructCenter = true;
+      break;
     default:
       constructTop = true;
       constructBottom = true;
@@ -67,25 +76,26 @@ private class SVG_Export {
     if (boxWidthConvert > canvasHeight) {
       canvasHeight = (int) boxWidthConvert;
     }
+    
+    if(constructCenter == true){
+      canvasHeight += (int) boxHeightConvert + BOUNDARY + thicknessConvert;
+    }
     canvasHeight += BOUNDARY * 3;
     return canvasHeight;
   }
-  
+
   // Calculates the amount of pixels needed on the horizontal axis to incase the raster image
-  private int calculateCanvasWidth(){
+  private int calculateCanvasWidth() {
     int canvasWidth = 0;
-    int topPieceSpace = 0;
-    if (constructTop == true) {
-      topPieceSpace = (int) boxLengthConvert + (BOUNDARY * 2);
-    }
-    canvasWidth += topPieceSpace;
     
-    int floorPieceSpace = 0;
     if (constructTop == true) {
-      floorPieceSpace = (int) boxLengthConvert + BOUNDARY;
+      canvasWidth += (int) boxLengthConvert + (BOUNDARY * 2);
     }
-    canvasWidth += floorPieceSpace;
-    
+
+    if (constructTop == true) {
+      canvasWidth += (int) boxLengthConvert + BOUNDARY;
+    }
+
     canvasWidth += ((int) (boxLengthConvert + boxWidthConvert + (thicknessConvert * 2) + (BOUNDARY * 2)));
     return canvasWidth;
   }
@@ -98,10 +108,12 @@ private class SVG_Export {
     plotSVGEndPiece((int) (boxLengthConvert + thicknessConvert) + (BOUNDARY * 2), (int) boxHeightConvert + (BOUNDARY * 2));
     plotSVGTopPiece(constructTop, (int) (boxLengthConvert + boxWidthConvert + thicknessConvert + (BOUNDARY * 3)), BOUNDARY + (int) thicknessConvert);
     plotSVGTopPiece(constructBottom, (int) ((boxLengthConvert * 2) + boxWidthConvert + thicknessConvert + (BOUNDARY * 4)), BOUNDARY + (int) thicknessConvert);
+    plotSVGCenterPiece(constructCenter, BOUNDARY + (int) thicknessConvert, (int) ((boxHeightConvert * 2) + thicknessConvert) + (BOUNDARY * 3));
     svg.dispose();
     svg.endDraw();
   }
 
+  // Convers all relevants to the relevant format and scale for SVG rendering
   private void convertMeasurements() {
     if (measurementType == MILLIMETRE) {
       boxLengthConvert = boxLength * PIXEL_TO_MILLIMETRE;
@@ -112,6 +124,35 @@ private class SVG_Export {
       endPieceLengthConvert = endPieceLength * PIXEL_TO_MILLIMETRE;
       endPieceJointLengthConvert = endPieceJointLength * PIXEL_TO_MILLIMETRE;
       sidePieceJointLengthConvert = sidePieceJointLength * PIXEL_TO_MILLIMETRE;
+      endPieceCenterJointLengthConvert = endPieceCenterJointLength * PIXEL_TO_MILLIMETRE;
+    }
+  }
+
+  private void plotSVGCenterPiece(boolean constructPiece, int xOffset, int yOffset) {
+    if (constructPiece == true) {
+      svg.line(xOffset, yOffset, xOffset + sidePieceJointLengthConvert, yOffset);
+      svg.line(xOffset + sidePieceJointLengthConvert, yOffset, xOffset + sidePieceJointLengthConvert, yOffset - thicknessConvert);
+      svg.line(xOffset + sidePieceJointLengthConvert, yOffset - thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2), yOffset - thicknessConvert);
+      svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset - thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2), yOffset);
+      svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset);
+      
+      svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset + endPieceCenterJointLengthConvert);
+      svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + endPieceCenterJointLengthConvert, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + endPieceCenterJointLengthConvert);
+      svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + endPieceCenterJointLengthConvert, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2));
+      svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2));
+      svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3));
+      
+      svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3));
+      svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
+      svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
+      svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3));
+      svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 3));
+      
+      svg.line(xOffset, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 2));
+      svg.line(xOffset, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2));
+      svg.line(xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2),xOffset - thicknessConvert, yOffset + endPieceCenterJointLengthConvert);
+      svg.line(xOffset - thicknessConvert, yOffset + endPieceCenterJointLengthConvert, xOffset, yOffset + endPieceCenterJointLengthConvert);
+      svg.line(xOffset, yOffset + endPieceCenterJointLengthConvert, xOffset, yOffset);
     }
   }
 

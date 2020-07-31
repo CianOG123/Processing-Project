@@ -24,6 +24,7 @@ private class Graphic_Context_3D_Container {
   private Box_Open_Through boxOpenThrough;
   private Box_Open_Top boxOpenTop;
   private Box_Closed boxClosed;
+  private Box_Center_Part boxCenterPart;
 
   private Graphic_Context_3D_Container() {
     graphicContainer = createGraphics(width, height, P3D);
@@ -35,6 +36,8 @@ private class Graphic_Context_3D_Container {
     boxClosed = new Box_Closed(graphicContainer);
     boxOpenThrough = new Box_Open_Through(graphicContainer);
     boxOpenTop = new Box_Open_Top(graphicContainer);
+    boxCenterPart = new Box_Center_Part(graphicContainer);
+
     // Grid Initialisation
     grid = new Grid_Static(graphicContainer);
 
@@ -61,7 +64,7 @@ private class Graphic_Context_3D_Container {
       boxOpenThrough.draw(graphicContainer);
       break;
     case BOX_CENTER_PART:
-      boxOpenThrough.draw(graphicContainer);
+      boxCenterPart.draw(graphicContainer);
       break;
     case BOX_CROSS_SECTION:
       boxOpenThrough.draw(graphicContainer);
@@ -132,10 +135,17 @@ private class Graphic_Context_3D_Container {
       refreshEndPieceJointLength();
       refreshSidePieceLength();
       refreshSidePieceJointLength();
+      refreshEndPieceCenterJointLength();
       boxOpenThrough = new Box_Open_Through(graphicContainer);
       boxOpenTop = new Box_Open_Top(graphicContainer);
       boxClosed = new Box_Closed(graphicContainer);
+      boxCenterPart = new Box_Center_Part(graphicContainer);
     }
+  }
+
+  // Updates the end piece center joint length
+  private void refreshEndPieceCenterJointLength() {
+    endPieceCenterJointLength = ((boxHeight - (thickness * 2)) / 3);
   }
 
   // Updates the joint height
