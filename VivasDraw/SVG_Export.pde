@@ -76,8 +76,8 @@ private class SVG_Export {
     if (boxWidthConvert > canvasHeight) {
       canvasHeight = (int) boxWidthConvert;
     }
-    
-    if(constructCenter == true){
+
+    if (constructCenter == true) {
       canvasHeight += (int) boxHeightConvert + BOUNDARY + thicknessConvert;
     }
     canvasHeight += BOUNDARY * 3;
@@ -87,7 +87,7 @@ private class SVG_Export {
   // Calculates the amount of pixels needed on the horizontal axis to incase the raster image
   private int calculateCanvasWidth() {
     int canvasWidth = 0;
-    
+
     if (constructTop == true) {
       canvasWidth += (int) boxLengthConvert + (BOUNDARY * 2);
     }
@@ -135,22 +135,22 @@ private class SVG_Export {
       svg.line(xOffset + sidePieceJointLengthConvert, yOffset - thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2), yOffset - thicknessConvert);
       svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset - thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2), yOffset);
       svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset);
-      
+
       svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset + endPieceCenterJointLengthConvert);
       svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + endPieceCenterJointLengthConvert, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + endPieceCenterJointLengthConvert);
       svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + endPieceCenterJointLengthConvert, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2));
       svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2));
       svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3));
-      
+
       svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3));
       svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
       svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
       svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3));
       svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 3));
-      
+
       svg.line(xOffset, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 2));
       svg.line(xOffset, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2));
-      svg.line(xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2),xOffset - thicknessConvert, yOffset + endPieceCenterJointLengthConvert);
+      svg.line(xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset - thicknessConvert, yOffset + endPieceCenterJointLengthConvert);
       svg.line(xOffset - thicknessConvert, yOffset + endPieceCenterJointLengthConvert, xOffset, yOffset + endPieceCenterJointLengthConvert);
       svg.line(xOffset, yOffset + endPieceCenterJointLengthConvert, xOffset, yOffset);
     }
@@ -181,6 +181,13 @@ private class SVG_Export {
       svg.line(xOffset - thicknessConvert, yOffset + (endPieceJointLengthConvert * 2), xOffset - thicknessConvert, yOffset + endPieceJointLengthConvert);
       svg.line(xOffset - thicknessConvert, yOffset + endPieceJointLengthConvert, xOffset, yOffset + endPieceJointLengthConvert);
       svg.line(xOffset, yOffset + endPieceJointLengthConvert, xOffset, yOffset);
+
+      if (constructCenter == true) {
+        svg.line(xOffset + sidePieceJointLengthConvert, yOffset + ((endPieceLengthConvert - thicknessConvert) / 2), xOffset + (sidePieceJointLengthConvert * 2), yOffset + ((endPieceLengthConvert - thicknessConvert) / 2));
+        svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + ((endPieceLengthConvert - thicknessConvert) / 2), xOffset + (sidePieceJointLengthConvert * 2), yOffset + ((endPieceLengthConvert + thicknessConvert) / 2));
+        svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + ((endPieceLengthConvert + thicknessConvert) / 2), xOffset + sidePieceJointLengthConvert, yOffset + ((endPieceLengthConvert + thicknessConvert) / 2));
+        svg.line(xOffset + sidePieceJointLengthConvert, yOffset + ((endPieceLengthConvert + thicknessConvert) / 2), xOffset + sidePieceJointLengthConvert, yOffset + ((endPieceLengthConvert - thicknessConvert) / 2));
+      }
     }
   }
 
@@ -229,6 +236,14 @@ private class SVG_Export {
         svg.line(xOffset - thicknessConvert, yOffset + (jointHeightConvert * i), xOffset, yOffset + (jointHeightConvert * i));
       }
     }
+
+    // Adding center joint
+    //if (constructCenter == true) {
+    //  svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + endPieceCenterJointLengthConvert + thicknessConvert, xOffset + ((boxWidthConvert + thicknessConvert) / 2)  - thicknessConvert, yOffset + endPieceCenterJointLengthConvert + thicknessConvert);
+    //  svg.line(xOffset + ((boxWidthConvert + thicknessConvert) / 2)  - thicknessConvert, yOffset + endPieceCenterJointLengthConvert + thicknessConvert, xOffset + ((boxWidthConvert + thicknessConvert) / 2)  - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2) + thicknessConvert);
+    //  svg.line(xOffset + ((boxWidthConvert + thicknessConvert) / 2)  - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2) + thicknessConvert, xOffset + ((boxWidthConvert - thicknessConvert) / 2)  - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2) + thicknessConvert);
+    //  svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2)  - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2) + thicknessConvert, xOffset + ((boxWidthConvert - thicknessConvert) / 2)  - thicknessConvert, yOffset + endPieceCenterJointLengthConvert + thicknessConvert);
+    //}
 
     // Close
     svg.line(xOffset - thicknessConvert, yOffset + jointHeightConvert, xOffset, yOffset + jointHeightConvert);
@@ -284,6 +299,14 @@ private class SVG_Export {
         svg.line(thicknessConvert + xOffset, (jointHeightConvert * (i + 1)) + yOffset, thicknessConvert + xOffset, (jointHeightConvert * i) + yOffset);
         svg.line(thicknessConvert + xOffset, (jointHeightConvert * i) + yOffset, xOffset, (jointHeightConvert * i) + yOffset);
       }
+    }
+
+    // Adding center joint
+    if (constructCenter == true) {
+      svg.line(xOffset + ((boxLengthConvert - thicknessConvert) / 2), yOffset + endPieceCenterJointLengthConvert + thicknessConvert, xOffset + ((boxLengthConvert + thicknessConvert) / 2), yOffset + endPieceCenterJointLengthConvert + thicknessConvert);
+      svg.line(xOffset + ((boxLengthConvert + thicknessConvert) / 2), yOffset + endPieceCenterJointLengthConvert + thicknessConvert, xOffset + ((boxLengthConvert + thicknessConvert) / 2), yOffset + (endPieceCenterJointLengthConvert * 2) + thicknessConvert);
+      svg.line(xOffset + ((boxLengthConvert + thicknessConvert) / 2), yOffset + (endPieceCenterJointLengthConvert * 2) + thicknessConvert, xOffset + ((boxLengthConvert - thicknessConvert) / 2), yOffset + (endPieceCenterJointLengthConvert * 2) + thicknessConvert);
+      svg.line(xOffset + ((boxLengthConvert - thicknessConvert) / 2), yOffset + (endPieceCenterJointLengthConvert * 2) + thicknessConvert, xOffset + ((boxLengthConvert - thicknessConvert) / 2), yOffset + endPieceCenterJointLengthConvert + thicknessConvert);
     }
 
     // Plot closing
