@@ -511,23 +511,25 @@ private class Text_Input {
   // Checks to see if the box has been clicked and enables input mode if it has
   protected void enableInputMode() {
     if (mousePressed == true) {
-      if ((mouseX > xPosition) && (mouseX < xPosition + buttonWidth) && (mouseY >= yPosition) && (mouseY <= yPosition + buttonHeight)) {
-        if (mousePressedBuffer == 0) {
-          mousePressedBuffer = 1;
-          if ((inputMode == false) && (inputEnabledElseWhere == false)) {
-            inputMode = true;
-            inputEnabledElseWhere = true;
-            inputBuffer = String.valueOf(value);
-            inputBuffer += '_';
-          } else if (inputEnabledElseWhere == false) {
-            saveToValue();
-            inputMode = false;
-            inputEnabledElseWhere = false;
-          }
-        } else {
-          mousePressedBuffer++;
-          if (mousePressedBuffer >= INPUT_TIME_LIMIT) {
-            mousePressedBuffer = 0;
+      if (mouseButton == LEFT) {
+        if ((mouseX > xPosition) && (mouseX < xPosition + buttonWidth) && (mouseY >= yPosition) && (mouseY <= yPosition + buttonHeight)) {
+          if (mousePressedBuffer == 0) {
+            mousePressedBuffer = 1;
+            if ((inputMode == false) && (inputEnabledElseWhere == false)) {
+              inputMode = true;
+              inputEnabledElseWhere = true;
+              inputBuffer = String.valueOf(value);
+              inputBuffer += '_';
+            } else if (inputEnabledElseWhere == false) {
+              saveToValue();
+              inputMode = false;
+              inputEnabledElseWhere = false;
+            }
+          } else {
+            mousePressedBuffer++;
+            if (mousePressedBuffer >= INPUT_TIME_LIMIT) {
+              mousePressedBuffer = 0;
+            }
           }
         }
       }
