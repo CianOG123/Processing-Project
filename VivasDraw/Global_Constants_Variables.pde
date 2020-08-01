@@ -3,7 +3,7 @@
 // User modifiable dimension variables
 float boxLength = 200;
 float boxWidth = 100;
-float boxHeight = 50;
+float boxHeight = 70;
 float thickness = 10;
 int jointAmount = 5;
 

@@ -153,7 +153,7 @@ private class GUI_Top {
 
   // Objects
   Text_Button exportButton;
-  SVG_Export svgExporter;
+  SVG_Export svgExporter;  // Is being used conditionally, ignore warning
 
   // Constants
   private static final int BACKGROUND_HEIGHT = 50;

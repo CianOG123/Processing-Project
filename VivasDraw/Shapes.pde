@@ -33,6 +33,8 @@ private class Shape_Center_Piece extends Shape_Template_Static {
 
   @Override
     void plotShape(PShape shape) {
+      
+      // Draw top
       centerPiece.vertex(thickness, thickness);
       centerPiece.vertex(thickness, thickness, thickness);
       
@@ -48,6 +50,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness);
       centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
       
+      // Right side
       centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness);
       centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness, thickness);
       
@@ -63,6 +66,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2));
       centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2), thickness);
       
+      //Bottom
       centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3)); 
       centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3), thickness); 
       
@@ -78,6 +82,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       centerPiece.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3));
       centerPiece.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3), thickness);
       
+      // Left side
       centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 3));
       centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 3), thickness);
       
