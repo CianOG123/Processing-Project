@@ -153,6 +153,11 @@ private class Graphic_Context_3D_Container {
     jointHeight = boxHeight / jointAmount;
   }
 
+  // Updates the side piece length (excluding joints)
+  private void refreshSidePieceLength() {
+    sidePieceLength = boxLength - (thickness * 2);
+  }
+
   // Updates the end piece length (excluding joints)
   private void refreshEndPieceLength() {
     endPieceLength = boxWidth - (thickness * 2);
@@ -166,10 +171,5 @@ private class Graphic_Context_3D_Container {
   // Updates the side piece joint length
   private void refreshSidePieceJointLength() {
     sidePieceJointLength = (sidePieceLength / 3);
-  }
-
-  // Updates the side piece length (excluding joints)
-  private void refreshSidePieceLength() {
-    sidePieceLength = boxLength - (thickness * 2);
   }
 }
