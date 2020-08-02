@@ -21,7 +21,6 @@ private class SVG_Export {
   private float thicknessConvert;
   private float jointHeightConvert;
   private float endPieceLengthConvert;
-  private float sidePieceLengthConvert;
   private float endPieceJointLengthConvert;
   private float sidePieceJointLengthConvert;
   private float endPieceCenterJointLengthConvert;
@@ -140,7 +139,6 @@ private class SVG_Export {
       thicknessConvert = thickness * PIXEL_TO_MILLIMETRE;
       jointHeightConvert = jointHeight * PIXEL_TO_MILLIMETRE;
       endPieceLengthConvert = endPieceLength * PIXEL_TO_MILLIMETRE;
-      sidePieceLengthConvert = sidePieceLength * PIXEL_TO_MILLIMETRE;
       endPieceJointLengthConvert = endPieceJointLength * PIXEL_TO_MILLIMETRE;
       sidePieceJointLengthConvert = sidePieceJointLength * PIXEL_TO_MILLIMETRE;
       endPieceCenterJointLengthConvert = endPieceCenterJointLength * PIXEL_TO_MILLIMETRE;
@@ -167,92 +165,108 @@ private class SVG_Export {
   private void plotSVGCenterPiece(boolean constructPiece, boolean multipleJoints, int xOffset, int yOffset) {
     if (constructPiece == true) {
 
-      // Construct Left Joints
+      // Construct Joints
       boolean wasDrawingOutwards = true;  // When set to true the joint will be plotted outwards, when false it will be plotted inwards
       if (multipleJoints == false) {
+        // Left
         svg.line(xOffset, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 2));
         svg.line(xOffset, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2));
         svg.line(xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset - thicknessConvert, yOffset + endPieceCenterJointLengthConvert);
         svg.line(xOffset - thicknessConvert, yOffset + endPieceCenterJointLengthConvert, xOffset, yOffset + endPieceCenterJointLengthConvert);
         svg.line(xOffset, yOffset + endPieceCenterJointLengthConvert, xOffset, yOffset);
+
+        // Right
+        svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset + endPieceCenterJointLengthConvert);
+        svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + endPieceCenterJointLengthConvert, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + endPieceCenterJointLengthConvert);
+        svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + endPieceCenterJointLengthConvert, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2));
+        svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2));
+        svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3));
       } else {
-        // Upwards
-        if (middleJointExtrude == true) {
-          // Creating center joint
+        // Creating center joint
+        float intrusionOffset = 0;
+        if (middleJointExtrude == false) {
+          intrusionOffset = thicknessConvert;
+        }
+        // Left
+        svg.line(xOffset - thicknessConvert + intrusionOffset, yOffset + (boxHeightConvert / 2) + (jointHeightConvert / 2) - thicknessConvert, xOffset - thicknessConvert + intrusionOffset, yOffset + (boxHeightConvert / 2) - (jointHeightConvert / 2) - thicknessConvert);
+        // Right
+        svg.line(xOffset + boxLengthConvert - thicknessConvert - intrusionOffset, yOffset + (boxHeightConvert / 2) + (jointHeightConvert / 2) - thicknessConvert, xOffset + boxLengthConvert - thicknessConvert - intrusionOffset, yOffset + (boxHeightConvert / 2) - (jointHeightConvert / 2) - thicknessConvert);
+
+        // Creating Main joints
+        float jointExtrudeStart = thicknessConvert;  // The start position of the given joint
+        float jointExtrudeEnd = 0; // The end position of the given joint
+        if (middleJointExtrude == false) {
+          wasDrawingOutwards = false;
+        }
+        float yJointOffset = (boxHeightConvert / 2) - (jointHeightConvert / 2) - thicknessConvert;
+        // Loop to create normal joints from center indefinitely
+        for (int i = 0; yOffset + yJointOffset - (jointHeightConvert * i) >= yOffset; i++) {
+          // Flipping direction of joints being drawn
+          if (wasDrawingOutwards == true) {
+            wasDrawingOutwards = false;
+            jointExtrudeStart = thicknessConvert;
+            jointExtrudeEnd = 0;
+          } else {
+            wasDrawingOutwards = true;
+            jointExtrudeStart = 0;
+            jointExtrudeEnd = thicknessConvert;
+          }
+          // Drawing horizontal
           // Left
-          svg.line(xOffset - thicknessConvert, yOffset + (boxHeightConvert / 2) + (jointHeightConvert / 2) - thicknessConvert, xOffset - thicknessConvert, yOffset + (boxHeightConvert / 2) - (jointHeightConvert / 2) - thicknessConvert);
+          // Up
+          svg.line(xOffset - jointExtrudeStart, yOffset + yJointOffset - (jointHeightConvert * i), xOffset - jointExtrudeEnd, yOffset + yJointOffset - (jointHeightConvert * i));
+          // Down
+          svg.line(xOffset - jointExtrudeStart, yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset - jointExtrudeEnd, yOffset + yJointOffset + (jointHeightConvert * (i + 1)));
           // Right
-          svg.line(xOffset + boxLengthConvert - thicknessConvert, yOffset + (boxHeightConvert / 2) + (jointHeightConvert / 2) - thicknessConvert, xOffset + boxLengthConvert - thicknessConvert, yOffset + (boxHeightConvert / 2) - (jointHeightConvert / 2) - thicknessConvert);
+          // Up
+          svg.line(xOffset - jointExtrudeStart + boxLengthConvert - thicknessConvert, yOffset + yJointOffset - (jointHeightConvert * i), xOffset - jointExtrudeEnd + boxLengthConvert - thicknessConvert, yOffset + yJointOffset - (jointHeightConvert * i));
+          // Down
+          svg.line(xOffset - jointExtrudeStart + boxLengthConvert - thicknessConvert, yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset - jointExtrudeEnd + boxLengthConvert - thicknessConvert, yOffset + yJointOffset + (jointHeightConvert * (i + 1)));
 
-
-          // Creating Main joints
-          float jointExtrudeStart = thicknessConvert;  // The start position of the given joint
-          float jointExtrudeEnd = 0; // The end position of the given joint
-          float yJointOffset = (boxHeightConvert / 2) - (jointHeightConvert / 2) - thicknessConvert;
-          // Loop to create normal joints from center indefinitely
-          for (int i = 0; yOffset + yJointOffset - (jointHeightConvert * i) >= yOffset; i++) {
-            // Flipping direction of joints being drawn
-            if (wasDrawingOutwards == true) {
-              wasDrawingOutwards = false;
-              jointExtrudeStart = thicknessConvert;
-              jointExtrudeEnd = 0;
-            } else {
-              wasDrawingOutwards = true;
-              jointExtrudeStart = 0;
-              jointExtrudeEnd = thicknessConvert;
-            }
-            // Drawing horizontal
+          // Drawing vertical
+          if (yOffset + yJointOffset - (jointHeightConvert * (i + 1)) > yOffset) {
             // Left
             // Up
-            svg.line(xOffset - jointExtrudeStart, yOffset + yJointOffset - (jointHeightConvert * i), xOffset - jointExtrudeEnd, yOffset + yJointOffset - (jointHeightConvert * i));
+            svg.line(xOffset - jointExtrudeEnd, yOffset + yJointOffset - (jointHeightConvert * i), xOffset - jointExtrudeEnd, yOffset + yJointOffset - (jointHeightConvert * (i + 1)));
             // Down
-            svg.line(xOffset - jointExtrudeStart, yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset - jointExtrudeEnd, yOffset + yJointOffset + (jointHeightConvert * (i + 1)));
+            svg.line(xOffset - jointExtrudeEnd, yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset - jointExtrudeEnd, yOffset + yJointOffset + (jointHeightConvert * (i + 2)));
+
             // Right
             // Up
-            svg.line(xOffset - jointExtrudeStart + boxLengthConvert - thicknessConvert, yOffset + yJointOffset - (jointHeightConvert * i), xOffset - jointExtrudeEnd + boxLengthConvert - thicknessConvert, yOffset + yJointOffset - (jointHeightConvert * i));
+            svg.line(xOffset + jointExtrudeEnd + boxLengthConvert - (thicknessConvert * 2), yOffset + yJointOffset - (jointHeightConvert * i), xOffset + jointExtrudeEnd + boxLengthConvert - (thicknessConvert * 2), yOffset + yJointOffset - (jointHeightConvert * (i + 1)));
             // Down
-            svg.line(xOffset - jointExtrudeStart + boxLengthConvert - thicknessConvert, yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset - jointExtrudeEnd + boxLengthConvert - thicknessConvert, yOffset + yJointOffset + (jointHeightConvert * (i + 1)));
-
-            // Drawing vertical
-            if (yOffset + yJointOffset - (jointHeightConvert * (i + 1)) > yOffset) {
-              // Left
+            svg.line(xOffset + jointExtrudeEnd + boxLengthConvert - (thicknessConvert * 2), yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset + jointExtrudeEnd + boxLengthConvert - (thicknessConvert * 2), yOffset + yJointOffset + (jointHeightConvert * (i + 2)));
+          }
+          
+          // Constructing odd joint vertical if all normal joints are created
+          if (yOffset + yJointOffset - (jointHeightConvert * (i + 1)) <= yOffset) {
+            // Inward ending
+            if (wasDrawingOutwards == false) {
+              // left
               // Up
-              svg.line(xOffset - jointExtrudeEnd, yOffset + yJointOffset - (jointHeightConvert * i), xOffset - jointExtrudeEnd, yOffset + yJointOffset - (jointHeightConvert * (i + 1)));
+              svg.line(xOffset + jointExtrudeStart - thicknessConvert, yOffset + yJointOffset - (jointHeightConvert * i), xOffset + jointExtrudeStart - thicknessConvert, yOffset);
               // Down
-              svg.line(xOffset - jointExtrudeEnd, yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset - jointExtrudeEnd, yOffset + yJointOffset + (jointHeightConvert * (i + 2)));
-
+              svg.line(xOffset + jointExtrudeStart - thicknessConvert, yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset + jointExtrudeStart - thicknessConvert, yOffset + boxHeightConvert -  (thicknessConvert * 2));
               // Right
               // Up
-              svg.line(xOffset + jointExtrudeEnd + boxLengthConvert - (thicknessConvert * 2), yOffset + yJointOffset - (jointHeightConvert * i), xOffset + jointExtrudeEnd + boxLengthConvert - (thicknessConvert * 2), yOffset + yJointOffset - (jointHeightConvert * (i + 1)));
+              svg.line(xOffset + jointExtrudeStart - thicknessConvert + (boxLengthConvert - (thicknessConvert * 2)), yOffset + yJointOffset - (jointHeightConvert * i), xOffset + jointExtrudeStart - thicknessConvert + (boxLengthConvert - (thicknessConvert * 2)), yOffset);
               // Down
-              svg.line(xOffset + jointExtrudeEnd + boxLengthConvert - (thicknessConvert * 2), yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset + jointExtrudeEnd + boxLengthConvert - (thicknessConvert * 2), yOffset + yJointOffset + (jointHeightConvert * (i + 2)));
+              svg.line(xOffset + jointExtrudeStart - thicknessConvert + (boxLengthConvert - (thicknessConvert * 2)), yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset + jointExtrudeStart - thicknessConvert + (boxLengthConvert - (thicknessConvert * 2)), yOffset + boxHeightConvert -  (thicknessConvert * 2));
+             
+              // Outward ending
+            } else {
+              println("yeet");
+              // Left
+              // Up
+              svg.line(xOffset + jointExtrudeStart - thicknessConvert, yOffset + yJointOffset - (jointHeightConvert * i), xOffset + jointExtrudeStart - thicknessConvert, yOffset);
+              // Down
+              svg.line(xOffset + jointExtrudeStart - thicknessConvert, yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset + jointExtrudeStart - thicknessConvert, yOffset + boxHeightConvert - (thicknessConvert * 2));
+              // Right
+              // Up
+              svg.line(xOffset + jointExtrudeStart - thicknessConvert + boxLengthConvert, yOffset + yJointOffset - (jointHeightConvert * i), xOffset + jointExtrudeStart - thicknessConvert + boxLengthConvert, yOffset);
+              // Down
+              svg.line(xOffset + jointExtrudeStart - thicknessConvert + boxLengthConvert, yOffset + yJointOffset + (jointHeightConvert * (i + 1)), xOffset + jointExtrudeStart - thicknessConvert + boxLengthConvert, yOffset + boxHeightConvert - (thicknessConvert * 2));
             }
-          }
-
-
-          // Constructing odd joint vertical
-          if (wasDrawingOutwards == false) {
-            // left
-            // Up
-            svg.line(xOffset + jointExtrudeStart - thicknessConvert, yOffset - thicknessConvert + (jointHeightConvert * 2), xOffset + jointExtrudeStart - thicknessConvert, yOffset);
-            // Down
-            svg.line(xOffset + jointExtrudeStart - thicknessConvert, yOffset + boxHeightConvert - (thicknessConvert * 2), xOffset + jointExtrudeStart - thicknessConvert, yOffset + boxHeightConvert - (thicknessConvert * 2) + thicknessConvert - (jointHeightConvert * 2));
-            // Right
-            // Up
-            svg.line(xOffset + jointExtrudeStart - thicknessConvert + (boxLengthConvert - (thicknessConvert * 2)), yOffset - thicknessConvert + (jointHeightConvert * 2), xOffset + jointExtrudeStart - thicknessConvert + (boxLengthConvert - (thicknessConvert * 2)), yOffset);
-            // Down
-            svg.line(xOffset + jointExtrudeStart - thicknessConvert + (boxLengthConvert - (thicknessConvert * 2)), yOffset + boxHeightConvert - (thicknessConvert * 2), xOffset + jointExtrudeStart - thicknessConvert + (boxLengthConvert - (thicknessConvert * 2)), yOffset + boxHeightConvert - (thicknessConvert * 2) + thicknessConvert - (jointHeightConvert * 2));
-          } else {
-            // Left
-            // Up
-            svg.line(xOffset + jointExtrudeStart - thicknessConvert, yOffset - thicknessConvert + jointHeightConvert, xOffset + jointExtrudeStart - thicknessConvert, yOffset);
-            // Down
-            svg.line(xOffset + jointExtrudeStart - thicknessConvert, yOffset + boxHeightConvert - (thicknessConvert * 2)+ thicknessConvert - jointHeightConvert, xOffset + jointExtrudeStart - thicknessConvert, yOffset + boxHeightConvert - (thicknessConvert * 2));
-            // Right
-            // Up
-            svg.line(xOffset + jointExtrudeStart - thicknessConvert + boxLengthConvert, yOffset - thicknessConvert + jointHeightConvert, xOffset + jointExtrudeStart - thicknessConvert + boxLengthConvert, yOffset);
-            // Down
-            svg.line(xOffset + jointExtrudeStart - thicknessConvert + boxLengthConvert, yOffset + boxHeightConvert - (thicknessConvert * 2)+ thicknessConvert - jointHeightConvert, xOffset + jointExtrudeStart - thicknessConvert + boxLengthConvert, yOffset + boxHeightConvert - (thicknessConvert * 2));
           }
         }
       }
@@ -279,16 +293,6 @@ private class SVG_Export {
         } else {
           svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset);
         }
-      }
-
-      // Construct Right
-      if (multipleJoints == false) {
-        svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset + endPieceCenterJointLengthConvert);
-        svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + endPieceCenterJointLengthConvert, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + endPieceCenterJointLengthConvert);
-        svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + endPieceCenterJointLengthConvert, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2));
-        svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2));
-        svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3));
-      } else {
       }
 
       // Construct Bottom
