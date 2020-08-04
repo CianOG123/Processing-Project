@@ -5,101 +5,238 @@
 private class Shape_Center_Piece extends Shape_Template_Static {
 
   // Objects
-  private PShape centerPiece;                // Declaring the side piece shape
+  private PShape topJoint, bottomJoint;                // Declaring the side piece shape
+  private PShape jointsUpperOne, jointsUpperTwo, jointsLowerOne, jointsLowerTwo;  // The dynamically generated joints of the center piece (used to easily draw multiple joints with same algorithm as .svg export)
 
   // Booleans
   // Extrude joints
   // note: A minimum of one extrude boolean must be set to true otherwise a floating piece will be created
-  private static final boolean extrudeThroughSide = false;  // When set to true the joints of the centre part will extend through the side of the piece
-  private static final boolean extrudeThroughTop = false;
-  private static final boolean extrudeThroughFloor = false;
+  private  boolean extrudeThroughSide = false;  // When set to true the joints of the centre part will extend through the side of the piece
+  private  boolean extrudeThroughTop = false;
+  private  boolean extrudeThroughFloor = false;
 
   // Joint Options
-  private static final boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
-  private static final boolean singleTopJoint = false;
-  private static final boolean singleFloorJoint = false;
+  private  boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
+  private  boolean singleTopJoint = false;
+  private  boolean singleFloorJoint = false;
+  private boolean wasDrawingOutwards = true;  // When set to true the joint will be plotted outwards, when false it will be plotted inwards
+  private boolean disableExtendedJoint = false;
 
   Shape_Center_Piece() {
-    centerPiece = createShape();
-    centerPiece.beginShape(TRIANGLE_STRIP);
-    initialise(centerPiece);
-    plotShape(centerPiece);
-    centerPiece.endShape(CLOSE);
+    disableExtendedJoint = false;
+    topJoint = createShape();
+    topJoint.beginShape(TRIANGLE_STRIP);
+    initialise(topJoint);
+    plotShape(topJoint);
+    topJoint.endShape();
+
+    bottomJoint = createShape();
+    bottomJoint.beginShape(TRIANGLE_STRIP);
+    initialise(bottomJoint);
+    plotShape(bottomJoint);
+    bottomJoint.endShape();
+
+    // Creating joints
+    getMiddleJointType();
+
+    jointsUpperOne = createShape();
+    jointsUpperOne.beginShape(TRIANGLE_STRIP);
+    initialise(jointsUpperOne);
+    plotJoints(jointsUpperOne, -sidePieceLength, thickness, true);
+    jointsUpperOne.endShape();
+
+    jointsUpperTwo = createShape();
+    jointsUpperTwo.beginShape(TRIANGLE_STRIP);
+    initialise(jointsUpperTwo);
+    plotJoints(jointsUpperTwo, -sidePieceLength, thickness, true);
+    jointsUpperTwo.endShape();
+
+    jointsLowerOne = createShape();
+    jointsLowerOne.beginShape(TRIANGLE_STRIP);
+    initialise(jointsLowerOne);
+    plotJoints(jointsLowerOne, -sidePieceLength, thickness, false);
+    jointsLowerOne.endShape();
+
+    jointsLowerTwo = createShape();
+    jointsLowerTwo.beginShape(TRIANGLE_STRIP);
+    initialise(jointsLowerTwo);
+    plotJoints(jointsLowerTwo, -sidePieceLength, thickness, false);
+    jointsLowerTwo.endShape();
   }
 
   private void draw() {
-    display(centerPiece);
+    display(topJoint);
+
+    graphicContext.pushMatrix();
+    {
+      graphicContext.rotateX(radians(180));
+      graphicContext.translate(0, -boxHeight, -thickness);
+      display(bottomJoint);
+    }
+    graphicContext.popMatrix();
+
+    graphicContext.pushMatrix();
+    {
+      graphicContext.translate(thickness, 0, thickness);
+      graphicContext.rotateY(radians(180));
+      display(jointsUpperOne);
+    }
+    graphicContext.popMatrix();
+
+    // Display joints upper two
+    graphicContext.pushMatrix();
+    {
+      graphicContext.translate(boxLength - thickness, 0, 0);
+      display(jointsUpperTwo);
+    }
+    graphicContext.popMatrix();
+
+    // Display joints lower one
+    graphicContext.pushMatrix();
+    {
+      graphicContext.rotateX(radians(180));
+      graphicContext.rotateY(radians(180));
+      graphicContext.translate(-thickness, -boxHeight, 0);
+      display(jointsLowerOne);
+    }
+    graphicContext.popMatrix();
+
+    // Display joints lower two
+    graphicContext.pushMatrix();
+    {
+      graphicContext.rotateX(radians(180));
+      graphicContext.translate(boxLength - thickness, -boxHeight, -thickness);
+      display(jointsLowerTwo);
+    }
+    graphicContext.popMatrix();
+  }
+
+  // Returns if the middle joint of the center piece should be extruded or intruded
+  private void getMiddleJointType() {
+    middleJointExtrude = false;
+    if ((jointAmount - 1) % 4 == 0) {
+      middleJointExtrude = true;
+    }
+  }
+
+  // Plot the dynamic multiple joints of a center piece quarter
+  private void plotJoints(PShape joint, float xOffset, float yOffset, boolean drawCenterJoint) {
+    // Construct Right Joints
+    wasDrawingOutwards = true;
+    if (multipleJoints == false) {
+
+      // Single joint
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + thickness, yOffset + thickness);
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + thickness, yOffset + thickness, thickness);
+
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + thickness, yOffset + thickness + endPieceCenterJointLength);
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + thickness, yOffset + thickness + endPieceCenterJointLength, thickness);
+
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + (thickness * 2), yOffset + thickness + endPieceCenterJointLength);
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + (thickness * 2), yOffset + thickness + endPieceCenterJointLength, thickness);
+
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + (thickness * 2), yOffset + thickness + (endPieceCenterJointLength * 2));
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + (thickness * 2), yOffset + thickness + (endPieceCenterJointLength * 2), thickness);
+
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + thickness, yOffset + thickness + (endPieceCenterJointLength * 2));
+      joint.vertex(xOffset + (sidePieceJointLength * 3) + thickness, yOffset + thickness + (endPieceCenterJointLength * 2), thickness);
+    } else {
+      // Creating center joint
+      float intrusionOffset = 0;
+      if (middleJointExtrude == false) {
+        intrusionOffset = thickness;
+      }
+      if (drawCenterJoint == true) {
+        joint.vertex(xOffset + boxLength - thickness - intrusionOffset, yOffset + (boxHeight / 2) + (jointHeight / 2) - thickness);
+        joint.vertex(xOffset + boxLength - thickness - intrusionOffset, yOffset + (boxHeight / 2) + (jointHeight / 2) - thickness, thickness);
+      }
+
+      joint.vertex(xOffset + boxLength - thickness - intrusionOffset, yOffset + (boxHeight / 2) - (jointHeight / 2) - thickness);
+      joint.vertex(xOffset + boxLength - thickness - intrusionOffset, yOffset + (boxHeight / 2) - (jointHeight / 2) - thickness, thickness);
+
+      // Creating Main joints
+      float jointExtrudeStart = thickness;  // The start position of the given joint
+      float jointExtrudeEnd = 0; // The end position of the given joint
+      if (middleJointExtrude == false) {
+        wasDrawingOutwards = false;
+      }
+      float yJointOffset = (boxHeight / 2) - (jointHeight / 2) - thickness;
+      // Loop to create normal joints from center indefinitely
+      for (int i = 0; yJointOffset - (jointHeight * i) >= 0; i++) {  // Add yOffset to both sides of condition if errors occur
+        // Flipping direction of joints being drawn
+        if (wasDrawingOutwards == true) {
+          wasDrawingOutwards = false;
+          jointExtrudeStart = thickness;
+          jointExtrudeEnd = 0;
+        } else {
+          wasDrawingOutwards = true;
+          jointExtrudeStart = 0;
+          jointExtrudeEnd = thickness;
+        }
+
+        // I dont think this is necessary, however I won't delete for now
+        //// Drawing horizontal
+        //if ((int) (yJointOffset - (jointHeight * i)) != 0) {
+        //  //joint.vertex(xOffset - jointExtrudeStart + boxLength - thickness, yOffset + yJointOffset - (jointHeight * i));
+        //  //joint.vertex(xOffset - jointExtrudeStart + boxLength - thickness, yOffset + yJointOffset - (jointHeight * i), thickness);
+        //} else {
+        //  disableExtendedJoint = true;
+        //  println("\nyo");
+        //}
+
+        // Drawing vertical
+        if (yJointOffset - (jointHeight * (i + 1)) > 0) {
+          joint.vertex(xOffset + jointExtrudeEnd + boxLength - (thickness * 2), yOffset + yJointOffset - (jointHeight * i));
+          joint.vertex(xOffset + jointExtrudeEnd + boxLength - (thickness * 2), yOffset + yJointOffset - (jointHeight * i), thickness);
+
+          joint.vertex(xOffset + jointExtrudeEnd + boxLength - (thickness * 2), yOffset + yJointOffset - (jointHeight * (i + 1)));
+          joint.vertex(xOffset + jointExtrudeEnd + boxLength - (thickness * 2), yOffset + yJointOffset - (jointHeight * (i + 1)), thickness);
+        }
+
+        // Constructing odd joint vertical if all normal joints are created
+        if (yJointOffset - (jointHeight * (i + 1)) <= 0) {
+          // Inward ending
+          if (wasDrawingOutwards == false) {
+            joint.vertex(xOffset + jointExtrudeStart - thickness + (boxLength - (thickness * 2)), yOffset + yJointOffset - (jointHeight * i));
+            joint.vertex(xOffset + jointExtrudeStart - thickness + (boxLength - (thickness * 2)), yOffset + yJointOffset - (jointHeight * i), thickness);
+
+            joint.vertex(xOffset + jointExtrudeStart - thickness + (boxLength - (thickness * 2)), yOffset);
+            joint.vertex(xOffset + jointExtrudeStart - thickness + (boxLength - (thickness * 2)), yOffset, thickness);
+          } else {
+            joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset + yJointOffset - (jointHeight * i));
+            joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset + yJointOffset - (jointHeight * i), thickness);
+
+            joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset);
+            joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset, thickness);
+          }
+        }
+      }
+    }
   }
 
   @Override
     void plotShape(PShape shape) {
-      
-      // Draw top
-      centerPiece.vertex(thickness, thickness);
-      centerPiece.vertex(thickness, thickness, thickness);
-      
-      centerPiece.vertex(sidePieceJointLength + thickness, thickness);
-      centerPiece.vertex(sidePieceJointLength + thickness, thickness,  thickness);
-      
-      centerPiece.vertex(sidePieceJointLength + thickness, 0);
-      centerPiece.vertex(sidePieceJointLength + thickness, 0, thickness);
-      
-      centerPiece.vertex((sidePieceJointLength * 2) + thickness, 0);
-      centerPiece.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
-     
-      centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness);
-      centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
-      
-      // Right side
-      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness);
-      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness, thickness);
-      
-      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + endPieceCenterJointLength);
-      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + endPieceCenterJointLength, thickness);
-      
-      centerPiece.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + endPieceCenterJointLength);
-      centerPiece.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + endPieceCenterJointLength, thickness);
-      
-      centerPiece.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + (endPieceCenterJointLength * 2));
-      centerPiece.vertex((sidePieceJointLength * 3) + (thickness * 2), thickness + (endPieceCenterJointLength * 2), thickness);
-      
-      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2));
-      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 2), thickness);
-      
-      //Bottom
-      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3)); 
-      centerPiece.vertex((sidePieceJointLength * 3) + thickness, thickness + (endPieceCenterJointLength * 3), thickness); 
-      
-      centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness + (endPieceCenterJointLength * 3));
-      centerPiece.vertex((sidePieceJointLength * 2) + thickness, thickness + (endPieceCenterJointLength * 3), thickness);
-      
-      centerPiece.vertex((sidePieceJointLength * 2) + thickness, (thickness * 2) + (endPieceCenterJointLength * 3));
-      centerPiece.vertex((sidePieceJointLength * 2) + thickness, (thickness * 2) + (endPieceCenterJointLength * 3), thickness);
-      
-      centerPiece.vertex(sidePieceJointLength + thickness, (thickness * 2) + (endPieceCenterJointLength * 3));
-      centerPiece.vertex(sidePieceJointLength + thickness, (thickness * 2) + (endPieceCenterJointLength * 3), thickness);
-      
-      centerPiece.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3));
-      centerPiece.vertex(sidePieceJointLength + thickness, thickness + (endPieceCenterJointLength * 3), thickness);
-      
-      // Left side
-      centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 3));
-      centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 3), thickness);
-      
-      centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 2));
-      centerPiece.vertex(thickness, thickness + (endPieceCenterJointLength * 2), thickness);
-      
-      centerPiece.vertex(0, thickness + (endPieceCenterJointLength * 2));
-      centerPiece.vertex(0, thickness + (endPieceCenterJointLength * 2), thickness);
-      
-       centerPiece.vertex(0, thickness + endPieceCenterJointLength);
-       centerPiece.vertex(0, thickness + endPieceCenterJointLength, thickness);
-       
-       centerPiece.vertex(thickness, thickness + endPieceCenterJointLength);
-       centerPiece.vertex(thickness, thickness + endPieceCenterJointLength, thickness);
-       
-       centerPiece.vertex(thickness, thickness);
-       centerPiece.vertex(thickness, thickness, thickness);      
+
+    // Draw top
+    shape.vertex(0, thickness);
+    shape.vertex(0, thickness, thickness);
+
+
+    shape.vertex(sidePieceJointLength + thickness, thickness);
+    shape.vertex(sidePieceJointLength + thickness, thickness, thickness);
+
+    shape.vertex(sidePieceJointLength + thickness, 0);
+    shape.vertex(sidePieceJointLength + thickness, 0, thickness);
+
+    shape.vertex((sidePieceJointLength * 2) + thickness, 0);
+    shape.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
+
+
+    shape.vertex((sidePieceJointLength * 2) + thickness, thickness);
+    shape.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
+
+    shape.vertex(boxLength, thickness); 
+    shape.vertex(boxLength, thickness, thickness);
   }
 }
 

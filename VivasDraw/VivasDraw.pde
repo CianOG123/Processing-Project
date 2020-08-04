@@ -16,6 +16,7 @@ private GUI_Main userInterface;
 void setup() {
   initialiseFonts();
   frameRate(60);
+  smooth();
   size(1280, 720, P3D); // Width, height, and depth of screen
 
   // Initialising Objects

@@ -16,6 +16,8 @@ float endPieceJointLength = endPieceLength / 3;                        // Used t
 float sidePieceJointLength = (sidePieceLength / 3);
 float endPieceCenterJointLength = ((boxHeight - (thickness * 2)) / 3);
 int measurementType = MILLIMETRE;
+boolean multipleJoints = true;  // When set to true multiple joints will be drawn along the center piece
+boolean middleJointExtrude = false;  // When set to true the middle joint of the center piece will be extruded
 
 // Translation Variables
 float globalYRotate = 0;     // The rotation applied to the geometry every frame, used for auto rotate
