@@ -65,12 +65,17 @@ private class Shape_Center_Piece extends Shape_Template_Static {
   }
 
   private void draw() {
-    display(topJoint);
+    graphicContext.pushMatrix();
+    {
+      graphicContext.translate(thickness, 0, 0);
+      display(topJoint);
+    }
+    graphicContext.popMatrix();
 
     graphicContext.pushMatrix();
     {
       graphicContext.rotateX(radians(180));
-      graphicContext.translate(0, -boxHeight, -thickness);
+      graphicContext.translate(thickness, -boxHeight, -thickness);
       display(bottomJoint);
     }
     graphicContext.popMatrix();
@@ -175,17 +180,17 @@ private class Shape_Center_Piece extends Shape_Template_Static {
         }
 
         // I dont think this is necessary, however I won't delete for now
-        //// Drawing horizontal
-        //if ((int) (yJointOffset - (jointHeight * i)) != 0) {
-        //  //joint.vertex(xOffset - jointExtrudeStart + boxLength - thickness, yOffset + yJointOffset - (jointHeight * i));
-        //  //joint.vertex(xOffset - jointExtrudeStart + boxLength - thickness, yOffset + yJointOffset - (jointHeight * i), thickness);
-        //} else {
-        //  disableExtendedJoint = true;
-        //  println("\nyo");
-        //}
+        // Drawing horizontal
+        if ((int) (yOffset + yJointOffset - (jointHeight * i)) != (int) yOffset) {
+          joint.vertex(xOffset - jointExtrudeStart + boxLength - thickness, yOffset + yJointOffset - (jointHeight * i));
+          joint.vertex(xOffset - jointExtrudeStart + boxLength - thickness, yOffset + yJointOffset - (jointHeight * i), thickness);
+        } else {
+          disableExtendedJoint = true;
+          println("\nyo");
+        }
 
         // Drawing vertical
-        if (yJointOffset - (jointHeight * (i + 1)) > 0) {
+        if (yOffset + yJointOffset - (jointHeight * (i + 1)) > yOffset) {
           joint.vertex(xOffset + jointExtrudeEnd + boxLength - (thickness * 2), yOffset + yJointOffset - (jointHeight * i));
           joint.vertex(xOffset + jointExtrudeEnd + boxLength - (thickness * 2), yOffset + yJointOffset - (jointHeight * i), thickness);
 
@@ -194,7 +199,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
         }
 
         // Constructing odd joint vertical if all normal joints are created
-        if (yJointOffset - (jointHeight * (i + 1)) <= 0) {
+        if (yOffset + yJointOffset - (jointHeight * (i + 1)) <= yOffset) {
           // Inward ending
           if (wasDrawingOutwards == false) {
             joint.vertex(xOffset + jointExtrudeStart - thickness + (boxLength - (thickness * 2)), yOffset + yJointOffset - (jointHeight * i));
@@ -217,26 +222,87 @@ private class Shape_Center_Piece extends Shape_Template_Static {
   @Override
     void plotShape(PShape shape) {
 
+    // Construct Top
+    if (multipleJoints == false) {
+      shape.vertex(0, thickness);
+      shape.vertex(0, thickness, thickness);
+
+      shape.vertex(sidePieceJointLength, thickness);
+      shape.vertex(sidePieceJointLength, thickness, thickness);
+    } else {
+      if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
+
+        shape.vertex(-thickness, thickness);
+        shape.vertex(-thickness, thickness, thickness);
+
+        shape.vertex(sidePieceJointLength, thickness);
+        shape.vertex(sidePieceJointLength, thickness, thickness);
+      } else {
+        shape.vertex(0, thickness);
+        shape.vertex(0, thickness, thickness);
+
+        shape.vertex(sidePieceJointLength, thickness);
+        shape.vertex(sidePieceJointLength, thickness, thickness);
+      }
+    }
+    shape.vertex(sidePieceJointLength, thickness);
+    shape.vertex(sidePieceJointLength, thickness, thickness);
+
+    shape.vertex(sidePieceJointLength, 0);
+    shape.vertex(sidePieceJointLength, 0, thickness);
+
+    shape.vertex((sidePieceJointLength * 2), 0);
+    shape.vertex((sidePieceJointLength * 2), 0, thickness);
+
+    shape.vertex((sidePieceJointLength * 2), 0);
+    shape.vertex((sidePieceJointLength * 2), 0, thickness);
+
+    shape.vertex((sidePieceJointLength * 2), thickness);
+    shape.vertex((sidePieceJointLength * 2), thickness, thickness);
+
+
+    if (multipleJoints == false) {
+      shape.vertex((sidePieceJointLength * 2), thickness);
+      shape.vertex((sidePieceJointLength * 2), thickness, thickness);
+
+      shape.vertex((sidePieceJointLength * 3), thickness);
+      shape.vertex((sidePieceJointLength * 3), thickness, thickness);
+    } else {
+      if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
+        shape.vertex((sidePieceJointLength * 2), thickness);
+        shape.vertex((sidePieceJointLength * 2), thickness, thickness);
+
+        shape.vertex((sidePieceJointLength * 3) + thickness, thickness);
+        shape.vertex((sidePieceJointLength * 3) + thickness, thickness, thickness);
+      } else {
+        shape.vertex((sidePieceJointLength * 2), thickness);
+        shape.vertex((sidePieceJointLength * 2), thickness, thickness);
+
+        shape.vertex((sidePieceJointLength * 3), thickness);
+        shape.vertex((sidePieceJointLength * 3), thickness, thickness);
+      }
+    }
+
     // Draw top
-    shape.vertex(0, thickness);
-    shape.vertex(0, thickness, thickness);
+    //shape.vertex(0, thickness);
+    //shape.vertex(0, thickness, thickness);
 
 
-    shape.vertex(sidePieceJointLength + thickness, thickness);
-    shape.vertex(sidePieceJointLength + thickness, thickness, thickness);
+    //shape.vertex(sidePieceJointLength + thickness, thickness);
+    //shape.vertex(sidePieceJointLength + thickness, thickness, thickness);
 
-    shape.vertex(sidePieceJointLength + thickness, 0);
-    shape.vertex(sidePieceJointLength + thickness, 0, thickness);
+    //shape.vertex(sidePieceJointLength + thickness, 0);
+    //shape.vertex(sidePieceJointLength + thickness, 0, thickness);
 
-    shape.vertex((sidePieceJointLength * 2) + thickness, 0);
-    shape.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
+    //shape.vertex((sidePieceJointLength * 2) + thickness, 0);
+    //shape.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
 
 
-    shape.vertex((sidePieceJointLength * 2) + thickness, thickness);
-    shape.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
+    //shape.vertex((sidePieceJointLength * 2) + thickness, thickness);
+    //shape.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
 
-    shape.vertex(boxLength, thickness); 
-    shape.vertex(boxLength, thickness, thickness);
+    //shape.vertex(boxLength, thickness); 
+    //shape.vertex(boxLength, thickness, thickness);
   }
 }
 
