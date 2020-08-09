@@ -49,4 +49,8 @@ private class Shape_Template_Static implements Shape_Interface {
   void plotShape(PShape shape) {
     println("\nShape override failure.");
   }
+  
+  void plotShape(PShape shape, boolean isTopPiece) {
+    println("\nShape override failure.");
+  }
 }

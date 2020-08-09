@@ -11,30 +11,16 @@ private class Shape_Center_Piece extends Shape_Template_Static {
   // Booleans
   // Extrude joints
   // note: A minimum of one extrude boolean must be set to true otherwise a floating piece will be created
-  private  boolean extrudeThroughSide = false;  // When set to true the joints of the centre part will extend through the side of the piece
-  private  boolean extrudeThroughTop = false;
-  private  boolean extrudeThroughFloor = false;
+  private  boolean extrudeThroughSide = true;  // When set to true the joints of the centre part will extend through the side of the piece
+  private  boolean extrudeThroughTop = true;
+  private  boolean extrudeThroughFloor = true;
 
   // Joint Options
   private  boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
-  private  boolean singleTopJoint = false;
-  private  boolean singleFloorJoint = false;
-  private boolean wasDrawingOutwards = true;  // When set to true the joint will be plotted outwards, when false it will be plotted inwards
-  private boolean disableExtendedJoint = false;
+  private boolean wasDrawingOutwards = false;  // When set to true the joint will be plotted outwards, when false it will be plotted inwards
+  private boolean disableExtendedJoint = false;  // Disables the top piece extension when set to true
 
   Shape_Center_Piece() {
-    disableExtendedJoint = false;
-    topJoint = createShape();
-    topJoint.beginShape(TRIANGLE_STRIP);
-    initialise(topJoint);
-    plotShape(topJoint);
-    topJoint.endShape();
-
-    bottomJoint = createShape();
-    bottomJoint.beginShape(TRIANGLE_STRIP);
-    initialise(bottomJoint);
-    plotShape(bottomJoint);
-    bottomJoint.endShape();
 
     // Creating joints
     getMiddleJointType();
@@ -62,6 +48,18 @@ private class Shape_Center_Piece extends Shape_Template_Static {
     initialise(jointsLowerTwo);
     plotJoints(jointsLowerTwo, -sidePieceLength, thickness, false);
     jointsLowerTwo.endShape();
+
+    topJoint = createShape();
+    topJoint.beginShape(TRIANGLE_STRIP);
+    initialise(topJoint);
+    plotShape(topJoint, true);
+    topJoint.endShape();
+
+    bottomJoint = createShape();
+    bottomJoint.beginShape(TRIANGLE_STRIP);
+    initialise(bottomJoint);
+    plotShape(bottomJoint, false);
+    bottomJoint.endShape();
   }
 
   private void draw() {
@@ -146,6 +144,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       joint.vertex(xOffset + (sidePieceJointLength * 3) + thickness, yOffset + thickness + (endPieceCenterJointLength * 2));
       joint.vertex(xOffset + (sidePieceJointLength * 3) + thickness, yOffset + thickness + (endPieceCenterJointLength * 2), thickness);
     } else {
+
       // Creating center joint
       float intrusionOffset = 0;
       if (middleJointExtrude == false) {
@@ -179,9 +178,9 @@ private class Shape_Center_Piece extends Shape_Template_Static {
           jointExtrudeEnd = thickness;
         }
 
-        // I dont think this is necessary, however I won't delete for now
         // Drawing horizontal
         if ((int) (yOffset + yJointOffset - (jointHeight * i)) != (int) yOffset) {
+          disableExtendedJoint = false;
           joint.vertex(xOffset - jointExtrudeStart + boxLength - thickness, yOffset + yJointOffset - (jointHeight * i));
           joint.vertex(xOffset - jointExtrudeStart + boxLength - thickness, yOffset + yJointOffset - (jointHeight * i), thickness);
         } else {
@@ -208,11 +207,13 @@ private class Shape_Center_Piece extends Shape_Template_Static {
             joint.vertex(xOffset + jointExtrudeStart - thickness + (boxLength - (thickness * 2)), yOffset);
             joint.vertex(xOffset + jointExtrudeStart - thickness + (boxLength - (thickness * 2)), yOffset, thickness);
           } else {
-            joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset + yJointOffset - (jointHeight * i));
-            joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset + yJointOffset - (jointHeight * i), thickness);
+            if (disableExtendedJoint == false) {
+              joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset + yJointOffset - (jointHeight * i));
+              joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset + yJointOffset - (jointHeight * i), thickness);
 
-            joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset);
-            joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset, thickness);
+              joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset);
+              joint.vertex(xOffset + jointExtrudeStart - thickness + boxLength, yOffset, thickness);
+            }
           }
         }
       }
@@ -220,95 +221,56 @@ private class Shape_Center_Piece extends Shape_Template_Static {
   }
 
   @Override
-    void plotShape(PShape shape) {
+    void plotShape(PShape shape, boolean isTopPiece) {
+    boolean extrudeJoint = extrudeThroughFloor;
+    if (isTopPiece == true) {
+      extrudeJoint = extrudeThroughTop;
+    }
 
-    // Construct Top
-    if (multipleJoints == false) {
+    // Draw joint inwards
+    if ((wasDrawingOutwards == false) || (disableExtendedJoint == true)) {
       shape.vertex(0, thickness);
       shape.vertex(0, thickness, thickness);
-
-      shape.vertex(sidePieceJointLength, thickness);
-      shape.vertex(sidePieceJointLength, thickness, thickness);
-    } else {
-      if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
-
-        shape.vertex(-thickness, thickness);
-        shape.vertex(-thickness, thickness, thickness);
-
-        shape.vertex(sidePieceJointLength, thickness);
-        shape.vertex(sidePieceJointLength, thickness, thickness);
-      } else {
-        shape.vertex(0, thickness);
-        shape.vertex(0, thickness, thickness);
-
-        shape.vertex(sidePieceJointLength, thickness);
-        shape.vertex(sidePieceJointLength, thickness, thickness);
-      }
     }
-    shape.vertex(sidePieceJointLength, thickness);
-    shape.vertex(sidePieceJointLength, thickness, thickness);
-
-    shape.vertex(sidePieceJointLength, 0);
-    shape.vertex(sidePieceJointLength, 0, thickness);
-
-    shape.vertex((sidePieceJointLength * 2), 0);
-    shape.vertex((sidePieceJointLength * 2), 0, thickness);
-
-    shape.vertex((sidePieceJointLength * 2), 0);
-    shape.vertex((sidePieceJointLength * 2), 0, thickness);
-
-    shape.vertex((sidePieceJointLength * 2), thickness);
-    shape.vertex((sidePieceJointLength * 2), thickness, thickness);
-
-
-    if (multipleJoints == false) {
-      shape.vertex((sidePieceJointLength * 2), thickness);
-      shape.vertex((sidePieceJointLength * 2), thickness, thickness);
-
-      shape.vertex((sidePieceJointLength * 3), thickness);
-      shape.vertex((sidePieceJointLength * 3), thickness, thickness);
-    } else {
-      if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
-        shape.vertex((sidePieceJointLength * 2), thickness);
-        shape.vertex((sidePieceJointLength * 2), thickness, thickness);
-
-        shape.vertex((sidePieceJointLength * 3) + thickness, thickness);
-        shape.vertex((sidePieceJointLength * 3) + thickness, thickness, thickness);
-      } else {
-        shape.vertex((sidePieceJointLength * 2), thickness);
-        shape.vertex((sidePieceJointLength * 2), thickness, thickness);
-
-        shape.vertex((sidePieceJointLength * 3), thickness);
-        shape.vertex((sidePieceJointLength * 3), thickness, thickness);
-      }
+    // Draw joint Outwards
+    else {
+      shape.vertex(-thickness, thickness);
+      shape.vertex(-thickness, thickness, thickness);
     }
 
-    // Draw top
-    //shape.vertex(0, thickness);
-    //shape.vertex(0, thickness, thickness);
+    // Drawing top joint
+    if (extrudeJoint == true) {
+      shape.vertex(sidePieceJointLength + thickness, thickness);
+      shape.vertex(sidePieceJointLength + thickness, thickness, thickness);
+
+      shape.vertex(sidePieceJointLength + thickness, 0);
+      shape.vertex(sidePieceJointLength + thickness, 0, thickness);
+
+      shape.vertex((sidePieceJointLength * 2) + thickness, 0);
+      shape.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
 
 
-    //shape.vertex(sidePieceJointLength + thickness, thickness);
-    //shape.vertex(sidePieceJointLength + thickness, thickness, thickness);
+      shape.vertex((sidePieceJointLength * 2) + thickness, thickness);
+      shape.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
+    }
 
-    //shape.vertex(sidePieceJointLength + thickness, 0);
-    //shape.vertex(sidePieceJointLength + thickness, 0, thickness);
+    // Draw joint inwards
+    if ((wasDrawingOutwards == false) || (disableExtendedJoint == true)) {
+      shape.vertex(sidePieceLength, thickness); 
+      shape.vertex(sidePieceLength, thickness, thickness);
+    }
 
-    //shape.vertex((sidePieceJointLength * 2) + thickness, 0);
-    //shape.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
-
-
-    //shape.vertex((sidePieceJointLength * 2) + thickness, thickness);
-    //shape.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
-
-    //shape.vertex(boxLength, thickness); 
-    //shape.vertex(boxLength, thickness, thickness);
+    // Draw joint outwards
+    else {
+      shape.vertex(sidePieceLength + thickness, thickness); 
+      shape.vertex(sidePieceLength + thickness, thickness, thickness);
+    }
   }
 }
 
 
 /**
- *  Class that can plot and draw a floor/ top piece to the screen.
+ *  Class that can plot and draw a floor/top piece to the screen.
  *  By Cian O'Gorman 16-07-2020.
  */
 private class Shape_Floor_Piece extends Shape_Template_Static {
