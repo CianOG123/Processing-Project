@@ -127,11 +127,14 @@ private class SVG_Export {
 
   // Calculates the length of the joints being used on the center piece
   private void getOddJointLengthConvert() {
-    if (jointHeightConvert <= thicknessConvert) {
-      println("\nExcluding joints from center piece render.");
-    } else {
-      oddJointLengthConvert = jointHeightConvert - thicknessConvert;
+    float jointAccumulation = 0;
+    while (jointAccumulation <= thicknessConvert) {
+      jointAccumulation += (jointHeightConvert * 2);
     }
+    if(jointAccumulation >= jointHeightConvert){
+      jointAccumulation -= jointHeightConvert;
+    }
+    oddJointLengthConvert = jointAccumulation - thicknessConvert;
   }
 
   // Returns if the middle joint of the center piece should be extruded or intruded
@@ -434,8 +437,8 @@ private class SVG_Export {
           if (jointYPositionConvert > thicknessConvert + oddJointLengthConvert) {
             svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointYPositionConvert, xOffset + ((boxWidthConvert - thicknessConvert) / 2), yOffset + jointYPositionConvert);
             svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2), yOffset + jointYPositionConvert, xOffset + ((boxWidthConvert - thicknessConvert) / 2), yOffset + jointYPositionConvert + jointHeightConvert);
-            svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2), yOffset + jointYPositionConvert + jointHeightConvert, xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointYPositionConvert + thicknessConvert);
-            svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointYPositionConvert + thicknessConvert, xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointYPositionConvert);
+            svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2), yOffset + jointYPositionConvert + jointHeightConvert, xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointYPositionConvert + jointHeightConvert);
+            svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointYPositionConvert + jointHeightConvert, xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointYPositionConvert);
           }
         }
       } else {

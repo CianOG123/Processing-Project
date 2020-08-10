@@ -185,7 +185,6 @@ private class Shape_Center_Piece extends Shape_Template_Static {
           joint.vertex(xOffset - jointExtrudeStart + boxLength - thickness, yOffset + yJointOffset - (jointHeight * i), thickness);
         } else {
           disableExtendedJoint = true;
-          println("\nyo");
         }
 
         // Drawing vertical
