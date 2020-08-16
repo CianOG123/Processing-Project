@@ -14,9 +14,9 @@ private class Shape_Center_Piece extends Shape_Template_Static {
   private  boolean extrudeThroughSide = true;  // When set to true the joints of the centre part will extend through the side of the piece
   private  boolean extrudeThroughTop = true;
   private  boolean extrudeThroughFloor = true;
+  private  boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
 
   // Joint Options
-  private  boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
   private boolean wasDrawingOutwards = false;  // When set to true the joint will be plotted outwards, when false it will be plotted inwards
   private boolean disableExtendedJoint = false;  // Disables the top piece extension when set to true
 
