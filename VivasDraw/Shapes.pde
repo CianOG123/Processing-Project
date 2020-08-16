@@ -219,6 +219,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
     }
   }
 
+  // Plots the top and bottom side of the center piece
   @Override
     void plotShape(PShape shape, boolean isTopPiece) {
     boolean extrudeJoint = extrudeThroughFloor;
@@ -239,18 +240,18 @@ private class Shape_Center_Piece extends Shape_Template_Static {
 
     // Drawing top joint
     if (extrudeJoint == true) {
-      shape.vertex(sidePieceJointLength + thickness, thickness);
-      shape.vertex(sidePieceJointLength + thickness, thickness, thickness);
+      shape.vertex(sidePieceJointLength, thickness);
+      shape.vertex(sidePieceJointLength, thickness, thickness);
 
-      shape.vertex(sidePieceJointLength + thickness, 0);
-      shape.vertex(sidePieceJointLength + thickness, 0, thickness);
+      shape.vertex(sidePieceJointLength, 0);
+      shape.vertex(sidePieceJointLength, 0, thickness);
 
-      shape.vertex((sidePieceJointLength * 2) + thickness, 0);
-      shape.vertex((sidePieceJointLength * 2) + thickness, 0, thickness);
+      shape.vertex((sidePieceJointLength * 2), 0);
+      shape.vertex((sidePieceJointLength * 2), 0, thickness);
 
 
-      shape.vertex((sidePieceJointLength * 2) + thickness, thickness);
-      shape.vertex((sidePieceJointLength * 2) + thickness, thickness, thickness);
+      shape.vertex((sidePieceJointLength * 2), thickness);
+      shape.vertex((sidePieceJointLength * 2), thickness, thickness);
     }
 
     // Draw joint inwards
