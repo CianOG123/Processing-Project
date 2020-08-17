@@ -24,6 +24,7 @@ private class SVG_Export {
   private float endPieceLengthConvert;
   private float endPieceJointLengthConvert;
   private float sidePieceJointLengthConvert;
+  private float topPieceJointLengthConvert;
   private float endPieceCenterJointLengthConvert;
   private float oddJointLengthConvert;
 
@@ -126,6 +127,7 @@ private class SVG_Export {
       endPieceJointLengthConvert = endPieceJointLength * PIXEL_TO_MILLIMETRE;
       sidePieceJointLengthConvert = sidePieceJointLength * PIXEL_TO_MILLIMETRE;
       endPieceCenterJointLengthConvert = endPieceCenterJointLength * PIXEL_TO_MILLIMETRE;
+      topPieceJointLengthConvert = topPieceJointLength * PIXEL_TO_MILLIMETRE;
     }
   }
 
@@ -328,7 +330,7 @@ private class SVG_Export {
     }
   }
 
-  // Plots a .svg top piece to th screen, can also be used for floor pieces
+  // Plots a top piece to the screen, can also be used for floor pieces
   private void plotSVGTopPiece(boolean constructPiece, int xOffset, int yOffset) {
     if (constructPiece == true) {
       // Top side
@@ -363,9 +365,9 @@ private class SVG_Export {
       if (constructCenter == true) {
         if (constructCrossPiece == true) {
          svg.line(xOffset + sidePieceJointLengthConvert, yOffset + ((endPieceLengthConvert - thicknessConvert) / 2), xOffset + ((sidePieceLengthConvert - thicknessConvert) / 2), yOffset + ((endPieceLengthConvert - thicknessConvert) / 2));
-         svg.line(xOffset + ((sidePieceLengthConvert - thicknessConvert) / 2), yOffset + ((endPieceLengthConvert - thicknessConvert) / 2),xOffset + ((sidePieceLengthConvert - thicknessConvert) / 2),yOffset + ((endPieceJointLengthConvert - thicknessConvert) / 2));
-         svg.line(0,0,0,0);
-         svg.line(0,0,0,0);
+         svg.line(xOffset + ((sidePieceLengthConvert - thicknessConvert) / 2), yOffset + ((endPieceLengthConvert - thicknessConvert) / 2), xOffset + ((sidePieceLengthConvert - thicknessConvert) / 2), yOffset + endPieceJointLengthConvert);
+         svg.line(xOffset + ((sidePieceLengthConvert - thicknessConvert) / 2), yOffset + endPieceJointLengthConvert, xOffset + ((sidePieceLengthConvert + thicknessConvert) / 2), yOffset + endPieceJointLengthConvert);
+         svg.line(xOffset + ((sidePieceLengthConvert + thicknessConvert) / 2), yOffset + ((endPieceLengthConvert - thicknessConvert) / 2), xOffset + ((sidePieceLengthConvert + thicknessConvert) / 2), yOffset + endPieceJointLengthConvert);
          svg.line(0,0,0,0);
          svg.line(0,0,0,0);
          svg.line(0,0,0,0);

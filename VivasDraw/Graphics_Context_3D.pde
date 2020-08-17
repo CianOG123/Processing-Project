@@ -136,11 +136,17 @@ private class Graphic_Context_3D_Container {
       refreshSidePieceLength();
       refreshSidePieceJointLength();
       refreshEndPieceCenterJointLength();
+      refreshTopPieceJointLength();
       boxOpenThrough = new Box_Open_Through(graphicContainer);
       boxOpenTop = new Box_Open_Top(graphicContainer);
       boxClosed = new Box_Closed(graphicContainer);
       boxCenterPart = new Box_Center_Part(graphicContainer);
     }
+  }
+  
+  // Updates the top piece (end side) joint length
+  private void refreshTopPieceJointLength() {
+    topPieceJointLength = (boxWidth / 3);
   }
 
   // Updates the end piece center joint length

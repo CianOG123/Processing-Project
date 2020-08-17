@@ -14,6 +14,7 @@ float endPieceLength = boxWidth - (thickness * 2);
 float sidePieceLength = boxLength - (thickness * 2);
 float endPieceJointLength = endPieceLength / 3;                        // Used to set the starting position of the top and bottom joint
 float sidePieceJointLength = (sidePieceLength / 3);
+float topPieceJointLength = (boxWidth / 3);
 float endPieceCenterJointLength = ((boxHeight - (thickness * 2)) / 3);
 int measurementType = MILLIMETRE;
 boolean multipleJoints = true;  // When set to true multiple joints will be drawn along the center piece
