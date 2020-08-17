@@ -92,7 +92,7 @@ private class SVG_Export {
       canvasWidth += (int) boxLengthConvert + (BOUNDARY * 2);
     }
 
-    if (constructTop == true) {
+    if (constructBottom == true) {
       canvasWidth += (int) boxLengthConvert + BOUNDARY;
     }
 
@@ -106,8 +106,8 @@ private class SVG_Export {
     plotSVGSidePiece(BOUNDARY, (int) boxHeightConvert + (BOUNDARY * 2));
     plotSVGEndPiece((int) (boxLengthConvert + thicknessConvert)+ (BOUNDARY * 2), BOUNDARY);
     plotSVGEndPiece((int) (boxLengthConvert + thicknessConvert) + (BOUNDARY * 2), (int) boxHeightConvert + (BOUNDARY * 2));
-    plotSVGTopPiece(constructTop, (int) (boxLengthConvert + boxWidthConvert + thicknessConvert + (BOUNDARY * 3)), BOUNDARY + (int) thicknessConvert);
-    plotSVGTopPiece(constructBottom, (int) ((boxLengthConvert * 2) + boxWidthConvert + thicknessConvert + (BOUNDARY * 4)), BOUNDARY + (int) thicknessConvert);
+    plotSVGTopPiece(constructBottom, (int) (boxLengthConvert + boxWidthConvert + thicknessConvert + (BOUNDARY * 3)), BOUNDARY + (int) thicknessConvert);
+    plotSVGTopPiece(constructTop, (int) ((boxLengthConvert * 2) + boxWidthConvert + thicknessConvert + (BOUNDARY * 4)), BOUNDARY + (int) thicknessConvert);
     plotSVGCenterPiece(constructCenter, multipleJoints, BOUNDARY + (int) thicknessConvert, (int) ((boxHeightConvert * 2) + thicknessConvert) + (BOUNDARY * 3));
     svg.dispose();
     svg.endDraw();
@@ -170,6 +170,7 @@ private class SVG_Export {
         svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2));
         svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3));
       } else {
+        
         // Creating center joint
         float intrusionOffset = 0;
         if (middleJointExtrude == false) {
