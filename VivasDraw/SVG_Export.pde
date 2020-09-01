@@ -58,7 +58,7 @@ private class SVG_Export {
       constructTop = true;
       constructBottom = true;
       constructCenter = true;
-      multipleJoints = false;
+      multipleJoints = true;
       getOddJointLengthConvert();
       getMiddleJointType();
       break;

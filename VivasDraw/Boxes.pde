@@ -32,7 +32,11 @@ private class Box_Center_Part implements Box_Template {
   private Shape_Floor_Piece topPiece;
   private Shape_Center_Piece centerPiece;
 
+  // Creates a box with a center part
   Box_Center_Part(PGraphics graphicContext) {
+    // Initialising booleans
+    constructCrossPiece = true;
+
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
     sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
@@ -146,6 +150,9 @@ private class Box_Closed implements Box_Template {
   private Shape_Floor_Piece topPiece;
 
   Box_Closed(PGraphics graphicContext) {
+    // Initialising booleans
+    constructCrossPiece = false;
+
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
     sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
@@ -247,6 +254,9 @@ private class Box_Open_Top implements Box_Template {
   private Shape_Floor_Piece floorPiece;
 
   Box_Open_Top(PGraphics graphicContext) {
+    // Initialising booleans
+    constructCrossPiece = false;
+
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
     sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
@@ -339,6 +349,9 @@ private class Box_Open_Through implements Box_Template {
   private Shape_End_Piece endPieceTwo;
 
   Box_Open_Through(PGraphics graphicContext) {
+    // Initialising booleans
+    constructCrossPiece = false;
+
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
     sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);

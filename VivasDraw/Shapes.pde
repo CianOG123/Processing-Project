@@ -246,6 +246,20 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       shape.vertex(sidePieceJointLength, 0);
       shape.vertex(sidePieceJointLength, 0, thickness);
 
+      if ((isTopPiece == false) && (constructCrossPiece == true)) {
+        shape.vertex(((boxLength - thickness) / 2) - thickness, 0);
+        shape.vertex(((boxLength - thickness) / 2) - thickness, 0, thickness);
+        
+        shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2));
+        shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2), thickness);
+        
+        shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2));
+        shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2), thickness);
+        
+        shape.vertex(((boxLength + thickness) / 2) - thickness, 0);
+        shape.vertex(((boxLength + thickness) / 2) - thickness, 0, thickness);
+      }
+
       shape.vertex((sidePieceJointLength * 2), 0);
       shape.vertex((sidePieceJointLength * 2), 0, thickness);
 
