@@ -13,7 +13,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
   // note: A minimum of one extrude boolean must be set to true otherwise a floating piece will be created
   private  boolean extrudeThroughSide = true;  // When set to true the joints of the centre part will extend through the side of the piece
   private  boolean extrudeThroughTop = true;
-  private  boolean extrudeThroughFloor = true;
+  private  boolean extrudeThroughFloor = false;
   private  boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
 
   // Joint Options
@@ -246,16 +246,17 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       shape.vertex(sidePieceJointLength, 0);
       shape.vertex(sidePieceJointLength, 0, thickness);
 
+      // Draw Cross section slot with top joint
       if ((isTopPiece == false) && (constructCrossPiece == true)) {
         shape.vertex(((boxLength - thickness) / 2) - thickness, 0);
         shape.vertex(((boxLength - thickness) / 2) - thickness, 0, thickness);
-        
+
         shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2));
         shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2), thickness);
-        
+
         shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2));
         shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2), thickness);
-        
+
         shape.vertex(((boxLength + thickness) / 2) - thickness, 0);
         shape.vertex(((boxLength + thickness) / 2) - thickness, 0, thickness);
       }
@@ -266,6 +267,21 @@ private class Shape_Center_Piece extends Shape_Template_Static {
 
       shape.vertex((sidePieceJointLength * 2), thickness);
       shape.vertex((sidePieceJointLength * 2), thickness, thickness);
+    }
+
+    // Drawing cross section slot without top joint
+    if ((isTopPiece == false) && (constructCrossPiece == true)) {
+      shape.vertex(((boxLength - thickness) / 2) - thickness, thickness);
+      shape.vertex(((boxLength - thickness) / 2) - thickness, thickness, thickness);
+
+      shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2));
+      shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2), thickness);
+
+      shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2));
+      shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2), thickness);
+
+      shape.vertex(((boxLength + thickness) / 2) - thickness, thickness);
+      shape.vertex(((boxLength + thickness) / 2) - thickness, thickness, thickness);
     }
 
     // Draw joint inwards
