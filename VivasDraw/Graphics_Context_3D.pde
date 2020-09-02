@@ -25,6 +25,7 @@ private class Graphic_Context_3D_Container {
   private Box_Open_Top boxOpenTop;
   private Box_Closed boxClosed;
   private Box_Center_Part boxCenterPart;
+  private Box_Cross_Section boxCrossSection;
 
   private Graphic_Context_3D_Container() {
     graphicContainer = createGraphics(width, height, P3D);
@@ -37,6 +38,7 @@ private class Graphic_Context_3D_Container {
     boxOpenThrough = new Box_Open_Through(graphicContainer);
     boxOpenTop = new Box_Open_Top(graphicContainer);
     boxCenterPart = new Box_Center_Part(graphicContainer);
+    boxCrossSection = new Box_Cross_Section(graphicContainer);
 
     // Grid Initialisation
     grid = new Grid_Static(graphicContainer);
@@ -67,7 +69,7 @@ private class Graphic_Context_3D_Container {
       boxCenterPart.draw(graphicContainer);
       break;
     case BOX_CROSS_SECTION:
-      boxOpenThrough.draw(graphicContainer);
+      boxCrossSection.draw(graphicContainer);
       break;
     case BOX_RAISED_FLOOR:
       boxOpenThrough.draw(graphicContainer);

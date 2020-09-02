@@ -19,7 +19,6 @@ float endPieceCenterJointLength = ((boxHeight - (thickness * 2)) / 3);
 int measurementType = MILLIMETRE;
 boolean multipleJoints = true;  // When set to true multiple joints will be drawn along the center piece
 boolean middleJointExtrude = false;  // When set to true the middle joint of the center piece will be extruded
-boolean constructCrossPiece = true;  // When set to true a cross sectional piece will be constructed
 
 // Translation Variables
 float globalYRotate = 0;     // The rotation applied to the geometry every frame, used for auto rotate
@@ -28,6 +27,15 @@ int scrollSlope = 0;           // If the scroll is increasing or decreasing
 
 // Booleans
 boolean inputEnabledElseWhere = false;  // set to true if text input is enalbed anywhere, used to stop the user typing in two boxes at once
+
+// Construct booleans
+boolean constructCrossPiece = false;  // When set to true a cross sectional piece will be constructed
+
+// Center Piece booleans (shared between 3D and .svg shape)
+// note: A minimum of one extrude boolean must be set to true otherwise a floating piece will be created
+boolean centerExtrudeThroughSide = true;  // When set to true the joints of the centre part will extend through the side of the piece
+boolean centerExtrudeThroughTop = true;
+boolean centerExtrudeThroughFloor = true;
 
 // Button Events
 boolean buttonAutoRotate = false;  // Set to true if the auto rotate checkbox has been pressed
