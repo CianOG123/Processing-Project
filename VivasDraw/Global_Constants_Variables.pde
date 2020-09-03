@@ -35,7 +35,7 @@ boolean constructCrossPiece = true;  // When set to true a cross sectional piece
 // note: A minimum of one extrude boolean must be set to true otherwise a floating piece will be created
 boolean centerExtrudeThroughSide = true;  // When set to true the joints of the centre part will extend through the side of the piece
 boolean centerExtrudeThroughTop = false;
-boolean centerExtrudeThroughFloor = false;
+boolean centerExtrudeThroughFloor = true;
 
 // Button Events
 boolean buttonAutoRotate = false;  // Set to true if the auto rotate checkbox has been pressed
