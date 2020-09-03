@@ -143,6 +143,7 @@ private class Graphic_Context_3D_Container {
       boxOpenTop = new Box_Open_Top(graphicContainer);
       boxClosed = new Box_Closed(graphicContainer);
       boxCenterPart = new Box_Center_Part(graphicContainer);
+      boxCrossSection = new Box_Cross_Section(graphicContainer);
     }
   }
   

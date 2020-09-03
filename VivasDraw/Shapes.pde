@@ -222,18 +222,18 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       extrudeJoint = centerExtrudeThroughTop;
     }
 
-    // Draw joint inwards
+    // Draw side joint inwards
     if ((wasDrawingOutwards == false) || (disableExtendedJoint == true)) {
       shape.vertex(0, thickness);
       shape.vertex(0, thickness, thickness);
     }
-    // Draw joint Outwards
+    // Draw side joint Outwards
     else {
       shape.vertex(-thickness, thickness);
       shape.vertex(-thickness, thickness, thickness);
     }
 
-    // Drawing top joint
+    // Drawing top/bottom joint
     if (extrudeJoint == true) {
       shape.vertex(sidePieceJointLength, thickness);
       shape.vertex(sidePieceJointLength, thickness, thickness);
@@ -241,7 +241,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       shape.vertex(sidePieceJointLength, 0);
       shape.vertex(sidePieceJointLength, 0, thickness);
 
-      // Draw Cross section slot with top joint
+      // Draw Cross section slot with top/bottom joint
       if ((isTopPiece == false) && (constructCrossPiece == true)) {
         shape.vertex(((boxLength - thickness) / 2) - thickness, 0);
         shape.vertex(((boxLength - thickness) / 2) - thickness, 0, thickness);
@@ -264,8 +264,8 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       shape.vertex((sidePieceJointLength * 2), thickness, thickness);
     }
 
-    // Drawing cross section slot without top joint
-    if ((isTopPiece == false) && (constructCrossPiece == true)) {
+    // Drawing cross section slot without top/bottom joint
+    if ((extrudeJoint == false) && (isTopPiece == false) && (constructCrossPiece == true)) {
       shape.vertex(((boxLength - thickness) / 2) - thickness, thickness);
       shape.vertex(((boxLength - thickness) / 2) - thickness, thickness, thickness);
 
@@ -284,7 +284,6 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       shape.vertex(sidePieceLength, thickness); 
       shape.vertex(sidePieceLength, thickness, thickness);
     }
-
     // Draw joint outwards
     else {
       shape.vertex(sidePieceLength + thickness, thickness); 

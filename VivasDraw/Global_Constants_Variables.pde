@@ -29,12 +29,12 @@ int scrollSlope = 0;           // If the scroll is increasing or decreasing
 boolean inputEnabledElseWhere = false;  // set to true if text input is enalbed anywhere, used to stop the user typing in two boxes at once
 
 // Construct booleans
-boolean constructCrossPiece = false;  // When set to true a cross sectional piece will be constructed
+boolean constructCrossPiece = true;  // When set to true a cross sectional piece will be constructed
 
 // Center Piece booleans (shared between 3D and .svg shape)
 // note: A minimum of one extrude boolean must be set to true otherwise a floating piece will be created
 boolean centerExtrudeThroughSide = true;  // When set to true the joints of the centre part will extend through the side of the piece
-boolean centerExtrudeThroughTop = true;
+boolean centerExtrudeThroughTop = false;
 boolean centerExtrudeThroughFloor = true;
 
 // Button Events

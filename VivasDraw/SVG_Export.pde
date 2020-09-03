@@ -265,63 +265,102 @@ private class SVG_Export {
       }
 
       // Construct Top
-      if (multipleJoints == false) {
-        svg.line(xOffset, yOffset, xOffset + sidePieceJointLengthConvert, yOffset);
-      } else {
-        if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
-          svg.line(xOffset - thicknessConvert, yOffset, xOffset + sidePieceJointLengthConvert, yOffset);
-        } else {
+      // Construct left end of top
+      if (centerExtrudeThroughTop == true) {
+        if (multipleJoints == false) {
           svg.line(xOffset, yOffset, xOffset + sidePieceJointLengthConvert, yOffset);
-        }
-      }
-      svg.line(xOffset + sidePieceJointLengthConvert, yOffset, xOffset + sidePieceJointLengthConvert, yOffset - thicknessConvert);
-      svg.line(xOffset + sidePieceJointLengthConvert, yOffset - thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2), yOffset - thicknessConvert);
-      svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset - thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2), yOffset);
-
-      if (multipleJoints == false) {
-        svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset);
-      } else {
-        if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
-          svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset);
         } else {
+          if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
+            svg.line(xOffset - thicknessConvert, yOffset, xOffset + sidePieceJointLengthConvert, yOffset);
+          } else {
+            svg.line(xOffset, yOffset, xOffset + sidePieceJointLengthConvert, yOffset);
+          }
+        }
+
+        // Construct top joint
+        svg.line(xOffset + sidePieceJointLengthConvert, yOffset, xOffset + sidePieceJointLengthConvert, yOffset - thicknessConvert);
+        svg.line(xOffset + sidePieceJointLengthConvert, yOffset - thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2), yOffset - thicknessConvert);
+        svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset - thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2), yOffset);
+
+        // Construct right end of top
+        if (multipleJoints == false) {
           svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset);
+        } else {
+          if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
+            svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset);
+          } else {
+            svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset);
+          }
+        }
+        // Don't construct top joint
+      } else {
+        if (multipleJoints == false) {
+          svg.line(xOffset, yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset);
+        } else {
+          if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
+            svg.line(xOffset - thicknessConvert, yOffset, xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset);
+          } else {
+            svg.line(xOffset, yOffset, xOffset + (sidePieceJointLengthConvert * 3), yOffset);
+          }
         }
       }
 
       // Construct Bottom
-      if (multipleJoints == false) {
-        svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3));
-      } else {
-        if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
-          svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3));
-        } else {
+      // Construct left end of bottom
+      if (centerExtrudeThroughFloor == true) {
+        if (multipleJoints == false) {
           svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3));
+        } else {
+          if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
+            svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3));
+          } else {
+            svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3));
+          }
+        }
+
+        // Bottom Joint
+        svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
+        // Don't construct center slot
+        if (constructCrossPiece == false) {
+          svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
+          // Construct center slot
+        } else {
+          svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + ((sidePieceLengthConvert + thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
+          svg.line(xOffset + ((sidePieceLengthConvert + thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + ((sidePieceLengthConvert + thicknessConvert ) / 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2));
+          svg.line(xOffset + ((sidePieceLengthConvert + thicknessConvert ) / 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2), xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2));
+          svg.line(xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2), xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
+          svg.line(xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
+        }
+        svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3));
+
+        // Construct right end of bottom
+        if (multipleJoints == false) {
+          svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 3));
+        } else {
+          if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
+            svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 3));
+          } else {
+            svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 3));
+          }
         }
       }
-
-      // Bottom Joint
-      svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
-
-      // Center slot
-      if (constructCrossPiece == false) {
-        svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
-      } else {
-        svg.line(xOffset + (sidePieceJointLengthConvert * 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + ((sidePieceLengthConvert + thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
-        svg.line(xOffset + ((sidePieceLengthConvert + thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + ((sidePieceLengthConvert + thicknessConvert ) / 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2));
-        svg.line(xOffset + ((sidePieceLengthConvert + thicknessConvert ) / 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2), xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2));
-        svg.line(xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2), xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
-        svg.line(xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
-      }
-
-      svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert, xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3));
-
-      if (multipleJoints == false) {
-        svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 3));
-      } else {
-        if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
-          svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 3));
+      // Don't construct bottom joint
+      else {
+        if (multipleJoints == false) {
+          if (constructCrossPiece == true) {
+            svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + ((sidePieceLengthConvert + thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3));
+            svg.line(xOffset + ((sidePieceLengthConvert + thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset + ((sidePieceLengthConvert + thicknessConvert ) / 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2));
+            svg.line(xOffset + ((sidePieceLengthConvert + thicknessConvert ) / 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2), xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2));
+            svg.line(xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + ((boxHeightConvert - (thicknessConvert * 2)) / 2), xOffset + ((sidePieceLengthConvert - thicknessConvert )/ 2), yOffset + (endPieceCenterJointLengthConvert * 3) + thicknessConvert);
+          } else {
+            svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 3));
+          }
         } else {
-          svg.line(xOffset + sidePieceJointLengthConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 3));
+          if ((wasDrawingOutwards == true) && (disableExtendedJoint == false)) {
+            svg.line(xOffset + (sidePieceJointLengthConvert * 3) + thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 3));
+          } else {
+            svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 3));
+          }
         }
       }
     }

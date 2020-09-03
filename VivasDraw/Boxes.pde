@@ -35,7 +35,7 @@ private class Box_Cross_Section implements Box_Template {
   // Creates a box with a center part
   Box_Cross_Section(PGraphics graphicContext) {
     // Initialising booleans
-    constructCrossPiece = false;
+    constructCrossPiece = true;
 
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
