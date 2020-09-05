@@ -31,6 +31,7 @@ private class Box_Cross_Section implements Box_Template {
   private Shape_Floor_Piece floorPiece;
   private Shape_Floor_Piece topPiece;
   private Shape_Center_Piece centerPiece;
+  private Shape_Center_Piece crossPiece;
 
   // Creates a box with a center part
   Box_Cross_Section(PGraphics graphicContext) {
@@ -44,7 +45,10 @@ private class Box_Cross_Section implements Box_Template {
     endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
     floorPiece = new Shape_Floor_Piece();
     topPiece = new Shape_Floor_Piece();
-    centerPiece = new Shape_Center_Piece();
+    boolean isCrossSectionPiece = false;
+    centerPiece = new Shape_Center_Piece(isCrossSectionPiece);
+    isCrossSectionPiece = true;
+    crossPiece = new Shape_Center_Piece(isCrossSectionPiece);
     setGraphicContext(graphicContext);
   }
 
@@ -70,6 +74,15 @@ private class Box_Cross_Section implements Box_Template {
       {
         graphics.translate(0, 0, - ((endPieceLength + thickness) / 2));
         centerPiece.draw();
+      }
+      graphics.popMatrix();
+
+      // Render cross-section piece
+      graphics.pushMatrix();
+      {
+        graphics.rotateY(radians(90)); 
+        graphics.translate(-thickness, 0, (boxLength - thickness) / 2);
+        crossPiece.draw();
       }
       graphics.popMatrix();
 
@@ -126,6 +139,7 @@ private class Box_Cross_Section implements Box_Template {
     floorPiece.setGraphicContext(graphicContext);
     topPiece.setGraphicContext(graphicContext);
     centerPiece.setGraphicContext(graphicContext);
+    crossPiece.setGraphicContext(graphicContext);
   }
 }
 
@@ -141,6 +155,7 @@ private class Box_Center_Part implements Box_Template {
   // Constants
   private static final boolean ENABLE_TOP = true;
   private static final boolean ENABLE_FLOOR = true;
+  private static final boolean IS_CENTER_PIECE = false;
 
   // Declaring Objects
   private Shape_Side_Piece sidePieceOne;
@@ -153,8 +168,6 @@ private class Box_Center_Part implements Box_Template {
 
   // Creates a box with a center part
   Box_Center_Part(PGraphics graphicContext) {
-    // Initialising booleans
-    constructCrossPiece = false;
 
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
@@ -163,7 +176,7 @@ private class Box_Center_Part implements Box_Template {
     endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
     floorPiece = new Shape_Floor_Piece();
     topPiece = new Shape_Floor_Piece();
-    centerPiece = new Shape_Center_Piece();
+    centerPiece = new Shape_Center_Piece(IS_CENTER_PIECE);
     setGraphicContext(graphicContext);
   }
 

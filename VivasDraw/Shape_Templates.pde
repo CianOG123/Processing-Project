@@ -53,4 +53,9 @@ private class Shape_Template_Static implements Shape_Interface {
   void plotShape(PShape shape, boolean isTopPiece) {
     println("\nShape override failure.");
   }
+  
+  // used for center pieces to create a slot on the given side of the shape
+  void plotShape(PShape shape, boolean isCrossSectionPiece, boolean isTopPiece) {
+    println("\nShape override failure.");
+  }
 }

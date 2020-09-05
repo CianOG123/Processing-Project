@@ -8,17 +8,35 @@ private class Shape_Center_Piece extends Shape_Template_Static {
   private PShape topJoint, bottomJoint;                // Declaring the side piece shape
   private PShape jointsUpperOne, jointsUpperTwo, jointsLowerOne, jointsLowerTwo;  // The dynamically generated joints of the center piece (used to easily draw multiple joints with same algorithm as .svg export)
 
+  // Variables
+  private float pieceDimension = boxLength;  // Length with joints
+  private float pieceJointLength = sidePieceJointLength;
+  private float pieceLength = sidePieceLength;  // Length without joints
+
   // Booleans
+  private boolean isCrossSectionPiece = false;  // When set to true the piece will be treated as a cross piece as opposed to a center piece
   private  boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
 
   // Joint Options
   private boolean wasDrawingOutwards = false;  // When set to true the joint will be plotted outwards, when false it will be plotted inwards
   private boolean disableExtendedJoint = false;  // Disables the top piece extension when set to true
 
-  Shape_Center_Piece() {
+  Shape_Center_Piece(boolean isCrossSectionPiece) {
+    
+    // Piece measurements (differs for center piece / cross section piece)
+    pieceDimension = boxLength;
+    pieceJointLength = sidePieceJointLength;
+    pieceLength = sidePieceLength;
+    if(isCrossSectionPiece == true){
+      pieceDimension = boxWidth;
+      pieceJointLength = endPieceJointLength;
+      pieceLength = endPieceLength;
+    }
+
+    this.isCrossSectionPiece = isCrossSectionPiece;
 
     // Creating joints
-    getMiddleJointType();
+    getMiddleJointType(isCrossSectionPiece);
 
     jointsUpperOne = createShape();
     jointsUpperOne.beginShape(TRIANGLE_STRIP);
@@ -47,13 +65,15 @@ private class Shape_Center_Piece extends Shape_Template_Static {
     topJoint = createShape();
     topJoint.beginShape(TRIANGLE_STRIP);
     initialise(topJoint);
-    plotShape(topJoint, true);
+    boolean isTopPiece = true;
+    plotShape(topJoint, isCrossSectionPiece, isTopPiece);
     topJoint.endShape();
 
     bottomJoint = createShape();
     bottomJoint.beginShape(TRIANGLE_STRIP);
     initialise(bottomJoint);
-    plotShape(bottomJoint, false);
+    isTopPiece = false;
+    plotShape(bottomJoint, isCrossSectionPiece, isTopPiece);
     bottomJoint.endShape();
   }
 
@@ -84,7 +104,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
     // Display joints upper two
     graphicContext.pushMatrix();
     {
-      graphicContext.translate(boxLength - thickness, 0, 0);
+      graphicContext.translate(pieceDimension - thickness, 0, 0);
       display(jointsUpperTwo);
     }
     graphicContext.popMatrix();
@@ -103,17 +123,26 @@ private class Shape_Center_Piece extends Shape_Template_Static {
     graphicContext.pushMatrix();
     {
       graphicContext.rotateX(radians(180));
-      graphicContext.translate(boxLength - thickness, -boxHeight, -thickness);
+      graphicContext.translate(pieceDimension - thickness, -boxHeight, -thickness);
       display(jointsLowerTwo);
     }
     graphicContext.popMatrix();
   }
 
   // Returns if the middle joint of the center piece should be extruded or intruded
-  private void getMiddleJointType() {
-    middleJointExtrude = false;
-    if ((jointAmount - 1) % 4 == 0) {
+  // Invert joint inverts whether the middle joint will be in or out
+  private void getMiddleJointType(boolean invertJoint) {
+    if (invertJoint == false) {
+      middleJointExtrude = false;
+    } else {
       middleJointExtrude = true;
+    }
+    if ((jointAmount - 1) % 4 == 0) {
+      if (invertJoint == false) {
+        middleJointExtrude = true;
+      } else {
+        middleJointExtrude = false;
+      }
     }
   }
 
@@ -216,10 +245,18 @@ private class Shape_Center_Piece extends Shape_Template_Static {
 
   // Plots the top and bottom side of the center piece
   @Override
-    void plotShape(PShape shape, boolean isTopPiece) {
+    void plotShape(PShape shape, boolean isCrossSectionPiece, boolean isTopPiece) {
+
+    // Setting whether to extrude the joint on this side of the shape
     boolean extrudeJoint = centerExtrudeThroughFloor;
     if (isTopPiece == true) {
       extrudeJoint = centerExtrudeThroughTop;
+    }
+    
+    // Setting whether to draw a slot on this side of the shape
+    boolean  createSlot = false;
+    if(isCrossSectionPiece == isTopPiece){
+      createSlot = true;
     }
 
     // Draw side joint inwards
@@ -235,59 +272,59 @@ private class Shape_Center_Piece extends Shape_Template_Static {
 
     // Drawing top/bottom joint
     if (extrudeJoint == true) {
-      shape.vertex(sidePieceJointLength, thickness);
-      shape.vertex(sidePieceJointLength, thickness, thickness);
+      shape.vertex(pieceJointLength, thickness);
+      shape.vertex(pieceJointLength, thickness, thickness);
 
-      shape.vertex(sidePieceJointLength, 0);
-      shape.vertex(sidePieceJointLength, 0, thickness);
+      shape.vertex(pieceJointLength, 0);
+      shape.vertex(pieceJointLength, 0, thickness);
 
       // Draw Cross section slot with top/bottom joint
-      if ((isTopPiece == false) && (constructCrossPiece == true)) {
-        shape.vertex(((boxLength - thickness) / 2) - thickness, 0);
-        shape.vertex(((boxLength - thickness) / 2) - thickness, 0, thickness);
+      if (createSlot == true) {
+        shape.vertex(((pieceDimension - thickness) / 2) - thickness, 0);
+        shape.vertex(((pieceDimension - thickness) / 2) - thickness, 0, thickness);
 
-        shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2));
-        shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2), thickness);
+        shape.vertex(((pieceDimension - thickness) / 2) - thickness, (boxHeight / 2));
+        shape.vertex(((pieceDimension - thickness) / 2) - thickness, (boxHeight / 2), thickness);
 
-        shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2));
-        shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2), thickness);
+        shape.vertex(((pieceDimension + thickness) / 2) - thickness, (boxHeight / 2));
+        shape.vertex(((pieceDimension + thickness) / 2) - thickness, (boxHeight / 2), thickness);
 
-        shape.vertex(((boxLength + thickness) / 2) - thickness, 0);
-        shape.vertex(((boxLength + thickness) / 2) - thickness, 0, thickness);
+        shape.vertex(((pieceDimension + thickness) / 2) - thickness, 0);
+        shape.vertex(((pieceDimension + thickness) / 2) - thickness, 0, thickness);
       }
 
-      shape.vertex((sidePieceJointLength * 2), 0);
-      shape.vertex((sidePieceJointLength * 2), 0, thickness);
+      shape.vertex((pieceJointLength * 2), 0);
+      shape.vertex((pieceJointLength * 2), 0, thickness);
 
 
-      shape.vertex((sidePieceJointLength * 2), thickness);
-      shape.vertex((sidePieceJointLength * 2), thickness, thickness);
+      shape.vertex((pieceJointLength * 2), thickness);
+      shape.vertex((pieceJointLength * 2), thickness, thickness);
     }
 
     // Drawing cross section slot without top/bottom joint
-    if ((extrudeJoint == false) && (isTopPiece == false) && (constructCrossPiece == true)) {
-      shape.vertex(((boxLength - thickness) / 2) - thickness, thickness);
-      shape.vertex(((boxLength - thickness) / 2) - thickness, thickness, thickness);
+    if ((extrudeJoint == false) && (createSlot == true)) {
+      shape.vertex(((pieceDimension - thickness) / 2) - thickness, thickness);
+      shape.vertex(((pieceDimension - thickness) / 2) - thickness, thickness, thickness);
 
-      shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2));
-      shape.vertex(((boxLength - thickness) / 2) - thickness, (boxHeight / 2), thickness);
+      shape.vertex(((pieceDimension - thickness) / 2) - thickness, (boxHeight / 2));
+      shape.vertex(((pieceDimension - thickness) / 2) - thickness, (boxHeight / 2), thickness);
 
-      shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2));
-      shape.vertex(((boxLength + thickness) / 2) - thickness, (boxHeight / 2), thickness);
+      shape.vertex(((pieceDimension + thickness) / 2) - thickness, (boxHeight / 2));
+      shape.vertex(((pieceDimension + thickness) / 2) - thickness, (boxHeight / 2), thickness);
 
-      shape.vertex(((boxLength + thickness) / 2) - thickness, thickness);
-      shape.vertex(((boxLength + thickness) / 2) - thickness, thickness, thickness);
+      shape.vertex(((pieceDimension + thickness) / 2) - thickness, thickness);
+      shape.vertex(((pieceDimension + thickness) / 2) - thickness, thickness, thickness);
     }
 
     // Draw joint inwards
     if ((wasDrawingOutwards == false) || (disableExtendedJoint == true)) {
-      shape.vertex(sidePieceLength, thickness); 
-      shape.vertex(sidePieceLength, thickness, thickness);
+      shape.vertex(pieceLength, thickness); 
+      shape.vertex(pieceLength, thickness, thickness);
     }
     // Draw joint outwards
     else {
-      shape.vertex(sidePieceLength + thickness, thickness); 
-      shape.vertex(sidePieceLength + thickness, thickness, thickness);
+      shape.vertex(pieceLength + thickness, thickness); 
+      shape.vertex(pieceLength + thickness, thickness, thickness);
     }
   }
 }
