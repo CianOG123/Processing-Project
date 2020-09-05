@@ -12,6 +12,88 @@ private interface Box_Template {
 }
 
 /**
+ *  Open Through Box
+ *  Class that can plot and draw an open top and bottom box to the screen.
+ *  Implements the box template interface.
+ *  By Cian O'Gorman 18-07-2020.
+ */
+private class Raised_Floor_Box implements Box_Template {
+
+  // Constants
+  private static final boolean ENABLE_TOP = false;
+  private static final boolean ENABLE_FLOOR = false;
+
+  // Declaring Objects
+  private Shape_Side_Piece sidePieceOne;
+  private Shape_Side_Piece sidePieceTwo;
+  private Shape_End_Piece endPieceOne;
+  private Shape_End_Piece endPieceTwo;
+
+  Raised_Floor_Box(PGraphics graphicContext) {
+    // Initialising booleans
+    constructCrossPiece = false;
+
+    // Initialising Box Objects
+    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceOne = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    setGraphicContext(graphicContext);
+  }
+
+  private void draw(PGraphics graphics) {
+    positionGeometry(graphics);
+  }
+
+  void positionGeometry(PGraphics graphics) {
+    graphics.pushMatrix();
+    {      
+      // Centering object on origin
+      graphics.translate(-(boxLength / 2), -(boxHeight / 2), (boxWidth / 2));
+      graphics.translate(0, 0, -thickness);
+
+
+      // Individual piece positioning
+
+      // Render side piece one
+      sidePieceOne.draw();
+
+      graphics.pushMatrix();
+      {
+        graphics.translate(0, 0, -(endPieceLength + thickness)); // Moving the graphics context on the z axis 
+        sidePieceTwo.draw();
+      }
+      graphics.popMatrix();
+
+      // Render end piece one
+      graphics.pushMatrix();
+      {
+        graphics.rotateY(radians(90));                     // Rotating the graphic context 90 degrees
+        endPieceOne.draw();
+      }
+      graphics.popMatrix();
+
+      // Render end piece Two
+      graphics.pushMatrix();
+      {
+        graphics.rotateY(radians(90));                     // Rotating the graphic context 90 degrees
+        graphics.translate(0, 0, (boxLength - thickness)); // Translating on the local z axis.
+        endPieceTwo.draw();
+      }
+      graphics.popMatrix();
+    }
+    graphics.popMatrix();
+  }
+
+  void setGraphicContext(PGraphics graphicContext) {
+    sidePieceOne.setGraphicContext(graphicContext);
+    sidePieceTwo.setGraphicContext(graphicContext);
+    endPieceOne.setGraphicContext(graphicContext);
+    endPieceTwo.setGraphicContext(graphicContext);
+  }
+}
+
+/**
  *  Cross Section Box
  *  Class that can plot and draw a cross sectional box to the screen.
  *  Implements the box template interface.
@@ -22,6 +104,7 @@ private class Box_Cross_Section implements Box_Template {
   // Constants
   private static final boolean ENABLE_TOP = true;
   private static final boolean ENABLE_FLOOR = true;
+  private static final boolean CREATE_SLOT = true;
 
   // Declaring Objects
   private Shape_Side_Piece sidePieceOne;
@@ -46,9 +129,9 @@ private class Box_Cross_Section implements Box_Template {
     floorPiece = new Shape_Floor_Piece();
     topPiece = new Shape_Floor_Piece();
     boolean isCrossSectionPiece = false;
-    centerPiece = new Shape_Center_Piece(isCrossSectionPiece);
+    centerPiece = new Shape_Center_Piece(isCrossSectionPiece, CREATE_SLOT);
     isCrossSectionPiece = true;
-    crossPiece = new Shape_Center_Piece(isCrossSectionPiece);
+    crossPiece = new Shape_Center_Piece(isCrossSectionPiece, CREATE_SLOT);
     setGraphicContext(graphicContext);
   }
 
@@ -156,6 +239,7 @@ private class Box_Center_Part implements Box_Template {
   private static final boolean ENABLE_TOP = true;
   private static final boolean ENABLE_FLOOR = true;
   private static final boolean IS_CENTER_PIECE = false;
+  private static final boolean DONT_CREATE_SLOT = false;
 
   // Declaring Objects
   private Shape_Side_Piece sidePieceOne;
@@ -176,7 +260,7 @@ private class Box_Center_Part implements Box_Template {
     endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
     floorPiece = new Shape_Floor_Piece();
     topPiece = new Shape_Floor_Piece();
-    centerPiece = new Shape_Center_Piece(IS_CENTER_PIECE);
+    centerPiece = new Shape_Center_Piece(IS_CENTER_PIECE, DONT_CREATE_SLOT);
     setGraphicContext(graphicContext);
   }
 

@@ -13,24 +13,35 @@ private class Shape_Center_Piece extends Shape_Template_Static {
   private float pieceJointLength = sidePieceJointLength;
   private float pieceLength = sidePieceLength;  // Length without joints
 
+  boolean extrudeThroughSide = true;
+  boolean extrudeThroughTop = true;
+  boolean extrudeThroughFloor = true;
+
   // Booleans
   private boolean isCrossSectionPiece = false;  // When set to true the piece will be treated as a cross piece as opposed to a center piece
   private  boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
+  private boolean createSlotOnPiece = false;  // When set to true a slot will be created on one side of the center piece
 
   // Joint Options
   private boolean wasDrawingOutwards = false;  // When set to true the joint will be plotted outwards, when false it will be plotted inwards
   private boolean disableExtendedJoint = false;  // Disables the top piece extension when set to true
 
-  Shape_Center_Piece(boolean isCrossSectionPiece) {
-    
+  Shape_Center_Piece(boolean isCrossSectionPiece, boolean createSlotOnPiece) {
+
     // Piece measurements (differs for center piece / cross section piece)
     pieceDimension = boxLength;
     pieceJointLength = sidePieceJointLength;
     pieceLength = sidePieceLength;
-    if(isCrossSectionPiece == true){
+    extrudeThroughSide = centerExtrudeThroughSide;
+    extrudeThroughTop = centerExtrudeThroughTop;
+    extrudeThroughFloor = centerExtrudeThroughFloor;
+    if (isCrossSectionPiece == true) {
       pieceDimension = boxWidth;
       pieceJointLength = endPieceJointLength;
       pieceLength = endPieceLength;
+      extrudeThroughSide = crossExtrudeThroughSide;
+      extrudeThroughTop = crossExtrudeThroughTop;
+      extrudeThroughFloor = crossExtrudeThroughFloor;
     }
 
     this.isCrossSectionPiece = isCrossSectionPiece;
@@ -66,14 +77,14 @@ private class Shape_Center_Piece extends Shape_Template_Static {
     topJoint.beginShape(TRIANGLE_STRIP);
     initialise(topJoint);
     boolean isTopPiece = true;
-    plotShape(topJoint, isCrossSectionPiece, isTopPiece);
+    plotShape(topJoint, isCrossSectionPiece, isTopPiece, createSlotOnPiece);
     topJoint.endShape();
 
     bottomJoint = createShape();
     bottomJoint.beginShape(TRIANGLE_STRIP);
     initialise(bottomJoint);
     isTopPiece = false;
-    plotShape(bottomJoint, isCrossSectionPiece, isTopPiece);
+    plotShape(bottomJoint, isCrossSectionPiece, isTopPiece, createSlotOnPiece);
     bottomJoint.endShape();
   }
 
@@ -245,17 +256,17 @@ private class Shape_Center_Piece extends Shape_Template_Static {
 
   // Plots the top and bottom side of the center piece
   @Override
-    void plotShape(PShape shape, boolean isCrossSectionPiece, boolean isTopPiece) {
+    void plotShape(PShape shape, boolean isCrossSectionPiece, boolean isTopPiece, boolean createSlotOnPiece) {
 
     // Setting whether to extrude the joint on this side of the shape
-    boolean extrudeJoint = centerExtrudeThroughFloor;
+    boolean extrudeJoint = extrudeThroughFloor;
     if (isTopPiece == true) {
-      extrudeJoint = centerExtrudeThroughTop;
+      extrudeJoint = extrudeThroughTop;
     }
-    
+
     // Setting whether to draw a slot on this side of the shape
     boolean  createSlot = false;
-    if(isCrossSectionPiece == isTopPiece){
+    if ((createSlotOnPiece == true) && (isCrossSectionPiece == isTopPiece)) {
       createSlot = true;
     }
 

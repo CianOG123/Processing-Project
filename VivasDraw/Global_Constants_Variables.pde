@@ -6,6 +6,7 @@ float boxWidth = 100;
 float boxHeight = 70;
 float thickness = 10;
 int jointAmount = 5;
+float floorOffset = 100;
 
 // Other Dimension variables
 float jointHeight = boxHeight / jointAmount;
@@ -16,6 +17,7 @@ float endPieceJointLength = endPieceLength / 3;                        // Used t
 float sidePieceJointLength = (sidePieceLength / 3);
 float topPieceJointLength = (boxWidth / 3);
 float endPieceCenterJointLength = ((boxHeight - (thickness * 2)) / 3);
+
 int measurementType = MILLIMETRE;
 boolean multipleJoints = true;  // When set to true multiple joints will be drawn along the center piece
 boolean middleJointExtrude = false;  // When set to true the middle joint of the center piece will be extruded
@@ -36,6 +38,11 @@ boolean constructCrossPiece = true;  // When set to true a cross sectional piece
 boolean centerExtrudeThroughSide = true;  // When set to true the joints of the centre part will extend through the side of the piece
 boolean centerExtrudeThroughTop = true;
 boolean centerExtrudeThroughFloor = false;
+
+// Cross Piece Booleans
+boolean crossExtrudeThroughSide = true;
+boolean crossExtrudeThroughTop = false;
+boolean crossExtrudeThroughFloor = true;
 
 // Button Events
 boolean buttonAutoRotate = false;  // Set to true if the auto rotate checkbox has been pressed
