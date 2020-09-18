@@ -23,7 +23,7 @@ private class Box_Raised_Floor implements Box_Template {
   private static final boolean ENABLE_TOP = false;
   
   // Variables
-  private boolean enableFloor = true;
+  private boolean enableFloorJoint = true;
 
   // Declaring Objects
   private Shape_Side_Piece sidePieceOne;
@@ -37,17 +37,17 @@ private class Box_Raised_Floor implements Box_Template {
     constructCross[0] = false;
     
     if(floorOffset != 0){
-      enableFloor = false;
+      enableFloorJoint = false;
     }
     else {
-      enableFloor = true;
+      enableFloorJoint = true;
     }
 
     // Initialising Box Objects
-    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, enableFloor);
-    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, enableFloor);
-    endPieceOne = new Shape_End_Piece(ENABLE_TOP, enableFloor);
-    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, enableFloor);
+    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, enableFloorJoint);
+    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, enableFloorJoint);
+    endPieceOne = new Shape_End_Piece(ENABLE_TOP, enableFloorJoint);
+    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, enableFloorJoint);
     floorPiece = new Shape_Floor_Piece();
     setGraphicContext(graphicContext);
   }

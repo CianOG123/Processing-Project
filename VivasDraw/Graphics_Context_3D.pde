@@ -204,7 +204,7 @@ private class Graphic_Context_3D_Container {
       endPieceCenterJointLengthC = endPieceCenterJointLength * PIXEL_TO_MILLIMETRE;
       for (int i = 0; i < crossJointPos.length; i++) {
         crossJointPosC[i] = crossJointPos[i] * PIXEL_TO_MILLIMETRE;
-        centerJointPosC[i] = crossJointPos[i] * PIXEL_TO_MILLIMETRE;
+        centerJointPosC[i] = centerJointPos[i] * PIXEL_TO_MILLIMETRE;
       }
     }
   }
