@@ -5,14 +5,15 @@ float boxLength = 200;
 float boxWidth = 100;
 float boxHeight = 70;
 float thickness = 3;
-float floorOffset = 30;
+float floorOffset = 8;
 int jointAmount = 9;
 
 // Useful Settings
 int crossCenterPieceAmount = 3;
 int measurementType = MILLIMETRE;
-boolean multipleJoints = true;  // When set to true multiple joints will be drawn along the center piece
+boolean multipleJoints = true;       // When set to true multiple joints will be drawn along the center piece
 boolean middleJointExtrude = false;  // When set to true the middle joint of the center piece will be extruded
+boolean floorOffsetEnabled = true;   // When set to true the floor Offset will be enabled
 
 // Generated Dimension variables
 float jointHeight = boxHeight / jointAmount;
@@ -71,12 +72,12 @@ void initialiseConstructBooleans() {
   constructCross[0] = false;
   constructCross[1] = false;
   constructCross[2] = false;
-  centerJointPos[0] = (endPieceLength -thickness) / 2;
-  centerJointPos[1] = (endPieceLength -thickness) / 2  + (thickness - 4 / 2);
-  centerJointPos[2] = ((endPieceLength - thickness) / 2) + (thickness / 2);
-  crossJointPos[0] = (boxLength -thickness) / 2;
-  crossJointPos[1] = ((boxLength - thickness) / 2) + (thickness / 2);
-  crossJointPos[2] = ((boxLength - thickness) / 2) + (thickness + 10 / 2);
+  centerJointPos[0] = (endPieceLength - thickness) / 2;
+  centerJointPos[1] = (endPieceLength - thickness) / 2  - (thickness * 4);
+  centerJointPos[2] = ((endPieceLength - thickness) / 2) + (thickness * 4);
+  crossJointPos[0] = (sidePieceLength - thickness) / 2;
+  crossJointPos[1] = (sidePieceLength - thickness) / 2  - (thickness * 4);
+  crossJointPos[2] = ((sidePieceLength - thickness) / 2) + (thickness * 4);
 }
 
 // Center Piece booleans (shared between 3D and .svg shape)
@@ -125,7 +126,9 @@ static final int LENGTH = 1;
 static final int WIDTH = 2;
 static final int HEIGHT = 3;
 static final int THICKNESS = 4;
-static final int JOINT_AMOUNT = 5;
+static final int FLOOR_OFFSET = 5;
+static final int JOINT_AMOUNT = 6;
+
 
 // Measurement Type
 static final int PIXEL = 0;

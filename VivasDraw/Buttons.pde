@@ -189,6 +189,9 @@ private class Image_Button {
   }
 }
 
+
+
+
 /** 
  *  Class to handle scroll bars
  *  By Cian O'Gorman 28-07-2020
@@ -328,6 +331,8 @@ private class Scroll_Bar {
 }
 
 
+
+
 /**
  *  Check box button class
  *  By Cian O'Gorman 28-07-2020
@@ -394,6 +399,9 @@ private class Check_Box {
     return enableHover;
   }
 }
+
+
+
 
 /** 
  *  Class to handle text input boxes
@@ -569,6 +577,9 @@ private class Text_Input {
     case THICKNESS:
       thickness = value;
       break;
+    case FLOOR_OFFSET:
+      floorOffset = value;
+      break;
     case JOINT_AMOUNT:
       jointAmount = (int) value;
       break;
@@ -584,6 +595,8 @@ private class Text_Input {
     }
   }
 }
+
+
 
 
 /** 

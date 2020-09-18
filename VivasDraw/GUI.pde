@@ -145,6 +145,9 @@ private class GUI_Selector_Box {
   }
 }
 
+
+
+
 /** 
  *  GUI top panel that is visible on the top of the screen
  *  By Cian O'Gorman 20-07-2020
@@ -223,6 +226,9 @@ private class GUI_Top {
   }
 }
 
+
+
+
 /** 
  *  GUI Options panel that is visible on the right hand side of the screen
  *  By Cian O'Gorman 19-07-2020
@@ -254,6 +260,7 @@ private class GUI_Options_Panel {
   Text_Input boxWidthInput;
   Text_Input boxHeightInput;
   Text_Input boxThicknessInput;
+  Text_Input floorOffsetInput;
   Joint_Input boxJointAmountInput;
 
 
@@ -262,7 +269,8 @@ private class GUI_Options_Panel {
     boxWidthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET), "Width: ", boxWidth, WIDTH);
     boxHeightInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 2), "Height: ", boxHeight, HEIGHT);
     boxThicknessInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 3), "Material Thickness: ", thickness, THICKNESS);
-    boxJointAmountInput = new Joint_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 4), "Joint Amount: ", jointAmount, JOINT_AMOUNT);
+    floorOffsetInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 4), "Floor Offset: ", floorOffset, FLOOR_OFFSET);
+    boxJointAmountInput = new Joint_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 5), "Joint Amount: ", jointAmount, JOINT_AMOUNT);
   }
 
   private void draw() {
@@ -279,6 +287,7 @@ private class GUI_Options_Panel {
     boxWidthInput.draw();
     boxHeightInput.draw();
     boxThicknessInput.draw();
+    floorOffsetInput.draw();
     boxJointAmountInput.draw();
   }
 
@@ -301,7 +310,7 @@ private class GUI_Options_Panel {
     rect(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 2), UNDERLINE_TRIM_WIDTH, TRIM_THICKNESS);
     rect(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 3), UNDERLINE_TRIM_WIDTH, TRIM_THICKNESS);
     rect(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 4), UNDERLINE_TRIM_WIDTH, TRIM_THICKNESS);
-    //rect(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 5), UNDERLINE_TRIM_WIDTH, TRIM_THICKNESS);
+    rect(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 5), UNDERLINE_TRIM_WIDTH, TRIM_THICKNESS);
     //rect(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 6), UNDERLINE_TRIM_WIDTH, TRIM_THICKNESS);
     //rect(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION + (TRIM_SELECT_Y_OFFSET * 7), UNDERLINE_TRIM_WIDTH, TRIM_THICKNESS);
   }
