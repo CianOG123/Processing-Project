@@ -26,6 +26,7 @@ private class Graphic_Context_3D_Container {
   private Box_Closed boxClosed;
   private Box_Center_Part boxCenterPart;
   private Box_Cross_Section boxCrossSection;
+  private Box_Raised_Floor boxRaisedFloor;
 
   private Graphic_Context_3D_Container() {
     graphicContainer = createGraphics(width, height, P3D);
@@ -39,6 +40,7 @@ private class Graphic_Context_3D_Container {
     boxOpenTop = new Box_Open_Top(graphicContainer);
     boxCenterPart = new Box_Center_Part(graphicContainer);
     boxCrossSection = new Box_Cross_Section(graphicContainer);
+    boxRaisedFloor = new Box_Raised_Floor(graphicContainer);
 
     // Grid Initialisation
     grid = new Grid_Static(graphicContainer);
@@ -72,7 +74,7 @@ private class Graphic_Context_3D_Container {
       boxCrossSection.draw(graphicContainer);
       break;
     case BOX_RAISED_FLOOR:
-      boxOpenThrough.draw(graphicContainer);
+      boxRaisedFloor.draw(graphicContainer);
       break;
     default:
       boxOpenTop.draw(graphicContainer);
@@ -144,9 +146,11 @@ private class Graphic_Context_3D_Container {
       boxClosed = new Box_Closed(graphicContainer);
       boxCenterPart = new Box_Center_Part(graphicContainer);
       boxCrossSection = new Box_Cross_Section(graphicContainer);
+      boxRaisedFloor = new Box_Raised_Floor(graphicContainer);
+      convertMeasurements();
     }
   }
-  
+
   // Updates the top piece (end side) joint length
   private void refreshTopPieceJointLength() {
     topPieceJointLength = (boxWidth / 3);
@@ -180,5 +184,25 @@ private class Graphic_Context_3D_Container {
   // Updates the side piece joint length
   private void refreshSidePieceJointLength() {
     sidePieceJointLength = (sidePieceLength / 3);
+  }
+
+  // Converts and updates all svg measurements
+  private void convertMeasurements() {
+    if (measurementType == MILLIMETRE) {
+      boxLengthC = boxLength * PIXEL_TO_MILLIMETRE;
+      boxWidthC = boxWidth * PIXEL_TO_MILLIMETRE;
+      boxHeightC = boxHeight * PIXEL_TO_MILLIMETRE;
+      thicknessC = thickness * PIXEL_TO_MILLIMETRE;
+      jointHeightC = jointHeight * PIXEL_TO_MILLIMETRE;
+      sidePieceLengthC = sidePieceLength * PIXEL_TO_MILLIMETRE;
+      endPieceLengthC = endPieceLength * PIXEL_TO_MILLIMETRE;
+      endPieceJointLengthC = endPieceJointLength * PIXEL_TO_MILLIMETRE;
+      sidePieceJointLengthC = sidePieceJointLength * PIXEL_TO_MILLIMETRE;
+      endPieceCenterJointLengthC = endPieceCenterJointLength * PIXEL_TO_MILLIMETRE;
+      for (int i = 0; i < crossJointPos.length; i++) {
+        crossJointPosC[i] = crossJointPos[i] * PIXEL_TO_MILLIMETRE;
+        centerJointPosC[i] = crossJointPos[i] * PIXEL_TO_MILLIMETRE;
+      }
+    }
   }
 }

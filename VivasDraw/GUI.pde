@@ -154,6 +154,7 @@ private class GUI_Top {
   // Objects
   Text_Button exportButton;
   SVG_Export svgExporter;  // Is being used conditionally, ignore warning
+  SVG_Render svgRenderer;
 
   // Constants
   private static final int BACKGROUND_HEIGHT = 50;
@@ -197,6 +198,7 @@ private class GUI_Top {
   private void mousePressed() {
     if (exportButton.mousePressed() != EVENT_NULL) {
       svgExporter = new SVG_Export(displayedBox);
+      svgRenderer = new SVG_Render(displayedBox);
     }
   }
 

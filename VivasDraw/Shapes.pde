@@ -1,6 +1,6 @@
 /**
  *  Class that can plot and draw a centre partition piece to the screen.
- *  By Cian O'Gorman 16-07-2020.
+ *  By Cian O'Gorman 16-08-2020.
  */
 private class Shape_Center_Piece extends Shape_Template_Static {
 
@@ -19,7 +19,7 @@ private class Shape_Center_Piece extends Shape_Template_Static {
 
   // Booleans
   private boolean isCrossSectionPiece = false;  // When set to true the piece will be treated as a cross piece as opposed to a center piece
-  private  boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
+  private boolean singleSideJoint = false;  // When set to false multiple joints will be created through the end piece to align with the side piece
   private boolean createSlotOnPiece = false;  // When set to true a slot will be created on one side of the center piece
 
   // Joint Options
@@ -29,12 +29,6 @@ private class Shape_Center_Piece extends Shape_Template_Static {
   Shape_Center_Piece(boolean isCrossSectionPiece, boolean createSlotOnPiece) {
 
     // Piece measurements (differs for center piece / cross section piece)
-    pieceDimension = boxLength;
-    pieceJointLength = sidePieceJointLength;
-    pieceLength = sidePieceLength;
-    extrudeThroughSide = centerExtrudeThroughSide;
-    extrudeThroughTop = centerExtrudeThroughTop;
-    extrudeThroughFloor = centerExtrudeThroughFloor;
     if (isCrossSectionPiece == true) {
       pieceDimension = boxWidth;
       pieceJointLength = endPieceJointLength;
@@ -42,6 +36,13 @@ private class Shape_Center_Piece extends Shape_Template_Static {
       extrudeThroughSide = crossExtrudeThroughSide;
       extrudeThroughTop = crossExtrudeThroughTop;
       extrudeThroughFloor = crossExtrudeThroughFloor;
+    } else {
+      pieceDimension = boxLength;
+      pieceJointLength = sidePieceJointLength;
+      pieceLength = sidePieceLength;
+      extrudeThroughSide = centerExtrudeThroughSide;
+      extrudeThroughTop = centerExtrudeThroughTop;
+      extrudeThroughFloor = centerExtrudeThroughFloor;
     }
 
     this.isCrossSectionPiece = isCrossSectionPiece;

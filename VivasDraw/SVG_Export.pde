@@ -32,6 +32,7 @@ private class SVG_Export {
   private boolean constructCenter = false;       // When set to true a center piece will be constructed and all relevant joints
   private boolean constructCrossPiece = false;   // When set to true a cross-sectional piece will be constructed
   private boolean disableExtendedJoint = false;  // Used to stop artifacting when jointHeight is equal to the thickness
+  private boolean constructOffsetFloorJoint = false;  // When set to true offset floor joints will be created
 
   private boolean extrudeThroughSide = true;
   private boolean extrudeThroughTop = true;
@@ -40,6 +41,7 @@ private class SVG_Export {
   // used to generate premade boxes
   SVG_Export(int boxType) {
     disableExtendedJoint = false;
+    constructOffsetFloorJoint = false;
     convertMeasurements();
     switch (boxType) {
     case BOX_OPEN_TOP:
@@ -68,6 +70,13 @@ private class SVG_Export {
       constructCrossPiece = true;
       getOddJointLengthConvert();
       getMiddleJointType();
+      break;
+    case BOX_RAISED_FLOOR:
+      constructTop = false;
+      constructBottom = true;
+      if (floorOffset != 0) {
+        constructOffsetFloorJoint = true;
+      }
       break;
     default:
       constructTop = true;
@@ -167,20 +176,20 @@ private class SVG_Export {
   // Plots a .svg center piece to the screen
   private void plotSVGCenterPiece(boolean constructPiece, boolean isCrossSection, boolean multipleJoints, int xOffset, int yOffset) {
     if (constructPiece == true) {
-
       // Setting measurements
-      extrudeThroughSide = centerExtrudeThroughSide;
-      extrudeThroughTop = centerExtrudeThroughTop;
-      extrudeThroughFloor = centerExtrudeThroughFloor;
       if (isCrossSection == true) {
         extrudeThroughSide = crossExtrudeThroughSide;
         extrudeThroughTop = crossExtrudeThroughTop;
         extrudeThroughFloor = crossExtrudeThroughFloor;
+      } else {
+        extrudeThroughSide = centerExtrudeThroughSide;
+        extrudeThroughTop = centerExtrudeThroughTop;
+        extrudeThroughFloor = centerExtrudeThroughFloor;
       }
 
-      // Construct Joints
       boolean wasDrawingOutwards = true;  // When set to true the joint will be plotted outwards, when false it will be plotted inwards
       if (multipleJoints == false) {
+        // Drawing side joints of center piece when multiple joints is set to false
         // Left
         svg.line(xOffset, yOffset + (endPieceCenterJointLengthConvert * 3), xOffset, yOffset + (endPieceCenterJointLengthConvert * 2));
         svg.line(xOffset, yOffset + (endPieceCenterJointLengthConvert * 2), xOffset - thicknessConvert, yOffset + (endPieceCenterJointLengthConvert * 2));
@@ -196,7 +205,7 @@ private class SVG_Export {
         svg.line(xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 2), xOffset + (sidePieceJointLengthConvert * 3), yOffset + (endPieceCenterJointLengthConvert * 3));
       } else {
 
-        // Creating center joint
+        // Creating center joint of the side joints
         float intrusionOffset = 0;
         if (middleJointExtrude == false) {
           intrusionOffset = thicknessConvert;
@@ -485,11 +494,17 @@ private class SVG_Export {
       if (multipleJoints == false) {
         svg.line(xOffset, yOffset, xOffset + endPieceLengthConvert, yOffset);
       } else {
-        svg.line(xOffset, yOffset, xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset);
-        svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset, xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointHeightConvert);
-        svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointHeightConvert, xOffset + ((boxWidthConvert + thicknessConvert) / 2) - thicknessConvert, yOffset + jointHeightConvert);
-        svg.line(xOffset + ((boxWidthConvert + thicknessConvert) / 2) - thicknessConvert, yOffset + jointHeightConvert, xOffset + ((boxWidthConvert + thicknessConvert) / 2) - thicknessConvert, yOffset);
-        svg.line(xOffset + ((boxWidthConvert + thicknessConvert) / 2) - thicknessConvert, yOffset, xOffset + endPieceLengthConvert, yOffset);
+        // Constructs center slot in end piece
+        if (constructCenter == true) {
+          svg.line(xOffset, yOffset, xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset);
+          svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset, xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointHeightConvert);
+          svg.line(xOffset + ((boxWidthConvert - thicknessConvert) / 2) - thicknessConvert, yOffset + jointHeightConvert, xOffset + ((boxWidthConvert + thicknessConvert) / 2) - thicknessConvert, yOffset + jointHeightConvert);
+          svg.line(xOffset + ((boxWidthConvert + thicknessConvert) / 2) - thicknessConvert, yOffset + jointHeightConvert, xOffset + ((boxWidthConvert + thicknessConvert) / 2) - thicknessConvert, yOffset);
+          svg.line(xOffset + ((boxWidthConvert + thicknessConvert) / 2) - thicknessConvert, yOffset, xOffset + endPieceLengthConvert, yOffset);
+        } else {
+          // Constructs a straight line with no joints
+          svg.line(xOffset, yOffset, xOffset + endPieceLengthConvert, yOffset);
+        }
       }
     } else {
       svg.line(xOffset, yOffset, xOffset + endPieceJointLengthConvert, yOffset);
@@ -526,11 +541,15 @@ private class SVG_Export {
       if (multipleJoints == false) {
         svg.line(xOffset + endPieceLengthConvert, yOffset + boxHeightConvert, xOffset, yOffset + boxHeightConvert);
       } else {
-        svg.line(xOffset + endPieceLengthConvert, yOffset + boxHeightConvert, xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2) + thicknessConvert, yOffset + boxHeightConvert);
-        svg.line(xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2) + thicknessConvert, yOffset + boxHeightConvert, xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2) + thicknessConvert, yOffset + boxHeightConvert - thicknessConvert);
-        svg.line(xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2) + thicknessConvert, yOffset + boxHeightConvert - thicknessConvert, xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2), yOffset + boxHeightConvert - thicknessConvert);
-        svg.line(xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2), yOffset + boxHeightConvert - thicknessConvert, xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2), yOffset + boxHeightConvert);
-        svg.line(xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2), yOffset + boxHeightConvert, xOffset, yOffset + boxHeightConvert);
+        if (constructCenter == true) {
+          svg.line(xOffset + endPieceLengthConvert, yOffset + boxHeightConvert, xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2) + thicknessConvert, yOffset + boxHeightConvert);
+          svg.line(xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2) + thicknessConvert, yOffset + boxHeightConvert, xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2) + thicknessConvert, yOffset + boxHeightConvert - thicknessConvert);
+          svg.line(xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2) + thicknessConvert, yOffset + boxHeightConvert - thicknessConvert, xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2), yOffset + boxHeightConvert - thicknessConvert);
+          svg.line(xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2), yOffset + boxHeightConvert - thicknessConvert, xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2), yOffset + boxHeightConvert);
+          svg.line(xOffset + endPieceLengthConvert - ((boxWidthConvert - thicknessConvert) / 2), yOffset + boxHeightConvert, xOffset, yOffset + boxHeightConvert);
+        } else {
+          svg.line(xOffset + endPieceLengthConvert, yOffset + boxHeightConvert, xOffset, yOffset + boxHeightConvert);
+        }
       }
     } else {
       svg.line(xOffset + endPieceLengthConvert, yOffset + boxHeightConvert, xOffset + (endPieceJointLengthConvert * 2), yOffset + boxHeightConvert);
@@ -596,15 +615,15 @@ private class SVG_Export {
     if (constructTop == false) {
       svg.line(xOffset, yOffset, xOffset + boxLengthConvert, yOffset);
     } else {
-      svg.line(xOffset, yOffset, xOffset + sidePieceJointLengthConvert + thicknessConvert, yOffset);
-      svg.line(xOffset + sidePieceJointLengthConvert + thicknessConvert, yOffset, xOffset + sidePieceJointLengthConvert + thicknessConvert, yOffset + thicknessConvert);
+      svg.line(xOffset, yOffset, xOffset + sidePieceJointLengthC + thicknessC, yOffset);
+      svg.line(xOffset + sidePieceJointLengthC + thicknessC, yOffset, xOffset + sidePieceJointLengthC + thicknessC, yOffset + thicknessC);
       svg.line(xOffset + sidePieceJointLengthConvert + thicknessConvert, yOffset + thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2) + thicknessConvert, yOffset + thicknessConvert);
       svg.line(xOffset + (sidePieceJointLengthConvert * 2) + thicknessConvert, yOffset + thicknessConvert, xOffset + (sidePieceJointLengthConvert * 2) + thicknessConvert, yOffset);
       svg.line(xOffset + (sidePieceJointLengthConvert * 2) + thicknessConvert, yOffset, xOffset + boxLengthConvert, yOffset);
     }
 
 
-    // Plot joints
+    // Plot  right joints
     for (int i = 1; i <= (jointAmount - 1); i++) {
       if (i % 2 == 0) {
         svg.line(boxLengthConvert - thicknessConvert + xOffset, (jointHeightConvert * (i - 1)) + yOffset, boxLengthConvert - thicknessConvert + xOffset, (jointHeightConvert * i) + yOffset);
@@ -614,6 +633,7 @@ private class SVG_Export {
         svg.line(boxLengthConvert + xOffset, (jointHeightConvert * i) + yOffset, boxLengthConvert - thicknessConvert + xOffset, (jointHeightConvert * i) + yOffset);
       }
     }
+    // construct last joint of right side
     svg.line(boxLengthConvert + xOffset, (jointHeightConvert * (jointAmount - 1)) + yOffset, boxLengthConvert + xOffset, boxHeightConvert + yOffset);  // 10
 
     // Plot bottom
@@ -627,7 +647,7 @@ private class SVG_Export {
       svg.line(xOffset + sidePieceJointLengthConvert + thicknessConvert, yOffset + boxHeightConvert, xOffset, yOffset + boxHeightConvert);
     }
 
-    // Plot joints
+    // Plot left joints
     for (int i = (jointAmount - 1); i >= 1; i--) {
       if (i % 2 == 0) {
         svg.line(xOffset, (jointHeightConvert * (i + 1)) + yOffset, xOffset, (jointHeightConvert * i) + yOffset);

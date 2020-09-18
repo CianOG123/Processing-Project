@@ -1,6 +1,5 @@
 /**
- *  Test program to draw multiple complex shapes to the screen.
- *  Created using examples as a source.
+ * Application designed to help students to create plans for subtractive manufacturing machines
  *  By Cian O'Gorman 17-07-2020.
  */
 
@@ -22,6 +21,12 @@ void setup() {
   // Initialising Objects
   container3D = new Graphic_Context_3D_Container();
   userInterface = new GUI_Main();
+  
+  // Initialising Construct booleans
+  initialiseConstructBooleans();
+  
+  // initialise SVG Measurements
+  container3D.convertMeasurements();
 }
 
 void draw() {

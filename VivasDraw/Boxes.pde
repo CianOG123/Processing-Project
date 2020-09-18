@@ -17,27 +17,38 @@ private interface Box_Template {
  *  Implements the box template interface.
  *  By Cian O'Gorman 18-07-2020.
  */
-private class Raised_Floor_Box implements Box_Template {
+private class Box_Raised_Floor implements Box_Template {
 
   // Constants
   private static final boolean ENABLE_TOP = false;
-  private static final boolean ENABLE_FLOOR = false;
+  
+  // Variables
+  private boolean enableFloor = true;
 
   // Declaring Objects
   private Shape_Side_Piece sidePieceOne;
   private Shape_Side_Piece sidePieceTwo;
   private Shape_End_Piece endPieceOne;
   private Shape_End_Piece endPieceTwo;
+  private Shape_Floor_Piece floorPiece;
 
-  Raised_Floor_Box(PGraphics graphicContext) {
+  Box_Raised_Floor(PGraphics graphicContext) {
     // Initialising booleans
-    constructCrossPiece = false;
+    constructCross[0] = false;
+    
+    if(floorOffset != 0){
+      enableFloor = false;
+    }
+    else {
+      enableFloor = true;
+    }
 
     // Initialising Box Objects
-    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceOne = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, enableFloor);
+    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, enableFloor);
+    endPieceOne = new Shape_End_Piece(ENABLE_TOP, enableFloor);
+    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, enableFloor);
+    floorPiece = new Shape_Floor_Piece();
     setGraphicContext(graphicContext);
   }
 
@@ -60,7 +71,7 @@ private class Raised_Floor_Box implements Box_Template {
 
       graphics.pushMatrix();
       {
-        graphics.translate(0, 0, -(endPieceLength + thickness)); // Moving the graphics context on the z axis 
+        graphics.translate(0, 0, -(endPieceLength + thickness));  // Moving the graphics context on the z axis 
         sidePieceTwo.draw();
       }
       graphics.popMatrix();
@@ -68,7 +79,7 @@ private class Raised_Floor_Box implements Box_Template {
       // Render end piece one
       graphics.pushMatrix();
       {
-        graphics.rotateY(radians(90));                     // Rotating the graphic context 90 degrees
+        graphics.rotateY(radians(90));  // Rotating the graphic context 90 degrees
         endPieceOne.draw();
       }
       graphics.popMatrix();
@@ -76,10 +87,21 @@ private class Raised_Floor_Box implements Box_Template {
       // Render end piece Two
       graphics.pushMatrix();
       {
-        graphics.rotateY(radians(90));                     // Rotating the graphic context 90 degrees
-        graphics.translate(0, 0, (boxLength - thickness)); // Translating on the local z axis.
+        graphics.rotateY(radians(90));                      // Rotating the graphic context 90 degrees
+        graphics.translate(0, 0, (boxLength - thickness));  // Translating on the local Z axis.
         endPieceTwo.draw();
       }
+
+      // Render floor piece
+      graphics.pushMatrix();
+      {    
+        graphics.rotateY(radians(90));                      // Rotating the graphic context 90 degrees
+        graphics.translate(0, (boxHeight - thickness), 0);  // Translating on the local Y axis.
+        graphics.translate(0,-floorOffset, 0);// Translating on the local z-axis
+        floorPiece.draw();
+      }
+      graphics.popMatrix();
+
       graphics.popMatrix();
     }
     graphics.popMatrix();
@@ -90,6 +112,7 @@ private class Raised_Floor_Box implements Box_Template {
     sidePieceTwo.setGraphicContext(graphicContext);
     endPieceOne.setGraphicContext(graphicContext);
     endPieceTwo.setGraphicContext(graphicContext);
+    floorPiece.setGraphicContext(graphicContext);
   }
 }
 
@@ -119,7 +142,7 @@ private class Box_Cross_Section implements Box_Template {
   // Creates a box with a center part
   Box_Cross_Section(PGraphics graphicContext) {
     // Initialising booleans
-    constructCrossPiece = true;
+    constructCross[0] = true;
 
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
@@ -367,7 +390,7 @@ private class Box_Closed implements Box_Template {
 
   Box_Closed(PGraphics graphicContext) {
     // Initialising booleans
-    constructCrossPiece = false;
+    constructCross[0] = false;
 
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
@@ -471,7 +494,7 @@ private class Box_Open_Top implements Box_Template {
 
   Box_Open_Top(PGraphics graphicContext) {
     // Initialising booleans
-    constructCrossPiece = false;
+    constructCross[0] = false;
 
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
@@ -566,7 +589,7 @@ private class Box_Open_Through implements Box_Template {
 
   Box_Open_Through(PGraphics graphicContext) {
     // Initialising booleans
-    constructCrossPiece = false;
+    constructCross[0] = false;
 
     // Initialising Box Objects
     sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
