@@ -101,7 +101,7 @@ private class SVG_Render {
     sidePiece = new SVG_Side_Piece(svg, 50, 50, boxLengthC, constructCross, crossJointPosC);
 
     SVG_End_Piece endPiece;
-    endPiece = new SVG_End_Piece(svg, 50, 330, endPieceLengthC, constructCenter, centerJointPosC);
+    endPiece = new SVG_End_Piece(svg, 50, 330, boxWidthC, constructCenter, centerJointPosC);
     svg.dispose();
     svg.endDraw();
   }
@@ -150,19 +150,17 @@ private class SVG_Shape {
     // Variables used to invert the joints 
     float extrudeOffset = 0;
     float intrudeOffset = 0;
-    float invertOffset = 0;
     if (invertJoints == true) {
       extrudeOffset = thicknessC;
       intrudeOffset = -thicknessC;
-      invertOffset = (thicknessC * 2);
     }
 
     for (int i = 1; i <= (jointAmount - 1); i++) {
       if (i % 2 == 0) {
         // Outwards to inwards
         // Right Side
-        svg.line(invertOffset + extrudeOffset + pieceLengthC - thicknessC + xOffset, (jointHeightC * (i - 1)) + yOffset, invertOffset + extrudeOffset + pieceLengthC - thicknessC + xOffset, (jointHeightC * i) + yOffset);
-        svg.line(invertOffset + pieceLengthC - thicknessC + xOffset, (jointHeightC * i) + yOffset, invertOffset + pieceLengthC + xOffset, (jointHeightC * i) + yOffset);
+        svg.line(extrudeOffset + pieceLengthC - thicknessC + xOffset, (jointHeightC * (i - 1)) + yOffset, extrudeOffset + pieceLengthC - thicknessC + xOffset, (jointHeightC * i) + yOffset);
+        svg.line(pieceLengthC - thicknessC + xOffset, (jointHeightC * i) + yOffset, pieceLengthC + xOffset, (jointHeightC * i) + yOffset);
 
         // Left Side
         svg.line(intrudeOffset + thicknessC + xOffset, (jointHeightC * (i - 1)) + yOffset, intrudeOffset + thicknessC + xOffset, (jointHeightC * i) + yOffset);
@@ -170,8 +168,8 @@ private class SVG_Shape {
       } else {
         // Inwards to outwards
         // Right Side
-        svg.line(invertOffset + intrudeOffset + pieceLengthC + xOffset, yOffset + (jointHeightC * (i - 1)), invertOffset + intrudeOffset + pieceLengthC + xOffset, (jointHeightC * i)  + yOffset);
-        svg.line(invertOffset + pieceLengthC + xOffset, (jointHeightC * i) + yOffset, invertOffset + pieceLengthC - thicknessC + xOffset, (jointHeightC * i) + yOffset);
+        svg.line(intrudeOffset + pieceLengthC + xOffset, yOffset + (jointHeightC * (i - 1)), intrudeOffset + pieceLengthC + xOffset, (jointHeightC * i)  + yOffset);
+        svg.line( pieceLengthC + xOffset, (jointHeightC * i) + yOffset, pieceLengthC - thicknessC + xOffset, (jointHeightC * i) + yOffset);
 
         // Left Side
         svg.line(extrudeOffset + xOffset, (jointHeightC * (i - 1)) + yOffset, extrudeOffset + xOffset, (jointHeightC * i) + yOffset);
@@ -180,13 +178,15 @@ private class SVG_Shape {
     }
     // construct last joint to connect to bottom line
     // Right
-    svg.line(invertOffset + intrudeOffset + pieceLengthC + xOffset, (jointHeightC * (jointAmount - 1)) + yOffset, invertOffset + intrudeOffset + pieceLengthC + xOffset, boxHeightC + yOffset);
+    svg.line( intrudeOffset + pieceLengthC + xOffset, (jointHeightC * (jointAmount - 1)) + yOffset, intrudeOffset + pieceLengthC + xOffset, boxHeightC + yOffset);
     // Left
     svg.line(extrudeOffset + xOffset, (jointHeightC * (jointAmount - 1)) + yOffset, extrudeOffset + xOffset, boxHeightC + yOffset);
   }
 
+
+
   // Constructs the top and bottom of a side or end piece
-  protected void sideEndConstructTopBottom(boolean INVERT_JOINTS, PGraphics svg, int xOffset, int yOffset, boolean extrudeThroughSide, float pieceLengthC, boolean[] intersectPieces, float[]intersectJointPos) {
+  protected void sideEndConstructTopBottom(boolean invertJoints, PGraphics svg, int xOffset, int yOffset, boolean extrudeThroughSide, float pieceLengthC, boolean[] intersectPieces, float[]intersectJointPos) {
 
     // Piece measurements
     float localXOffset = float(xOffset);
@@ -195,7 +195,7 @@ private class SVG_Shape {
 
     // Creating offset if joints are inverted
     float invertOffset = 0;
-    if (INVERT_JOINTS == true) {
+    if (invertJoints == true) {
       invertOffset = thicknessC;
     }
     localXOffset += invertOffset;
@@ -205,6 +205,7 @@ private class SVG_Shape {
     svg.line(localXOffset, yOffset, pieceJointLengthC + localXOffset, yOffset);
     // From Right
     svg.line(pieceLengthC + localXOffset, yOffset, pieceLengthC - pieceJointLengthC + localXOffset, yOffset);
+
     // Construct Edges of Bottom
     // From left
     svg.line(localXOffset, boxHeightC + yOffset, pieceJointLengthC + localXOffset, boxHeightC + yOffset);
@@ -222,11 +223,18 @@ private class SVG_Shape {
       svg.line(pieceLengthC - pieceJointLengthC + localXOffset, boxHeightC + yOffset, pieceLengthC - pieceJointLengthC + localXOffset, boxHeightC - thicknessC + yOffset);
     }
 
+
     // Creating Mini Joints
+    // For top
     boolean isTopJoints = true;
-    createMiniJoints(localXOffset, yOffset, isTopJoints, extrudeThroughSide, pieceLengthC, pieceJointLengthC, intersectPieces, intersectJointPos);
-    isTopJoints = false;
-    createMiniJoints(localXOffset, yOffset, isTopJoints, extrudeThroughSide, pieceLengthC, pieceJointLengthC, intersectPieces, intersectJointPos);
+    createMiniJoints(localXOffset, yOffset, invertJoints, isTopJoints, extrudeThroughSide, pieceLengthC, pieceJointLengthC, intersectPieces, intersectJointPos);
+
+    // For Bottom
+    if (floorOffset == 0) {
+      isTopJoints = false;
+      createMiniJoints(localXOffset, yOffset, invertJoints, isTopJoints, extrudeThroughSide, pieceLengthC, pieceJointLengthC, intersectPieces, intersectJointPos);
+    }
+
 
     if (constructTop == false) {
       // Creating a straight line across if there is no top piece
@@ -239,9 +247,11 @@ private class SVG_Shape {
     }
   }
 
+
+
   // Constructs miniature joint slots
   // Bottom mini joints will be made when isTopJoints is set to false
-  protected void createMiniJoints(float xOffset, int yOffset, boolean isTopJoints, boolean extrudeThroughSide, float pieceLengthC, float pieceJointLengthC, boolean[] intersectPieces, float[] intersectJointPos) {
+  protected void createMiniJoints(float xOffset, int yOffset, boolean invertJoints, boolean isTopJoints, boolean extrudeThroughSide, float pieceLengthC, float pieceJointLengthC, boolean[] intersectPieces, float[] intersectJointPos) {
     boolean enableTop;
     boolean enableBottom;
     if (isTopJoints == true) {
@@ -264,6 +274,17 @@ private class SVG_Shape {
     if (counter % 2 == 0) {
       createMiniJoints = true;
     }
+
+    // Inverting the creation of mini joints if the joints of the piece are inverted
+    if (invertJoints == true) {
+      createMiniJoints = !createMiniJoints;
+    }
+
+    // Disabling mini joints if multiple joints is false 
+    if (multipleJoints == false) {
+      createMiniJoints = false;
+    }
+
     // Disabling floor joints if floor is offset
     boolean floorIsOffset = false;
     if (floorOffset != 0) {
@@ -275,8 +296,6 @@ private class SVG_Shape {
       // Cycling through each miniature joint
       for (int i = 0; i < intersectPieces.length; i++) {
         if (intersectPieces[i] == true) {
-          println("Is within space");
-          println(intersectJointPos);
 
           // Checking it is within the space of the top joint
           if ((intersectJointPos[i] >= pieceJointLengthC) && (intersectJointPos[i] <= (pieceJointLengthC * 2))) {
@@ -305,21 +324,42 @@ private class SVG_Shape {
         svg.line(previousXPos + xOffset, boxHeightC - thicknessC + yOffset, pieceLengthC - pieceJointLengthC + xOffset, boxHeightC - thicknessC + yOffset);
       }
     } else {
-      // Construct Joint with no miniature joints
+      // Construct Top Joint with no miniature joints
       if ((constructTop == true)  && (enableTop == true)) {
         svg.line(pieceJointLengthC + xOffset, thicknessC + yOffset, pieceLengthC - pieceJointLengthC + xOffset, thicknessC + yOffset);
-      } else if (((constructBottom == true)  && (enableBottom == true)) || (floorIsOffset == true)) {
-        svg.line(pieceJointLengthC + xOffset, boxHeightC - thicknessC + yOffset, pieceLengthC - pieceJointLengthC + xOffset, boxHeight - thicknessC + yOffset);
+      } 
+      // Construct Bottom Joint with no miniature joints
+      if ((constructBottom == true) && (enableBottom == true)) {
+        svg.line(pieceJointLengthC + xOffset, boxHeightC - thicknessC + yOffset, pieceLengthC - pieceJointLengthC + xOffset, boxHeightC - thicknessC + yOffset);
+      }
+    }
+  }
+
+
+
+  // Creates a Raised Floor Joint if necessary
+  protected void createRaisedFloorJoint(PGraphics svg, int xOffset, int yOffset, float pieceLengthC, float pieceJointLengthC, boolean extrudeThroughSide, boolean[] intersectPieces, float[] intersectJointPos) {
+
+    if ((constructBottom == true) && (floorOffset != 0)) {
+      // Creating bottom and side edges of joint
+      svg.line(pieceJointLengthC + xOffset, boxHeightC - floorOffsetC + yOffset, pieceJointLengthC + xOffset, boxHeightC - (floorOffsetC - thicknessC));
+
+
+      if (extrudeThroughSide == false) {
+        // Creating straight line across top of joint
+      } else {
+        for (int i = 0; i < intersectPieces.length; i++) {
+          if (constructCross[i] == true) {
+            // Creating mini joints
+          }
+        }
       }
     }
   }
 }
 
+// Creates and Renders an SVG Side Piece to a given canvas
 class SVG_Side_Piece extends SVG_Shape {
-
-  // Variables
-  private int xOffset;
-  private int yOffset;
 
   // Constants
   private static final boolean DONT_INVERT_JOINTS = false;
@@ -327,23 +367,30 @@ class SVG_Side_Piece extends SVG_Shape {
   SVG_Side_Piece(PGraphics svg, int xOffset, int yOffset, float pieceLengthC, boolean[] intersectPieces, float[]intersectJointPos) {
     super(svg, xOffset, yOffset);
 
+    // Calculating measurements
+    float pieceJointLengthC = (pieceLengthC - (thicknessC * 2));
+    pieceJointLengthC /= 3;
+
     constructCornerJoints(DONT_INVERT_JOINTS, svg, pieceLengthC, xOffset, yOffset);
     sideEndConstructTopBottom(DONT_INVERT_JOINTS, svg, xOffset, yOffset, crossExtrudeThroughSide, pieceLengthC, intersectPieces, intersectJointPos);
+    //createRaisedFloorJoint(svg, xOffset, yOffset, pieceLengthC, pieceJointLengthC, crossExtrudeThroughSide, intersectPieces, intersectJointPos);
   }
 }
 
+// Creates and Renders an SVG End Piece to a given canvas
 class SVG_End_Piece extends SVG_Shape {
-
-  // Variables
-  private int xOffset;
-  private int yOffset;
 
   // Constants
   private static final boolean INVERT_JOINTS = true;
 
   SVG_End_Piece(PGraphics svg, int xOffset, int yOffset, float pieceLengthC, boolean[] intersectPieces, float[]intersectJointPos) {
+
     super(svg, xOffset, yOffset);
+
+    // Calculating measurements
+    float pieceTopLengthC = pieceLengthC - (thicknessC * 2);  // The length of straight top of the piece without joints
+
     constructCornerJoints(INVERT_JOINTS, svg, pieceLengthC, xOffset, yOffset);
-    sideEndConstructTopBottom(INVERT_JOINTS, svg, xOffset, yOffset, centerExtrudeThroughSide, pieceLengthC, intersectPieces, intersectJointPos);
+    sideEndConstructTopBottom(INVERT_JOINTS, svg, xOffset, yOffset, centerExtrudeThroughSide, pieceTopLengthC, intersectPieces, intersectJointPos);
   }
 }

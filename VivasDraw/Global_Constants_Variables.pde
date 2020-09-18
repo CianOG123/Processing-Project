@@ -4,8 +4,8 @@
 float boxLength = 200;
 float boxWidth = 100;
 float boxHeight = 70;
-float thickness = 10;
-float floorOffset = 0;
+float thickness = 3;
+float floorOffset = 30;
 int jointAmount = 9;
 
 // Useful Settings
@@ -65,17 +65,17 @@ void initialiseConstructBooleans() {
    // constructCenter[i] = false;
    // constructCross[i] = false;
   //}
-  constructCenter[0] = true;
-  constructCenter[1] = true;
-  constructCenter[2] = true;
-  constructCross[0] = true;
-  constructCross[1] = true;
-  constructCross[2] = true;
-  centerJointPos[0] = ((endPieceLength - thickness) / 2) - (thickness + 10 / 2);
-  centerJointPos[1] = (endPieceLength -thickness) / 2;
+  constructCenter[0] = false;
+  constructCenter[1] = false;
+  constructCenter[2] = false;
+  constructCross[0] = false;
+  constructCross[1] = false;
+  constructCross[2] = false;
+  centerJointPos[0] = (endPieceLength -thickness) / 2;
+  centerJointPos[1] = (endPieceLength -thickness) / 2  + (thickness - 4 / 2);
   centerJointPos[2] = ((endPieceLength - thickness) / 2) + (thickness / 2);
-  crossJointPos[0] = ((boxLength - thickness) / 2) - (thickness + 10 / 2);
-  crossJointPos[1] = (boxLength -thickness) / 2;
+  crossJointPos[0] = (boxLength -thickness) / 2;
+  crossJointPos[1] = ((boxLength - thickness) / 2) + (thickness / 2);
   crossJointPos[2] = ((boxLength - thickness) / 2) + (thickness + 10 / 2);
 }
 
