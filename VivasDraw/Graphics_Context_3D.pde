@@ -147,6 +147,9 @@ private class Graphic_Context_3D_Container {
       boxCenterPart = new Box_Center_Part(graphicContainer);
       boxCrossSection = new Box_Cross_Section(graphicContainer);
       boxRaisedFloor = new Box_Raised_Floor(graphicContainer);
+      // Sort Arrays
+      crossJointPos = sort(crossJointPos);
+      centerJointPos = sort(centerJointPos);
       convertMeasurements();
     }
   }
