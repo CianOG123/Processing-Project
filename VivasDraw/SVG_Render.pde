@@ -352,26 +352,29 @@ private class SVG_Shape {
           // Creating straight line across top of joint
           svg.line(pieceJointLengthC + xOffset, (boxHeightC - floorOffsetC) - thicknessC + yOffset, (pieceJointLengthC * 2) + xOffset, (boxHeightC - floorOffsetC) - thicknessC + yOffset);
         } else {
+          
           int counter = 1;
           while ((boxHeightC - (jointHeightC * counter)) > (boxHeightC - (floorOffsetC + thicknessC))) {
             counter++;
           }
+          float jointTop = boxHeightC - (jointHeightC * counter);
+          
           boolean enableJoints = false;  // When set to true, mini joints will be drawn
-          float jointTop = 0;
           if (counter % 2 == 0) {
             enableJoints = true;
-            jointTop = boxHeightC - (jointHeightC * counter);
           }
+          
           // Inverting if the joint should be created based on input
           if (invertJoints == true) {
-            enableJoints = !invertJoints;
+            enableJoints = !enableJoints;
           }
+          
           // Creating joints if they have been enabled
           if (enableJoints == true) {
             float previousXPos = pieceJointLengthC;
             for (int i = 0; i < intersectPieces.length; i++) {
               // Checking that the piece is enabled
-              if (constructCross[i] == true) {
+              if (intersectPieces[i] == true) {
                 // Checking the piece position is within the bottom joints space
                 if ((intersectJointPos[i] > pieceJointLengthC) && ((intersectJointPos[i] + thicknessC) < (pieceJointLengthC * 2))) {
                   // Creating mini joints
