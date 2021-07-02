@@ -2,7 +2,7 @@
  *  Draws the grid to the screen
  *  By Cian O'Gorman 18-07-2020
  */
-private class Grid_Static extends Shape_Template_Static {
+private class Grid_Static extends TD_Shape_Template {
 
   // Constants
   private static final float GRID_LENGTH = 500;              // The size of the entire grid
@@ -21,7 +21,7 @@ private class Grid_Static extends Shape_Template_Static {
   }
 
 
-  @Override
+
     void initialise(PShape gridStatic) {
     gridStatic.stroke(LIGHT_GREY);
     gridStatic.strokeWeight(STROKE_WEIGHT);
@@ -39,7 +39,6 @@ private class Grid_Static extends Shape_Template_Static {
     graphics.popMatrix();
   }
 
-  @Override
     void plotShape(PShape shape) {
     gridStatic.vertex(0, 0, GRID_SQUARE_LENGTH);
     gridStatic.vertex(GRID_LENGTH, 0, GRID_SQUARE_LENGTH);

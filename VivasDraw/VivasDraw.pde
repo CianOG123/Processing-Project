@@ -5,32 +5,35 @@
 
 // Libraries
 import processing.svg.*;
+import java.util.Arrays;
+import java.util.Collections;
 
-boolean testSVG = false;
+// Constants
+private static final int FRAME_RATE = 60;
+private static final int[] SCREEN_DIMENSIONS = {1280, 720};
+private static final color BACKGROUND_COLOR = 0;
 
 // Declaring Objects
 private Graphic_Context_3D_Container container3D;
 private GUI_Main userInterface;
 
-void setup() {
+void settings() {
+  size(SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1], P3D);
   initialiseFonts();
-  frameRate(60);
-  smooth();
-  size(1280, 720, P3D); // Width, height, and depth of screen
+}
 
-  // Initialising Objects
+void setup() {
+  frameRate(FRAME_RATE);
+  smooth();
   container3D = new Graphic_Context_3D_Container();
   userInterface = new GUI_Main();
-  
-  // Initialising Construct booleans
+  setCenterJointPosition();
   initialiseConstructBooleans();
-  
-  // initialise SVG Measurements
-  container3D.convertMeasurements();
+  convertMeasurements();
 }
 
 void draw() {
-  background(0);
+  background(BACKGROUND_COLOR);
   container3D.draw();
   userInterface.draw();  
 }

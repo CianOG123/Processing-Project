@@ -61,6 +61,11 @@ private class GUI_Selector_Box {
   private static final int BUTTON_HEIGHT = 70;
   private static final int BUTTON_X_BOUNDARY = (AREA_WIDTH - BUTTON_WIDTH) / 2;      // The distance from the area edge to the button edge
   private static final int BUTTON_Y_BOUNDARY = 10;
+  
+  private static final float TRIM_X_POSITION = AREA_WIDTH;
+  private static final int TRIM_Y_POSITION = 10;
+  private static final int TRIM_WIDTH = 1;
+  private static final int TRIM_HEIGHT = AREA_HEIGHT - 20;
 
 
 
@@ -72,9 +77,7 @@ private class GUI_Selector_Box {
   }
 
   private void draw() {
-
     calculateShift();
-
     graphics.beginDraw();
     {
       drawScrollableContext(shiftAmount);
@@ -82,8 +85,6 @@ private class GUI_Selector_Box {
       scrollBar.draw();
     }
     graphics.endDraw();
-
-
     // Drawing the graphic context to the screen
     image(graphics, SCROLL_CONTEXT_X_POSITION, SCROLL_CONTEXT_Y_POSITION);
   }
@@ -111,21 +112,15 @@ private class GUI_Selector_Box {
   // Creates the scrollable context area
   private void drawScrollableContext(float shiftAmount) {
 
-    // Variables
-    final float trimXPosition = AREA_WIDTH;
-    final int trimYPosition = 10;
-    final int trimWidth = 1;
-    final int trimHeight = AREA_HEIGHT - 20;
-
     // Drawing button spaces
     graphics.noStroke();
     for (int i = 0; i < BUTTON_AMOUNT; i++) {
       graphics.fill(STANDARD_GREY);
       graphics.rect(((i * AREA_WIDTH) + shiftAmount), 0, AREA_WIDTH, AREA_HEIGHT);
       graphics.fill(TRIM_GREY);
-      graphics.rect(((i * trimXPosition) + shiftAmount), trimYPosition, trimWidth, trimHeight);
+      graphics.rect(((i * TRIM_X_POSITION) + shiftAmount), TRIM_Y_POSITION, TRIM_WIDTH, TRIM_HEIGHT);
     }
-    graphics.rect(((BUTTON_AMOUNT * trimXPosition) + shiftAmount) - 1, trimYPosition, trimWidth, trimHeight);
+    graphics.rect(((BUTTON_AMOUNT * TRIM_X_POSITION) + shiftAmount) - TRIM_WIDTH, TRIM_Y_POSITION, TRIM_WIDTH, TRIM_HEIGHT);
   }
 
   // Used to calculate the shift amount of the dialogue box 
@@ -156,18 +151,19 @@ private class GUI_Top {
 
   // Objects
   Text_Button exportButton;
-  SVG_Export svgExporter;  // Is being used conditionally, ignore warning
   SVG_Render svgRenderer;
 
   // Constants
   private static final int BACKGROUND_HEIGHT = 50;
   private static final int TRIM_WIDTH = 1;
-  private static final int GRADIENT_X_POSITION = 200;
   private static final int LOGO_X_POSITION = 15;
   private static final int LOGO_Y_POSITION = 10;
+  
+  private static final int EXPORT_BUTTON_X = 1220;
+  private static final int EXPORT_BUTTON_Y = 25;
 
   private GUI_Top() {
-    exportButton = new Text_Button(1220, 25, "export", BUTTON_EXPORT);
+    exportButton = new Text_Button(EXPORT_BUTTON_X, EXPORT_BUTTON_Y, "export", BUTTON_EXPORT);
   }
 
   private void draw() {
@@ -189,7 +185,6 @@ private class GUI_Top {
     fill(HEADING_DARK_GREY);
     noStroke();
     rect(0, 0, width, BACKGROUND_HEIGHT);
-    //setGradient(GRADIENT_X_POSITION, 0, width, BACKGROUND_HEIGHT, HEADING_DARK_GREY, HEADING_LIGHT_GREY, X_AXIS);
 
     // Bottom Trim
     fill(TRIM_GREY);
@@ -200,8 +195,10 @@ private class GUI_Top {
   // Handles the events that happen if a button is pressed
   private void mousePressed() {
     if (exportButton.mousePressed() != EVENT_NULL) {
-      svgExporter = new SVG_Export(displayedBox);
+      print("\nCommencing render!\n");
+      print("\nRendering...\n");
       svgRenderer = new SVG_Render(displayedBox);
+      print("\nRender complete!\n");
     }
   }
 

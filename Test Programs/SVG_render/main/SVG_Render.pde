@@ -20,40 +20,26 @@ class SVG_Render {
       constructTop = false;
       constructBottom = true;
       floorOffsetEnabled = false;
-      initialiseConstructBooleans();
       break;
     case BOX_CLOSED:
       constructTop = true;
       constructBottom = true;
       floorOffsetEnabled = false;
-      initialiseConstructBooleans();
       break;
     case BOX_OPEN_THROUGH:
       constructTop = false;
       constructBottom = false;
       floorOffsetEnabled = false;
-      initialiseConstructBooleans();
       break;
     case BOX_CENTER_PART:
       constructTop = true;
       constructBottom = true;
-      initialiseConstructBooleans();
       constructCenter[0] = true;
       floorOffsetEnabled = false;
-
       getOddJointLengthConvert();
       getMiddleJointType();
       break;
     case BOX_CROSS_SECTION:
-      //constructTop = true;
-      //constructBottom = true;
-      //initialiseConstructBooleans();
-      //constructCenter[0] = true;
-      //constructCross[0] = true;
-      //floorOffsetEnabled = false;
-
-      //getOddJointLengthConvert();
-      //getMiddleJointType();
       constructTop = true;
       constructBottom = true;
       resetConstructInternalPieces();
@@ -67,13 +53,23 @@ class SVG_Render {
     case BOX_RAISED_FLOOR:
       constructTop = true;
       constructBottom = true;
-      initialiseConstructBooleans();
+      resetConstructInternalPieces();
+      constructCenter[0] = true;
+      constructCross[0] = true;
       floorOffsetEnabled = true;
       break;
     }
 
     svg = createGraphics(calculateCanvasWidth(), calculateCanvasHeight(), SVG, "Render.svg");
     constructSVGPlan();
+  }
+  
+  // Resets the cross and center piece construct booleans to false
+  private void resetConstructInternalPieces(){
+    for(int i = 0; i < constructCenter.length; i++){
+      constructCenter[i] = false;
+      constructCross[i] = false;
+    }
   }
 
   // Creates all necessary pieces and adds them to the .svg
@@ -117,15 +113,6 @@ class SVG_Render {
     svg.dispose();
     svg.endDraw();
   }
-  
-  // Resets the cross and center piece construct booleans to false
-  private void resetConstructInternalPieces(){
-    for(int i = 0; i < constructCenter.length; i++){
-      constructCenter[i] = false;
-      constructCross[i] = false;
-    }
-  }
-
 
   // Calculates the amount of pixels  on the vertical needed to incase the raster image
   private int calculateCanvasHeight() {

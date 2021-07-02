@@ -1,8 +1,22 @@
 /** 
+ *  This file handles all 3D preset box assembly
+ *  By Cian O'Gorman 18-07-2020
+ */
+
+/** 
  *  Interface designed for all boxes to use and follow.
  *  By Cian O'Gorman 18-07-2020
  */
 private interface Box_Template {
+
+  // Constants
+  public static final boolean DISABLE_TOP = false;
+  public static final boolean DISABLE_FLOOR = false;
+  public static final boolean ENABLE_TOP = true;
+  public static final boolean ENABLE_FLOOR = true;
+  public static final boolean CREATE_SLOT = true;
+  public static final boolean IS_CROSS_SECTION = true;
+  public static final boolean IS_NOT_CROSS_SECTION = false;
 
   // Handles the positioning and rotation of each individual part of the box
   void positionGeometry(PGraphics graphics);
@@ -19,36 +33,32 @@ private interface Box_Template {
  */
 private class Box_Raised_Floor implements Box_Template {
 
-  // Constants
-  private static final boolean ENABLE_TOP = false;
-  
   // Variables
   private boolean enableFloorJoint = true;
 
   // Declaring Objects
-  private Shape_Side_Piece sidePieceOne;
-  private Shape_Side_Piece sidePieceTwo;
-  private Shape_End_Piece endPieceOne;
-  private Shape_End_Piece endPieceTwo;
-  private Shape_Floor_Piece floorPiece;
+  private TD_Shape_Side_Piece sidePieceOne;
+  private TD_Shape_Side_Piece sidePieceTwo;
+  private TD_Shape_End_Piece endPieceOne;
+  private TD_Shape_End_Piece endPieceTwo;
+  private TD_Shape_Floor_Piece floorPiece;
 
   Box_Raised_Floor(PGraphics graphicContext) {
     // Initialising booleans
     constructCross[0] = false;
-    
-    if(floorOffset != 0){
+
+    if (floorOffset != 0) {
       enableFloorJoint = false;
-    }
-    else {
+    } else {
       enableFloorJoint = true;
     }
 
-    // Initialising Box Objects
-    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, enableFloorJoint);
-    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, enableFloorJoint);
-    endPieceOne = new Shape_End_Piece(ENABLE_TOP, enableFloorJoint);
-    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, enableFloorJoint);
-    floorPiece = new Shape_Floor_Piece();
+    // Initialising Shape Objects
+    sidePieceOne = new TD_Shape_Side_Piece(DISABLE_TOP, enableFloorJoint);
+    sidePieceTwo = new TD_Shape_Side_Piece(DISABLE_TOP, enableFloorJoint);
+    endPieceOne = new TD_Shape_End_Piece(DISABLE_TOP, enableFloorJoint);
+    endPieceTwo = new TD_Shape_End_Piece(DISABLE_TOP, enableFloorJoint);
+    floorPiece = new TD_Shape_Floor_Piece();
     setGraphicContext(graphicContext);
   }
 
@@ -97,7 +107,7 @@ private class Box_Raised_Floor implements Box_Template {
       {    
         graphics.rotateY(radians(90));                      // Rotating the graphic context 90 degrees
         graphics.translate(0, (boxHeight - thickness), 0);  // Translating on the local Y axis.
-        graphics.translate(0,-floorOffset, 0);// Translating on the local z-axis
+        graphics.translate(0, -floorOffset, 0);// Translating on the local z-axis
         floorPiece.draw();
       }
       graphics.popMatrix();
@@ -124,37 +134,31 @@ private class Box_Raised_Floor implements Box_Template {
  */
 private class Box_Cross_Section implements Box_Template {
 
-  // Constants
-  private static final boolean ENABLE_TOP = true;
-  private static final boolean ENABLE_FLOOR = true;
-  private static final boolean CREATE_SLOT = true;
-
   // Declaring Objects
-  private Shape_Side_Piece sidePieceOne;
-  private Shape_Side_Piece sidePieceTwo;
-  private Shape_End_Piece endPieceOne;
-  private Shape_End_Piece endPieceTwo;
-  private Shape_Floor_Piece floorPiece;
-  private Shape_Floor_Piece topPiece;
-  private Shape_Center_Piece centerPiece;
-  private Shape_Center_Piece crossPiece;
+  private TD_Shape_Side_Piece sidePieceOne;
+  private TD_Shape_Side_Piece sidePieceTwo;
+  private TD_Shape_End_Piece endPieceOne;
+  private TD_Shape_End_Piece endPieceTwo;
+  private TD_Shape_Floor_Piece floorPiece;
+  private TD_Shape_Floor_Piece topPiece;
+  private TD_Shape_Center_Piece centerPiece;
+  private TD_Shape_Center_Piece crossPiece;
 
   // Creates a box with a center part
   Box_Cross_Section(PGraphics graphicContext) {
+
     // Initialising booleans
     constructCross[0] = true;
 
     // Initialising Box Objects
-    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceOne = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    floorPiece = new Shape_Floor_Piece();
-    topPiece = new Shape_Floor_Piece();
-    boolean isCrossSectionPiece = false;
-    centerPiece = new Shape_Center_Piece(isCrossSectionPiece, CREATE_SLOT);
-    isCrossSectionPiece = true;
-    crossPiece = new Shape_Center_Piece(isCrossSectionPiece, CREATE_SLOT);
+    sidePieceOne = new TD_Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    sidePieceTwo = new TD_Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceOne = new TD_Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceTwo = new TD_Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    floorPiece = new TD_Shape_Floor_Piece();
+    topPiece = new TD_Shape_Floor_Piece();
+    centerPiece = new TD_Shape_Center_Piece(IS_NOT_CROSS_SECTION, CREATE_SLOT);
+    crossPiece = new TD_Shape_Center_Piece(IS_CROSS_SECTION, CREATE_SLOT);
     setGraphicContext(graphicContext);
   }
 
@@ -261,29 +265,29 @@ private class Box_Center_Part implements Box_Template {
   // Constants
   private static final boolean ENABLE_TOP = true;
   private static final boolean ENABLE_FLOOR = true;
-  private static final boolean IS_CENTER_PIECE = false;
+  private static final boolean IS_NOT_CENTER_PIECE = false;
   private static final boolean DONT_CREATE_SLOT = false;
 
   // Declaring Objects
-  private Shape_Side_Piece sidePieceOne;
-  private Shape_Side_Piece sidePieceTwo;
-  private Shape_End_Piece endPieceOne;
-  private Shape_End_Piece endPieceTwo;
-  private Shape_Floor_Piece floorPiece;
-  private Shape_Floor_Piece topPiece;
-  private Shape_Center_Piece centerPiece;
+  private TD_Shape_Side_Piece sidePieceOne;
+  private TD_Shape_Side_Piece sidePieceTwo;
+  private TD_Shape_End_Piece endPieceOne;
+  private TD_Shape_End_Piece endPieceTwo;
+  private TD_Shape_Floor_Piece floorPiece;
+  private TD_Shape_Floor_Piece topPiece;
+  private TD_Shape_Center_Piece centerPiece;
 
   // Creates a box with a center part
   Box_Center_Part(PGraphics graphicContext) {
 
     // Initialising Box Objects
-    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceOne = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    floorPiece = new Shape_Floor_Piece();
-    topPiece = new Shape_Floor_Piece();
-    centerPiece = new Shape_Center_Piece(IS_CENTER_PIECE, DONT_CREATE_SLOT);
+    sidePieceOne = new TD_Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    sidePieceTwo = new TD_Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceOne = new TD_Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceTwo = new TD_Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    floorPiece = new TD_Shape_Floor_Piece();
+    topPiece = new TD_Shape_Floor_Piece();
+    centerPiece = new TD_Shape_Center_Piece(IS_NOT_CENTER_PIECE, DONT_CREATE_SLOT);
     setGraphicContext(graphicContext);
   }
 
@@ -381,24 +385,24 @@ private class Box_Closed implements Box_Template {
   private static final boolean ENABLE_FLOOR = true;
 
   // Declaring Objects
-  private Shape_Side_Piece sidePieceOne;
-  private Shape_Side_Piece sidePieceTwo;
-  private Shape_End_Piece endPieceOne;
-  private Shape_End_Piece endPieceTwo;
-  private Shape_Floor_Piece floorPiece;
-  private Shape_Floor_Piece topPiece;
+  private TD_Shape_Side_Piece sidePieceOne;
+  private TD_Shape_Side_Piece sidePieceTwo;
+  private TD_Shape_End_Piece endPieceOne;
+  private TD_Shape_End_Piece endPieceTwo;
+  private TD_Shape_Floor_Piece floorPiece;
+  private TD_Shape_Floor_Piece topPiece;
 
   Box_Closed(PGraphics graphicContext) {
     // Initialising booleans
     constructCross[0] = false;
 
     // Initialising Box Objects
-    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceOne = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    floorPiece = new Shape_Floor_Piece();
-    topPiece = new Shape_Floor_Piece();
+    sidePieceOne = new TD_Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    sidePieceTwo = new TD_Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceOne = new TD_Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    endPieceTwo = new TD_Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    floorPiece = new TD_Shape_Floor_Piece();
+    topPiece = new TD_Shape_Floor_Piece();
     setGraphicContext(graphicContext);
   }
 
@@ -482,26 +486,26 @@ private class Box_Closed implements Box_Template {
 private class Box_Open_Top implements Box_Template {
 
   // Constants
-  private static final boolean ENABLE_TOP = false;
+  private static final boolean DISABLE_TOP = false;
   private static final boolean ENABLE_FLOOR = true;
 
   // Declaring Objects
-  private Shape_Side_Piece sidePieceOne;
-  private Shape_Side_Piece sidePieceTwo;
-  private Shape_End_Piece endPieceOne;
-  private Shape_End_Piece endPieceTwo;
-  private Shape_Floor_Piece floorPiece;
+  private TD_Shape_Side_Piece sidePieceOne;
+  private TD_Shape_Side_Piece sidePieceTwo;
+  private TD_Shape_End_Piece endPieceOne;
+  private TD_Shape_End_Piece endPieceTwo;
+  private TD_Shape_Floor_Piece floorPiece;
 
   Box_Open_Top(PGraphics graphicContext) {
     // Initialising booleans
     constructCross[0] = false;
 
     // Initialising Box Objects
-    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceOne = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    floorPiece = new Shape_Floor_Piece();
+    sidePieceOne = new TD_Shape_Side_Piece(DISABLE_TOP, ENABLE_FLOOR);
+    sidePieceTwo = new TD_Shape_Side_Piece(DISABLE_TOP, ENABLE_FLOOR);
+    endPieceOne = new TD_Shape_End_Piece(DISABLE_TOP, ENABLE_FLOOR);
+    endPieceTwo = new TD_Shape_End_Piece(DISABLE_TOP, ENABLE_FLOOR);
+    floorPiece = new TD_Shape_Floor_Piece();
     setGraphicContext(graphicContext);
   }
 
@@ -577,25 +581,22 @@ private class Box_Open_Top implements Box_Template {
  */
 private class Box_Open_Through implements Box_Template {
 
-  // Constants
-  private static final boolean ENABLE_TOP = false;
-  private static final boolean ENABLE_FLOOR = false;
-
   // Declaring Objects
-  private Shape_Side_Piece sidePieceOne;
-  private Shape_Side_Piece sidePieceTwo;
-  private Shape_End_Piece endPieceOne;
-  private Shape_End_Piece endPieceTwo;
+  private TD_Shape_Side_Piece sidePieceOne;
+  private TD_Shape_Side_Piece sidePieceTwo;
+  private TD_Shape_End_Piece endPieceOne;
+  private TD_Shape_End_Piece endPieceTwo;
 
   Box_Open_Through(PGraphics graphicContext) {
+
     // Initialising booleans
     constructCross[0] = false;
 
     // Initialising Box Objects
-    sidePieceOne = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    sidePieceTwo = new Shape_Side_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceOne = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
-    endPieceTwo = new Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
+    sidePieceOne = new TD_Shape_Side_Piece(DISABLE_TOP, DISABLE_FLOOR);
+    sidePieceTwo = new TD_Shape_Side_Piece(DISABLE_TOP, DISABLE_FLOOR);
+    endPieceOne = new TD_Shape_End_Piece(DISABLE_TOP, DISABLE_FLOOR);
+    endPieceTwo = new TD_Shape_End_Piece(DISABLE_TOP, DISABLE_FLOOR);
     setGraphicContext(graphicContext);
   }
 

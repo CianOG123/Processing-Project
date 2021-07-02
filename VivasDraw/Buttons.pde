@@ -1,4 +1,9 @@
 /** 
+ *  This file handles all classes of the GUI buttons
+ *  By Cian O'Gorman 30-07-2020
+ */
+
+/** 
  *  Class to create text buttons
  *  By Cian O'Gorman 30-07-2020
  */
@@ -15,6 +20,7 @@ private class Text_Button {
 
   // Constants
   private final PFont BUTTON_FONT = robotoLight20;
+  private final int HOVER_FONT_SIZE = 22;
 
   Text_Button(int xPosition, int yPosition, String text, int buttonEvent) {
     this.xPosition = xPosition;
@@ -34,7 +40,7 @@ private class Text_Button {
     textFont(BUTTON_FONT);
     fill(TEXT_WHITE);
     if (mouseHover() == true) {
-      textSize(22);
+      textSize(HOVER_FONT_SIZE);
     }
     text(text, xPosition, yPosition);
     textAlign(LEFT, BOTTOM);
@@ -42,7 +48,7 @@ private class Text_Button {
 
   // Checks to see if the mouse is hovering over the button
   private boolean mouseHover() {
-    if ((mouseX > xPosition - (textWidth(text) / 2)) && (mouseX < xPosition + (textWidth(text) / 2))) {
+    if ((mouseX > xPosition - getTextCenter()) && (mouseX < xPosition + getTextCenter())) {
       if ((mouseY > yPosition - textAscent()) && (mouseY < yPosition + textAscent())) {
         return true;
       } else {
@@ -51,6 +57,11 @@ private class Text_Button {
     } else {
       return false;
     }
+  }
+
+  // Returns the width of the text divided by two
+  private float getTextCenter() {
+    return textWidth(text) / 2;
   }
 
   // Changes the mouse cursor
@@ -142,32 +153,23 @@ private class Image_Button {
 
   // Function handles the cursor image
   private void changeCursor(float scrollOffset) {
-
     // Checking to see if mouse is within the scroll graphic context limits
     if ((mouseX > SCROLL_CONTEXT_X_POSITION) && (mouseX < SCROLL_CONTEXT_X_POSITION + SCROLL_CONTEXT_BOX_WIDTH)) {
       if ((mouseY > SCROLL_CONTEXT_Y_POSITION) && (mouseY < SCROLL_CONTEXT_Y_POSITION + SCROLL_CONTEXT_BOX_HEIGHT)) {
-
         // Checking to see if the mouse is within the limits of the button
         if ((mouseX > xPosition + SCROLL_CONTEXT_X_POSITION + scrollOffset) && (mouseX < xPosition + buttonWidth + SCROLL_CONTEXT_X_POSITION + scrollOffset)) {
           if ((mouseY > yPosition + SCROLL_CONTEXT_Y_POSITION) && (mouseY < yPosition + buttonHeight + SCROLL_CONTEXT_Y_POSITION)) {
-
             if (cursorChanged == false) {
               cursorChanged = true;
               canPress = true;
               cursor(HAND);
             }
-          } else {
-            resetCursor();
+            return;
           }
-        } else {
-          resetCursor();
         }
-      } else {
-        resetCursor();
       }
-    } else {
-      resetCursor();
     }
+    resetCursor();
   }
 
   // Resets the cursor to ARROW
@@ -201,9 +203,12 @@ private class Scroll_Bar {
   // Constants
   private static final int SCROLL_BUTTON = LEFT;
   private static final int BAR_X_INSET = 10;
-  private static final int BAR_Y_INSET = 4;
+  private static final int BAR_Y_INSET = 2;
+  private static final int GRABBER_Y_INSET = 4;
   private static final float CIRCLE_OFFSET = .5;
-  private static final float GRABBER_WIDTH = 20;
+  private static final int GRABBER_WIDTH = 20;
+  private static final int SCROLL_SHADOW_X_INSET = 20;
+  private static final int GRABBER_LEFT_LIMIT = 0;
 
   // Objects
   PGraphics graphics;
@@ -244,11 +249,11 @@ private class Scroll_Bar {
 
     // Scroll bar  shadow
     barShadowXPosition = xPosition + BAR_X_INSET;
-    barShadowYPosition = yPosition + 2;
+    barShadowYPosition = yPosition + BAR_Y_INSET;
     barShadowCircleYPosition = yPosition + (scrollHeight / 2);
 
     // Grabber
-    grabberHeight = scrollHeight - BAR_Y_INSET;
+    grabberHeight = scrollHeight - GRABBER_Y_INSET;
     circleYPosition = barShadowCircleYPosition + CIRCLE_OFFSET;
   }
 
@@ -265,7 +270,7 @@ private class Scroll_Bar {
     graphics.fill(STANDARD_GREY);
     graphics.rect(xPosition, yPosition, scrollWidth, scrollHeight);
     graphics.fill(LIGHT_GREY);
-    graphics.rect(barShadowXPosition, barShadowYPosition, scrollWidth - 20, grabberHeight);
+    graphics.rect(barShadowXPosition, barShadowYPosition, scrollWidth - SCROLL_SHADOW_X_INSET, grabberHeight);
     graphics.circle(barShadowXPosition - CIRCLE_OFFSET, barShadowCircleYPosition + CIRCLE_OFFSET, grabberHeight);
     graphics.circle(barShadowXPosition + scrollWidth - (BAR_X_INSET * 2), barShadowCircleYPosition + CIRCLE_OFFSET, grabberHeight);
   }
@@ -282,10 +287,10 @@ private class Scroll_Bar {
   private void moveGrabber() {
     if (mouseHeld == true) {
       scrollOffset = mouseX - (contextXOffset + mouseOffset);
-      if (scrollOffset <= 0) {
-        scrollOffset = 0;
-      } else if (scrollOffset >= scrollWidth - (20 + GRABBER_WIDTH)) {
-        scrollOffset =  scrollWidth - (20 + (int) GRABBER_WIDTH);
+      if (scrollOffset <= GRABBER_LEFT_LIMIT) {
+        scrollOffset = GRABBER_LEFT_LIMIT;
+      } else if (scrollOffset >= scrollWidth - (SCROLL_SHADOW_X_INSET + GRABBER_WIDTH)) {
+        scrollOffset =  scrollWidth - (SCROLL_SHADOW_X_INSET + (int) GRABBER_WIDTH);
       }
       if (mousePressed == false) {
         mouseHeld = false;
@@ -518,26 +523,24 @@ private class Text_Input {
 
   // Checks to see if the box has been clicked and enables input mode if it has
   protected void enableInputMode() {
-    if (mousePressed == true) {
-      if (mouseButton == LEFT) {
-        if ((mouseX > xPosition) && (mouseX < xPosition + buttonWidth) && (mouseY >= yPosition) && (mouseY <= yPosition + buttonHeight)) {
-          if (mousePressedBuffer == 0) {
-            mousePressedBuffer = 1;
-            if ((inputMode == false) && (inputEnabledElseWhere == false)) {
-              inputMode = true;
-              inputEnabledElseWhere = true;
-              inputBuffer = String.valueOf(value);
-              inputBuffer += '_';
-            } else if (inputEnabledElseWhere == false) {
-              saveToValue();
-              inputMode = false;
-              inputEnabledElseWhere = false;
-            }
-          } else {
-            mousePressedBuffer++;
-            if (mousePressedBuffer >= INPUT_TIME_LIMIT) {
-              mousePressedBuffer = 0;
-            }
+    if (mousePressed == true && mouseButton == LEFT) {
+      if ((mouseX > xPosition) && (mouseX < xPosition + buttonWidth) && (mouseY >= yPosition) && (mouseY <= yPosition + buttonHeight)) {
+        if (mousePressedBuffer == 0) {
+          mousePressedBuffer = 1;
+          if ((inputMode == false) && (inputEnabledElseWhere == false)) {
+            inputMode = true;
+            inputEnabledElseWhere = true;
+            inputBuffer = String.valueOf(value);
+            inputBuffer += '_';
+          } else if (inputEnabledElseWhere == false) {
+            saveToValue();
+            inputMode = false;
+            inputEnabledElseWhere = false;
+          }
+        } else {
+          mousePressedBuffer++;
+          if (mousePressedBuffer >= INPUT_TIME_LIMIT) {
+            mousePressedBuffer = 0;
           }
         }
       }

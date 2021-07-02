@@ -11,6 +11,7 @@ private class Camera {
   private static final int SCROLL_SPEED = 10;     // Higher is slower, lower is faster
   private static final float SCROLL_MAX = 0.333;  // The max scroll distance
   private static final float SCROLL_MIN = 5;      // The minimum scroll distance
+  private static final int ROTATE_SPEED = 5;
 
   // Objects
   private PGraphics graphicsContext;  // Reference to the graphic context used
@@ -66,7 +67,7 @@ private class Camera {
         // While button is pressed
         else {
           float mouseYDifference = mouseX - savedMouseX;
-          currentYRotation = (int) mouseYDifference / 5;
+          currentYRotation = (int) mouseYDifference / ROTATE_SPEED;
         }
       }
       // When mouse is released
@@ -89,7 +90,7 @@ private class Camera {
         // While button is pressed
         else {
           float mouseXDifference = mouseY - savedMouseY;
-          currentXRotation = (int) mouseXDifference / 5;
+          currentXRotation = (int) mouseXDifference / ROTATE_SPEED;
         }
       }
       // When mouse is released

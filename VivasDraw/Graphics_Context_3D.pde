@@ -12,6 +12,10 @@ private class Graphic_Context_3D_Container {
   private static final int CONTAINER_WIDTH = 930;
   private static final int CONTAINER_Y_POSITION = 50;
 
+  private static final int AUTO_ROTATE_X_OFFSET = 10;
+  private static final int AUTO_ROTATE_Y = 700;
+  private static final int AUTO_ROTATE_LENGTH = 15;
+
   // Object declaration
   private Camera camera;
   private PGraphics graphicContainer;    // The 3D Graphic Context that the 3D geometry are displayed in
@@ -32,7 +36,7 @@ private class Graphic_Context_3D_Container {
     graphicContainer = createGraphics(width, height, P3D);
 
     // Button Initialisation
-    checkBox = new Check_Box(-GRAPHIC_CONTAINER_OFFSET + 10, 700, 15, 15, "Enable auto-rotate", GRAPHIC_CONTAINER_OFFSET, graphicContainer);
+    checkBox = new Check_Box(-GRAPHIC_CONTAINER_OFFSET + AUTO_ROTATE_X_OFFSET, AUTO_ROTATE_Y, AUTO_ROTATE_LENGTH, AUTO_ROTATE_LENGTH, "Enable auto-rotate", GRAPHIC_CONTAINER_OFFSET, graphicContainer);
 
     // Box Initialisation
     boxClosed = new Box_Closed(graphicContainer);
@@ -139,7 +143,7 @@ private class Graphic_Context_3D_Container {
       refreshEndPieceJointLength();
       refreshSidePieceLength();
       refreshSidePieceJointLength();
-      refreshEndPieceCenterJointLength();
+      refreshcenterJointLength();
       refreshTopPieceJointLength();
       boxOpenThrough = new Box_Open_Through(graphicContainer);
       boxOpenTop = new Box_Open_Top(graphicContainer);
@@ -160,8 +164,8 @@ private class Graphic_Context_3D_Container {
   }
 
   // Updates the end piece center joint length
-  private void refreshEndPieceCenterJointLength() {
-    endPieceCenterJointLength = ((boxHeight - (thickness * 2)) / 3);
+  private void refreshcenterJointLength() {
+    centerJointLength = ((boxHeight - (thickness * 2)) / 3);
   }
 
   // Updates the joint height
@@ -187,26 +191,5 @@ private class Graphic_Context_3D_Container {
   // Updates the side piece joint length
   private void refreshSidePieceJointLength() {
     sidePieceJointLength = (sidePieceLength / 3);
-  }
-
-  // Converts and updates all svg measurements
-  private void convertMeasurements() {
-    if (measurementType == MILLIMETRE) {
-      boxLengthC = boxLength * PIXEL_TO_MILLIMETRE;
-      boxWidthC = boxWidth * PIXEL_TO_MILLIMETRE;
-      boxHeightC = boxHeight * PIXEL_TO_MILLIMETRE;
-      thicknessC = thickness * PIXEL_TO_MILLIMETRE;
-      jointHeightC = jointHeight * PIXEL_TO_MILLIMETRE;
-      sidePieceLengthC = sidePieceLength * PIXEL_TO_MILLIMETRE;
-      endPieceLengthC = endPieceLength * PIXEL_TO_MILLIMETRE;
-      endPieceJointLengthC = endPieceJointLength * PIXEL_TO_MILLIMETRE;
-      sidePieceJointLengthC = sidePieceJointLength * PIXEL_TO_MILLIMETRE;
-      endPieceCenterJointLengthC = endPieceCenterJointLength * PIXEL_TO_MILLIMETRE;
-      floorOffsetC = floorOffset * PIXEL_TO_MILLIMETRE;
-      for (int i = 0; i < crossJointPos.length; i++) {
-        crossJointPosC[i] = crossJointPos[i] * PIXEL_TO_MILLIMETRE;
-        centerJointPosC[i] = centerJointPos[i] * PIXEL_TO_MILLIMETRE;
-      }
-    }
   }
 }
