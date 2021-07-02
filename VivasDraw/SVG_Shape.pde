@@ -375,7 +375,7 @@ class SVG_Shape {
         }
       } else {
         // Case 7
-        closeJoint = false;  // This may need to be true change if errors occur
+        closeJoint = true;  // A boolean must be added to this case if errors persist
       }
     } else {
       if (bottomIntersect == true) {
