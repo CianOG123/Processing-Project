@@ -213,8 +213,8 @@ class SVG_Internal_Piece extends SVG_Shape {
       svg.line(pieceLengthC + xOffset, startPoint + yOffset, pieceLengthC - thicknessC + xOffset, startPoint + yOffset);
     }
     if (jointEndInwards == true) {
-      if(constructBottom == true)
-        endPoint += thicknessC;
+      if(constructBottom == false)
+        endPoint += thicknessC;  // Add control boolean of some sort if joint is ending short
       svg.line(thicknessC + xOffset, jointEndYPosition, thicknessC + xOffset, endPoint + yOffset);
       svg.line(pieceLengthC - thicknessC + xOffset, jointEndYPosition, pieceLengthC - thicknessC + xOffset, endPoint + yOffset);
     } else {

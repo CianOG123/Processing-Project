@@ -265,15 +265,17 @@ class SVG_Top_Piece extends SVG_Shape {
     float startPoint = complexTop;
     float endPoint = complexBottom;
     for (int i = 0; i < centerJointPosC.length; i++) {
-      if (centerJointPosC[i] + yOffset < complexTop && centerJointPosC[i] + thicknessC + yOffset > complexTop) {
-        startPoint = centerJointPosC[i] + thicknessC + yOffset;
-      }
-      if (centerJointPosC[i] + yOffset < complexBottom && centerJointPosC[i] + thicknessC + yOffset > complexBottom) {
-        endPoint = centerJointPosC[i] + yOffset;
+      if (constructCenter[i] == true) {
+        if (centerJointPosC[i] + yOffset < complexTop && centerJointPosC[i] + thicknessC + yOffset > complexTop) {
+          startPoint = centerJointPosC[i] + thicknessC + yOffset;
+        }
+        if (centerJointPosC[i] + yOffset < complexBottom && centerJointPosC[i] + thicknessC + yOffset > complexBottom) {
+          endPoint = centerJointPosC[i] + yOffset;
+        }
       }
     }
     verticalIslandPoints = getMidPoints(centerJointPosC, constructCenter, yOffset, 0, complexTop, complexBottom);
-    float[] points = mergePointsArrays(centerJointPosC, verticalIslandPoints);
+    float[] points = mergePointsArrays(centerJointPosC, verticalIslandPoints, constructCross);
     float nearestPoint = Float.MIN_VALUE;
     while (nearestPoint != endPoint) {
       nearestPoint = getNearestPoint(startPoint, points, endPoint, yOffset);
@@ -296,15 +298,17 @@ class SVG_Top_Piece extends SVG_Shape {
     float startPoint = complexLeft;
     float endPoint = complexRight;
     for (int i = 0; i < crossJointPosC.length; i++) {
-      if (crossJointPosC[i] + xOffset < complexLeft && crossJointPosC[i] + thicknessC + xOffset > complexLeft) {
-        startPoint = crossJointPosC[i] + thicknessC + xOffset;
-      }
-      if (crossJointPosC[i] + xOffset < complexRight && crossJointPosC[i] + thicknessC + xOffset > complexRight) {
-        endPoint = crossJointPosC[i] + xOffset;
+      if (constructCross[i] == true) {
+        if (crossJointPosC[i] + xOffset < complexLeft && crossJointPosC[i] + thicknessC + xOffset > complexLeft) {
+          startPoint = crossJointPosC[i] + thicknessC + xOffset;
+        }
+        if (crossJointPosC[i] + xOffset < complexRight && crossJointPosC[i] + thicknessC + xOffset > complexRight) {
+          endPoint = crossJointPosC[i] + xOffset;
+        }
       }
     }
     horizontalIslandPoints = getMidPoints(crossJointPosC, constructCross, xOffset, 0, complexLeft, complexRight);
-    float[] points = mergePointsArrays(crossJointPosC, horizontalIslandPoints);
+    float[] points = mergePointsArrays(crossJointPosC, horizontalIslandPoints, constructCenter);
     float nearestPoint = Float.MIN_VALUE;
     while (nearestPoint != endPoint) {
       nearestPoint = getNearestPoint(startPoint, points, endPoint, xOffset);
@@ -351,11 +355,12 @@ class SVG_Top_Piece extends SVG_Shape {
   }
 
   // Combines the two given point arrays into one array and orders them from least to most
-  private float[] mergePointsArrays(float[] array1, float[] array2) {
+  private float[] mergePointsArrays(float[] array1, float[] array2, boolean[] enableArray1) {
     float[] mergeArray;
     mergeArray = new float[array1.length + array2.length];
     for (int i = 0; i < array1.length; i++) {
-      mergeArray[i] = array1[i];
+      if(enableArray1[i] == true)
+        mergeArray[i] = array1[i];
     }
     int index = array1.length;
     for (int i = 0; i < array2.length; i++) {
