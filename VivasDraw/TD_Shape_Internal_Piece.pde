@@ -4,9 +4,12 @@
  */
 private class TD_Shape_Internal_Piece extends TD_Shape_Template {
 
+  boolean invertJoints;
+  protected ArrayList<Float> jointPoints = new ArrayList<Float>();
+  protected ArrayList<Float> jointDips = new ArrayList<Float>();
 
   // Draws the joints of a center/cross piece
-  protected PShape constructCenterJoints(boolean invertJoints, float pieceLength) {
+  protected PShape constructCenterJoints(boolean invertJoints) {
     PShape centerJoints = createShape(GROUP);
     PShape joints = createShape();
     joints.beginShape(TRIANGLE_STRIP);

@@ -10,10 +10,17 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
   private PShape crossPiece;
 
   TD_Shape_Cross_Piece() {
-    crossPiece = constructCenterJoints(INVERT_JOINTS, boxWidth);
+    crossPiece = constructCenterJoints(INVERT_JOINTS);
   } 
   
   private void draw() {
     display(crossPiece);
+    graphicContext.pushMatrix();
+    {
+      graphicContext.translate(boxWidth, 0, thickness);
+      graphicContext.rotateY(radians(180));
+      display(crossPiece);
+    }
+    graphicContext.popMatrix();
   }
 }
