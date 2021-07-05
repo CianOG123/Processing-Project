@@ -5,7 +5,7 @@
 private class TD_Shape_Floor_Piece extends TD_Shape_Template {
 
   // Objects
-  private PShape floorPiece;                // Declaring the side piece shape
+  private PShape floorPiece;                // Declaring the piece shape
 
   TD_Shape_Floor_Piece() {
     floorPiece = createShape();
@@ -19,7 +19,7 @@ private class TD_Shape_Floor_Piece extends TD_Shape_Template {
     display(floorPiece);
   }
 
-    void plotShape(PShape shape) {
+  void plotShape(PShape shape) {
 
     floorPiece.vertex(0, 0, 0);
     floorPiece.vertex(0, thickness, 0);

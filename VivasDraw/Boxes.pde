@@ -157,8 +157,8 @@ private class Box_Cross_Section implements Box_Template {
     endPieceTwo = new TD_Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
     floorPiece = new TD_Shape_Floor_Piece();
     topPiece = new TD_Shape_Floor_Piece();
-    centerPiece = new TD_Shape_Center_Piece(IS_NOT_CROSS_SECTION, CREATE_SLOT);
-    crossPiece = new TD_Shape_Center_Piece(IS_CROSS_SECTION, CREATE_SLOT);
+    centerPiece = new TD_Shape_Center_Piece();
+    crossPiece = new TD_Shape_Center_Piece();
     setGraphicContext(graphicContext);
   }
 
@@ -287,7 +287,7 @@ private class Box_Center_Part implements Box_Template {
     endPieceTwo = new TD_Shape_End_Piece(ENABLE_TOP, ENABLE_FLOOR);
     floorPiece = new TD_Shape_Floor_Piece();
     topPiece = new TD_Shape_Floor_Piece();
-    centerPiece = new TD_Shape_Center_Piece(IS_NOT_CENTER_PIECE, DONT_CREATE_SLOT);
+    centerPiece = new TD_Shape_Center_Piece();
     setGraphicContext(graphicContext);
   }
 

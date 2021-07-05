@@ -19,7 +19,7 @@ float boxLength = 150;
 float boxWidth = 100;
 float boxHeight = 50;
 float thickness = 3;
-float floorOffset = 15;
+float floorOffset = 0;
 
 int jointAmount = 7;
 
