@@ -142,7 +142,7 @@ private class Box_Cross_Section implements Box_Template {
   private TD_Shape_Floor_Piece floorPiece;
   private TD_Shape_Floor_Piece topPiece;
   private TD_Shape_Center_Piece centerPiece;
-  private TD_Shape_Center_Piece crossPiece;
+  private TD_Shape_Cross_Piece crossPiece;
 
   // Creates a box with a center part
   Box_Cross_Section(PGraphics graphicContext) {
@@ -158,7 +158,7 @@ private class Box_Cross_Section implements Box_Template {
     floorPiece = new TD_Shape_Floor_Piece();
     topPiece = new TD_Shape_Floor_Piece();
     centerPiece = new TD_Shape_Center_Piece();
-    crossPiece = new TD_Shape_Center_Piece();
+    crossPiece = new TD_Shape_Cross_Piece();
     setGraphicContext(graphicContext);
   }
 
