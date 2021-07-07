@@ -172,7 +172,7 @@ class SVG_Center_Piece extends SVG_Internal_Piece {
     }
   }
 
-  // Draws the bottom of the center piece
+  // Draws the bottom of the center piece.
   private void createBottom() {
     if (constructBottom == false) {
       svg.line(thicknessC + xOffset, boxHeightC + yOffset, boxLengthC - thicknessC + xOffset, boxHeightC + yOffset);

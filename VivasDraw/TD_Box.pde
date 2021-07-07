@@ -1,8 +1,3 @@
-/** 
- *  This file handles all 3D preset box assembly
- *  By Cian O'Gorman 18-07-2020
- */
-
 /**
  *  Default Box
  *  Used for all boxes

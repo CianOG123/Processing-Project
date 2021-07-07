@@ -16,14 +16,6 @@ class SVG_Shape {
     this.yOffset = yOffset;
   }
 
-  // ----------------------------------------------------------------------------------------------------------------------------------
-
-  // FINISHED FUNCTIONS THAT WORK PERFECTLY
-
-  // ----------------------------------------------------------------------------------------------------------------------------------
-  // SIDE AND END PIECE FUNCTIONS
-  // ----------------------------------------------------------------------------------------------------------------------------------
-
   // Constructs the bottom for a side or end piece
   protected void sideCreateBottom(boolean invertJoints, float boxDimensionC, float jointLengthC, float[] jointPosC, boolean[] constructPiece) {
     float yPosition = yOffset + boxHeightC;

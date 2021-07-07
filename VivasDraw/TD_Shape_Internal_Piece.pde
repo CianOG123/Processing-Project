@@ -4,7 +4,6 @@
  */
 private class TD_Shape_Internal_Piece extends TD_Shape_Template {
 
-  boolean invertJoints;
   protected ArrayList<Float> jointPoints = new ArrayList<Float>();
   protected ArrayList<Float> jointDips = new ArrayList<Float>();
 
@@ -67,6 +66,70 @@ private class TD_Shape_Internal_Piece extends TD_Shape_Template {
     }
     return crossSlots;
   }
+  
+  protected void findDipPositions(float pieceJointLength, boolean constructPiece) {
+    Collections.sort(jointPoints);
+    float startPoint = thickness;
+    boolean pastJointStart = false;
+    boolean pastJointEnd = false;
+    boolean lastJoint = false;
+    int i = 0;
+    float jointPoint;
+    try{
+    jointPoint = jointPoints.get(i);
+    } catch(IndexOutOfBoundsException e){
+    }
+    while (i < jointPoints.size()) {
+      if (i == jointPoints.size() - 1)
+        lastJoint = true;
+      jointPoint = jointPoints.get(i);
+      // joint on start edge
+      if (jointPoint <= pieceJointLength + thickness && jointPoint + thickness > pieceJointLength + thickness) {
+        pastJointStart = true;
+        if (lastJoint == false && jointPoints.get(i + 1) < pieceJointLength * 2 + thickness && jointPoints.get(i + 1) > pieceJointLength + thickness) {
+          startPoint = (abs(jointPoint + jointPoints.get(i + 1)) / 2);
+          jointDips.add(startPoint);
+        } else
+          startPoint = jointPoint;
+      }
+      // joint on end edge
+      else if (jointPoint <= pieceJointLength * 2 + thickness && jointPoint + thickness > pieceJointLength * 2 + thickness) {
+        pastJointEnd = true;
+        startPoint = jointPoint + thickness;
+      }
+      // joint past start and start edge not drawn
+      else if (jointPoint >= pieceJointLength + thickness && pastJointStart == false) {
+        i--;
+        pastJointStart = true;
+        jointPoint = pieceJointLength + thickness;
+        startPoint = jointPoint;
+      }
+      // joint past end
+      else if (jointPoint >= pieceJointLength * 2 + thickness && pastJointEnd == false) {
+        i--;
+        pastJointEnd = true;
+        jointPoint = (pieceJointLength * 2) + thickness;
+        startPoint = jointPoint;
+      }
+      // joint before start
+      else {
+        if (lastJoint == false) {
+          if (jointPoints.get(i + 1) < pieceJointLength * 2 + thickness && pastJointStart == true) {
+            startPoint = (abs(jointPoint + jointPoints.get(i + 1)) / 2);
+            jointDips.add(startPoint);
+          } else
+            startPoint = jointPoint + thickness;
+        } else
+          startPoint = jointPoint + thickness;
+      }
+      i++;
+    }
+    if (pastJointEnd == false && constructPiece == true) {
+      pastJointEnd = true;
+      jointPoint = (pieceJointLength * 2) + thickness;
+      startPoint = jointPoint;
+    }
+  }
 
   // Draws the joints of a center/cross piece
   protected PShape constructCenterJoints(boolean invertJoints) {
@@ -99,7 +162,7 @@ private class TD_Shape_Internal_Piece extends TD_Shape_Template {
       if (i % 2 == 0) {
         // Outwards to inwards
         // Inner edges
-        if (jointHeight * (i - 1)  > startPoint && jointHeight * i < endPoint) {
+        if (jointHeight * (i - 1)  >= startPoint && jointHeight * i <= endPoint) {
           joints.vertex(extrudeOffset + thickness, jointHeight * (i - 1), 0);
           joints.vertex(extrudeOffset + thickness, jointHeight * (i - 1), thickness);
           joints.vertex(extrudeOffset + thickness, jointHeight * i, 0);
@@ -139,7 +202,7 @@ private class TD_Shape_Internal_Piece extends TD_Shape_Template {
         }
       } else {
         // Inwards to outwards
-        if (jointHeight * (i - 1) > startPoint && jointHeight * i < endPoint) {
+        if (jointHeight * (i - 1) >= startPoint && jointHeight * i <= endPoint) {
           // Outer edges
           joints.vertex(intrudeOffset, jointHeight * (i - 1), 0);
           joints.vertex(intrudeOffset, jointHeight * (i - 1), thickness);
@@ -211,7 +274,7 @@ private class TD_Shape_Internal_Piece extends TD_Shape_Template {
     }
     if (jointEndInwards == true) {
       if (constructBottom == false)
-        endPoint += thickness;  // Add control boolean of some sort if joint is ending short
+        endPoint += 0;  // If thickness needs to be added here then something needs to change
       joints.vertex(thickness, jointEndYPosition, 0);
       joints.vertex(thickness, jointEndYPosition, thickness);
       joints.vertex(thickness, endPoint, 0);
