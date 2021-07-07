@@ -16,7 +16,7 @@ private class Grid_Static extends TD_Shape_Template {
     gridStatic = createShape();
     gridStatic.beginShape(LINES);      // Draws the vertices as lines between every other pair of vertices
     initialise(gridStatic);
-    plotShape(gridStatic);
+    plotGrid();
     gridStatic.endShape();
   }
 
@@ -39,7 +39,7 @@ private class Grid_Static extends TD_Shape_Template {
     graphics.popMatrix();
   }
 
-    void plotShape(PShape shape) {
+    void plotGrid() {
     gridStatic.vertex(0, 0, GRID_SQUARE_LENGTH);
     gridStatic.vertex(GRID_LENGTH, 0, GRID_SQUARE_LENGTH);
     gridStatic.vertex(0, 0, (GRID_SQUARE_LENGTH * 2));

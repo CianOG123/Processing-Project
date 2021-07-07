@@ -151,7 +151,7 @@ private class GUI_Top {
 
   // Objects
   Text_Button exportButton;
-  SVG_Render svgRenderer;
+  SVG_Render svgRenderer; // This is being used
 
   // Constants
   private static final int BACKGROUND_HEIGHT = 50;
@@ -197,7 +197,7 @@ private class GUI_Top {
     if (exportButton.mousePressed() != EVENT_NULL) {
       print("\nCommencing render!\n");
       print("\nRendering...\n");
-      svgRenderer = new SVG_Render(displayedBox);
+      svgRenderer = new SVG_Render();
       print("\nRender complete!\n");
     }
   }

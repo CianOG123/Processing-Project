@@ -25,9 +25,10 @@ void settings() {
 void setup() {
   frameRate(FRAME_RATE);
   smooth();
+  initialiseConstructBooleans();
+  setCenterJointPosition();
   container3D = new Graphic_Context_3D_Container();
   userInterface = new GUI_Main();
-  setCenterJointPosition();
   initialiseConstructBooleans();
   convertMeasurements();
 }

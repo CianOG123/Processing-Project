@@ -25,12 +25,7 @@ private class Graphic_Context_3D_Container {
   Check_Box checkBox;
 
   // Box Declaration
-  private Box_Open_Through boxOpenThrough;
-  private Box_Open_Top boxOpenTop;
-  private Box_Closed boxClosed;
-  private Box_Center_Part boxCenterPart;
-  private Box_Cross_Section boxCrossSection;
-  private Box_Raised_Floor boxRaisedFloor;
+  private TD_Box box;
 
   private Graphic_Context_3D_Container() {
     graphicContainer = createGraphics(width, height, P3D);
@@ -39,12 +34,7 @@ private class Graphic_Context_3D_Container {
     checkBox = new Check_Box(-GRAPHIC_CONTAINER_OFFSET + AUTO_ROTATE_X_OFFSET, AUTO_ROTATE_Y, AUTO_ROTATE_LENGTH, AUTO_ROTATE_LENGTH, "Enable auto-rotate", GRAPHIC_CONTAINER_OFFSET, graphicContainer);
 
     // Box Initialisation
-    boxClosed = new Box_Closed(graphicContainer);
-    boxOpenThrough = new Box_Open_Through(graphicContainer);
-    boxOpenTop = new Box_Open_Top(graphicContainer);
-    boxCenterPart = new Box_Center_Part(graphicContainer);
-    boxCrossSection = new Box_Cross_Section(graphicContainer);
-    boxRaisedFloor = new Box_Raised_Floor(graphicContainer);
+    box = new TD_Box(graphicContainer);
 
     // Grid Initialisation
     grid = new Grid_Static(graphicContainer);
@@ -63,25 +53,65 @@ private class Graphic_Context_3D_Container {
   private void drawBox() {
     switch (displayedBox) {
     case BOX_OPEN_TOP:
-      boxOpenTop.draw(graphicContainer);
+      constructTop = false;
+      constructBottom = true;
+      floorOffsetEnabled = false;
+      disableCenterPieces();
+      disableCrossPieces();
+      box = new TD_Box(graphicContainer);
+      box.draw(graphicContainer);
       break;
     case BOX_CLOSED:
-      boxClosed.draw(graphicContainer);
+      constructTop = true;
+      constructBottom = true;
+      floorOffsetEnabled = false;
+      disableCenterPieces();
+      disableCrossPieces();
+      box = new TD_Box(graphicContainer);
+      box.draw(graphicContainer);
       break;
     case BOX_OPEN_THROUGH:
-      boxOpenThrough.draw(graphicContainer);
+      constructTop = false;
+      constructBottom = false;
+      floorOffsetEnabled = false;
+      disableCenterPieces();
+      disableCrossPieces();
+      box = new TD_Box(graphicContainer);
+      box.draw(graphicContainer);
       break;
     case BOX_CENTER_PART:
-      boxCenterPart.draw(graphicContainer);
+      constructTop = false;
+      constructBottom = true;
+      floorOffsetEnabled = false;
+      disableCenterPieces();
+      constructCenter[0] = true;
+      disableCrossPieces();
+      box = new TD_Box(graphicContainer);
+      box.draw(graphicContainer);
       break;
     case BOX_CROSS_SECTION:
-      boxCrossSection.draw(graphicContainer);
+      constructTop = false;
+      constructBottom = true;
+      floorOffsetEnabled = false;
+      disableCenterPieces();
+      constructCenter[0] = true;
+      disableCrossPieces();
+      constructCross[0] = true;
+      box = new TD_Box(graphicContainer);
+      box.draw(graphicContainer);
       break;
     case BOX_RAISED_FLOOR:
-      boxRaisedFloor.draw(graphicContainer);
+      constructTop = false;
+      constructBottom = true;
+      floorOffsetEnabled = true;
+      disableCenterPieces();
+      disableCrossPieces();
+      box = new TD_Box(graphicContainer);
+      box.draw(graphicContainer);
       break;
     default:
-      boxOpenTop.draw(graphicContainer);
+      box = new TD_Box(graphicContainer);
+      box.draw(graphicContainer);
       break;
     }
   }
@@ -145,12 +175,7 @@ private class Graphic_Context_3D_Container {
       refreshSidePieceJointLength();
       refreshcenterJointLength();
       refreshTopPieceJointLength();
-      boxOpenThrough = new Box_Open_Through(graphicContainer);
-      boxOpenTop = new Box_Open_Top(graphicContainer);
-      boxClosed = new Box_Closed(graphicContainer);
-      boxCenterPart = new Box_Center_Part(graphicContainer);
-      boxCrossSection = new Box_Cross_Section(graphicContainer);
-      boxRaisedFloor = new Box_Raised_Floor(graphicContainer);
+      box = new TD_Box(graphicContainer);
       // Sort Arrays
       crossJointPos = sort(crossJointPos);
       centerJointPos = sort(centerJointPos);

@@ -145,16 +145,30 @@ void initialiseConstructBooleans() {
     constructCenter[i] = false;
     constructCross[i] = false;
   }
+  constructCenter[0] = true;
+  constructCross[0] = true;
+}
+
+void disableCenterPieces() {
+  for (int i = 0; i < constructCenter.length; i++) {
+    constructCenter[i] = false;
+  }
+}
+
+void disableCrossPieces() {
+  for (int i = 0; i < constructCenter.length; i++) {
+    constructCross[i] = false;
+  }
 }
 
 void setCenterJointPosition() {
   centerJointPos[0] = (boxWidth - thickness) / 2;
-  centerJointPos[1] = (boxWidth - thickness) / 2  - (thickness * 3);
-  centerJointPos[2] = (boxWidth - thickness) / 2 + (thickness * 3);
+  centerJointPos[1] = (boxWidth - thickness) / 2  + (thickness * 3);
+  centerJointPos[2] = (boxWidth - thickness) / 2 + (thickness * 5);
 
   float test = (boxLength - thickness) / 2;
   crossJointPos[0] = test;
-  crossJointPos[1] = test  - (thickness * 5);
+  crossJointPos[1] = test  + (thickness * 3);
   crossJointPos[2] = test + (thickness * 5);
 }
 

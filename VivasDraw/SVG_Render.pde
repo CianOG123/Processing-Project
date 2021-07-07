@@ -11,67 +11,7 @@ class SVG_Render {
   protected boolean disableExtendedJoint = false;  // Used to stop artifacting when jointHeight is equal to the thickness
   protected boolean middleJointExtrude = false;  // When set to true the middle joint of the center piece will be extruded
 
-  SVG_Render(int boxType) {
-    disableExtendedJoint = false;
-    switch (boxType) {
-    case -1:
-      break;  
-    case BOX_OPEN_TOP:
-      constructTop = false;
-      constructBottom = true;
-      floorOffsetEnabled = false;
-      initialiseConstructBooleans();
-      break;
-    case BOX_CLOSED:
-      constructTop = true;
-      constructBottom = true;
-      floorOffsetEnabled = false;
-      initialiseConstructBooleans();
-      break;
-    case BOX_OPEN_THROUGH:
-      constructTop = false;
-      constructBottom = false;
-      floorOffsetEnabled = false;
-      initialiseConstructBooleans();
-      break;
-    case BOX_CENTER_PART:
-      constructTop = true;
-      constructBottom = true;
-      initialiseConstructBooleans();
-      constructCenter[0] = true;
-      floorOffsetEnabled = false;
-
-      getOddJointLengthConvert();
-      getMiddleJointType();
-      break;
-    case BOX_CROSS_SECTION:
-      //constructTop = true;
-      //constructBottom = true;
-      //initialiseConstructBooleans();
-      //constructCenter[0] = true;
-      //constructCross[0] = true;
-      //floorOffsetEnabled = false;
-
-      //getOddJointLengthConvert();
-      //getMiddleJointType();
-      constructTop = true;
-      constructBottom = true;
-      resetConstructInternalPieces();
-      constructCenter[0] = true;
-      constructCross[0] = true;
-      floorOffsetEnabled = false;
-
-      getOddJointLengthConvert();
-      getMiddleJointType();
-      break;
-    case BOX_RAISED_FLOOR:
-      constructTop = true;
-      constructBottom = true;
-      initialiseConstructBooleans();
-      floorOffsetEnabled = true;
-      break;
-    }
-
+  SVG_Render() {
     svg = createGraphics(calculateCanvasWidth(), calculateCanvasHeight(), SVG, "Render.svg");
     constructSVGPlan();
   }
@@ -118,15 +58,6 @@ class SVG_Render {
     svg.endDraw();
   }
   
-  // Resets the cross and center piece construct booleans to false
-  private void resetConstructInternalPieces(){
-    for(int i = 0; i < constructCenter.length; i++){
-      constructCenter[i] = false;
-      constructCross[i] = false;
-    }
-  }
-
-
   // Calculates the amount of pixels  on the vertical needed to incase the raster image
   private int calculateCanvasHeight() {
     float canvasHeight = (boxHeightC * 2) + (BOUNDARY * 3);
@@ -177,26 +108,5 @@ class SVG_Render {
       canvasWidth = crossPieceWidth;
     }
     return (int) canvasWidth;
-  }
-
-  // Calculates the length of the joints being used on the center piece
-  private void getOddJointLengthConvert() {
-    float jointAccumulation = 0;
-    while (jointAccumulation <= thicknessC) {
-      jointAccumulation += (jointHeightC * 2);
-    }
-    if (jointAccumulation >= jointHeightC) {
-      jointAccumulation -= jointHeightC;
-    }
-    oddJointLengthC = jointAccumulation - thicknessC;
-  }
-
-  // Returns if the middle joint of the center piece should be extruded or intruded
-  private void getMiddleJointType() {
-    if ((jointAmount - 1) % 4 == 0) {
-      middleJointExtrude = true;
-    } else {
-      middleJointExtrude = false;
-    }
   }
 }

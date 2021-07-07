@@ -8,6 +8,66 @@ private class TD_Shape_Internal_Piece extends TD_Shape_Template {
   protected ArrayList<Float> jointPoints = new ArrayList<Float>();
   protected ArrayList<Float> jointDips = new ArrayList<Float>();
 
+  // Constructs the cross piece slots in the center piece
+  protected PShape constructSlots(boolean isCrossPiece, float pieceJointLength, float[] jointPos, boolean[] constructPiece) {
+    PShape crossSlots = createShape(GROUP);
+    float yPosition;
+    float jointYPosition;
+    if (isCrossPiece == true) {
+      yPosition = thickness;
+      jointYPosition = 0;
+      if (constructTop == false) {
+        yPosition = 0;
+      }
+    } else {
+      yPosition = boxHeight - thickness;
+      jointYPosition = boxHeight;
+      if (constructBottom == false) {
+        yPosition = boxHeight;
+      }
+    }
+    float centerPoint = (boxHeight / 2);
+    if (floorOffsetEnabled == true && constructBottom == true) {
+      centerPoint = ((boxHeight - floorOffset) / 2);
+    }
+    for (int i = 0; i < constructCenter.length; i++) {
+      if (constructPiece[i] == true) {
+        PShape slot = createShape();
+        slot.beginShape(TRIANGLE_STRIP);
+        initialise(slot);
+        // left side of joint slot
+        if (jointPos[i] > pieceJointLength + thickness && jointPos[i] < pieceJointLength * 2 + thickness) {
+          jointPoints.add(jointPos[i]);
+          slot.vertex(jointPos[i], jointYPosition, 0);
+          slot.vertex(jointPos[i], jointYPosition, thickness);
+          slot.vertex(jointPos[i], centerPoint, 0);
+          slot.vertex(jointPos[i], centerPoint, thickness);
+        } else {
+          jointPoints.add(jointPos[i]);
+          slot.vertex(jointPos[i], yPosition, 0);
+          slot.vertex(jointPos[i], yPosition, thickness);
+          slot.vertex(jointPos[i], centerPoint, 0);
+          slot.vertex(jointPos[i], centerPoint, thickness);
+        }
+        // right side of joint slot
+        if (jointPos[i] + thickness > pieceJointLength + thickness && jointPos[i] + thickness < pieceJointLength * 2 + thickness) {
+          slot.vertex(jointPos[i] + thickness, centerPoint, 0);
+          slot.vertex(jointPos[i] + thickness, centerPoint, thickness);
+          slot.vertex(jointPos[i] + thickness, jointYPosition, 0);
+          slot.vertex(jointPos[i] + thickness, jointYPosition, thickness);
+        } else {
+          slot.vertex(jointPos[i] + thickness, centerPoint, 0);
+          slot.vertex(jointPos[i] + thickness, centerPoint, thickness);
+          slot.vertex(jointPos[i] + thickness, yPosition, 0);
+          slot.vertex(jointPos[i] + thickness, yPosition, thickness);
+        }
+        slot.endShape();
+        crossSlots.addChild(slot);
+      }
+    }
+    return crossSlots;
+  }
+
   // Draws the joints of a center/cross piece
   protected PShape constructCenterJoints(boolean invertJoints) {
     PShape centerJoints = createShape(GROUP);
