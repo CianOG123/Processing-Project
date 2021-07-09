@@ -10,16 +10,19 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
 
   private PShape joints;
   private PShape slots;
+  private PShape top;
   private PShape bottom;
 
   TD_Shape_Center_Piece() {
     joints = constructCenterJoints(DONT_INVERT_JOINTS);
     slots = constructSlots(IS_CENTER_PIECE, sidePieceJointLength, crossJointPos, constructCross);
     findDipPositions(sidePieceJointLength, constructTop);
-    bottom = createBottom();
+    createBottom();
+    DrawTop();
   }
 
   private void draw() {
+    display(top);
     display(bottom);
     display(slots);
     display(joints);
@@ -33,8 +36,8 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
   }
 
   // Draws the bottom of the center piece
-  private PShape createBottom() {
-    PShape bottom = createShape(GROUP);
+  private void createBottom() {
+    bottom = createShape(GROUP);
     bottom.beginShape();
     initialise(bottom);
     if (constructBottom == false) {
@@ -129,6 +132,164 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
       rightJoint.endShape(CLOSE);
       bottom.addChild(rightJoint);
     }
-    return bottom;
+  }
+  
+  // Draws the top side of the center piece
+  // contructCrossSlots must be called first
+  private void DrawTop() {
+    top = createShape(GROUP);
+    top.beginShape();
+    initialise(top);
+    boolean drawComplexTop = false;
+    for (int i = 0; i < constructCross.length; i++) {
+      if (constructCross[i] == true)
+        drawComplexTop = true;
+    }
+    if (drawComplexTop == true)
+      drawComplexTop();
+    else
+      drawNormalTop();
+  }
+  
+  private void drawComplexTop() {
+    Collections.sort(jointPoints);
+    float startPoint = thickness;
+    float yPosition = thickness;
+    if (constructTop == false) {
+      yPosition = 0;
+    }
+    boolean pastJointStart = false;
+    boolean pastJointEnd = false;
+    boolean lastJoint = false;
+    int i = 0;
+    float jointPoint = jointPoints.get(i);
+    while (i < jointPoints.size()) {
+      if (i == jointPoints.size() - 1)
+        lastJoint = true;
+      jointPoint = jointPoints.get(i);
+      if (constructTop == false) {
+        //svg.line(startPoint, yPosition, jointPoint + xOffset, yPosition);
+        if (lastJoint == false) {
+          if (jointPoints.get(i + 1) < sidePieceJointLength * 2 + thickness && pastJointStart == true) {
+            startPoint = drawDip(jointPoint, jointPoints.get(i + 1));
+          } else
+            startPoint = jointPoint + thickness;
+        } else
+          startPoint = jointPoint + thickness;
+      } else {
+        // joint on start edge
+        if (jointPoint <= sidePieceJointLength + thickness && jointPoint + thickness > sidePieceJointLength + thickness) {
+          pastJointStart = true;
+          //svg.line(startPoint, yPosition, jointPoint + xOffset, yPosition);
+          if (lastJoint == false) {
+            if (jointPoints.get(i + 1) < sidePieceJointLength * 2 + thickness && jointPoints.get(i + 1) > sidePieceJointLength + thickness) {
+              startPoint = drawDip(jointPoint, jointPoints.get(i + 1));
+            }
+          } else
+            startPoint = jointPoint;
+          yPosition -= thickness;
+        }
+        // joint on end edge
+        else if (jointPoint <= sidePieceJointLength * 2 + thickness && jointPoint + thickness > sidePieceJointLength * 2 + thickness) {
+          pastJointEnd = true;
+          //svg.line(startPoint, yPosition, jointPoint + xOffset, yPosition);
+          startPoint = jointPoint + thickness;
+          yPosition += thickness;
+        }
+        // joint past start and start edge not drawn
+        else if (jointPoint >= sidePieceJointLength + thickness && pastJointStart == false) {
+          i--;
+          pastJointStart = true;
+          jointPoint = sidePieceJointLength + thickness;
+          //svg.line(startPoint, yPosition, jointPoint + xOffset, yPosition);
+          //svg.line(jointPoint + xOffset, yPosition, jointPoint + xOffset, yPosition - thicknessC);
+          startPoint = jointPoint;
+          yPosition -= thickness;
+        }
+        // joint past end
+        else if (jointPoint >= sidePieceJointLength * 2 + thickness && pastJointEnd == false) {
+          i--;
+          pastJointEnd = true;
+          jointPoint = (sidePieceJointLength * 2) + thickness;
+          //svg.line(startPoint, yPosition, jointPoint + xOffset, yPosition);
+          //svg.line(jointPoint + xOffset, yPosition, jointPoint + xOffset, yPosition + thicknessC);
+          startPoint = jointPoint;
+          yPosition += thickness;
+        }
+        // joint before start
+        else {
+          //svg.line(startPoint, yPosition, jointPoint + xOffset, yPosition);
+          if (lastJoint == false) {
+            if (jointPoints.get(i + 1) < sidePieceJointLength * 2 + thickness && pastJointStart == true) {
+              startPoint = drawDip(jointPoint, jointPoints.get(i + 1));
+            } else
+              startPoint = jointPoint + thickness;
+          } else
+            startPoint = jointPoint + thickness;
+        }
+      }
+      i++;
+    }
+    if (pastJointEnd == false && constructTop == true) {
+      pastJointEnd = true;
+      jointPoint = (sidePieceJointLength * 2) + thickness;
+      //svg.line(startPoint, yPosition, jointPoint + xOffset, yPosition);
+      //svg.line(jointPoint + xOffset, yPosition, jointPoint + xOffset, yPosition + thicknessC);
+      startPoint = jointPoint;
+      yPosition += thickness;
+    }
+    //svg.line(startPoint, yPosition, sidePieceLengthC + thicknessC + xOffset, yPosition);
+  }
+  
+  // Draws a dip between two given slots
+  // Returns the new start position
+  private float drawDip(float jointPos1, float jointPos2) {
+    float dipPosition = (abs(jointPos2 + jointPos1) / 2);
+    //svg.line(jointPos1 + thicknessC + xOffset, yOffset, dipPosition, yOffset);
+    //svg.line(dipPosition, yOffset, dipPosition, yOffset + thicknessC);
+    //svg.line(dipPosition, yOffset + thicknessC, dipPosition + thicknessC, yOffset + thicknessC);
+    //svg.line(dipPosition + thicknessC, yOffset + thicknessC, dipPosition + thicknessC, yOffset);
+    return dipPosition + thickness;
+  }
+  
+  private void drawNormalTop() {
+    PShape normalTop = createShape();
+    normalTop.beginShape(TRIANGLE_STRIP);
+    initialise(normalTop);
+    if (constructTop == false) {
+      //svg.line(thicknessC + xOffset, yOffset, boxLengthC - thicknessC + xOffset, yOffset);
+      normalTop.vertex(thickness, 0, 0);
+      normalTop.vertex(thickness, 0, thickness);
+      normalTop.vertex(boxLength - thickness, 0, 0);
+      normalTop.vertex(boxLength - thickness, 0, thickness);
+    } else {
+      //svg.line(thickness, thickness, sidePieceJointLength + thickness, thickness);
+      normalTop.vertex(thickness, thickness, 0);
+      normalTop.vertex(thickness, thickness, thickness);
+      normalTop.vertex(sidePieceJointLength + thickness, thickness, 0);
+      normalTop.vertex(sidePieceJointLength + thickness, thickness, thickness);
+      //svg.line(sidePieceJointLength + thickness, thickness, sidePieceJointLength + thickness, 0);
+      normalTop.vertex(sidePieceJointLength + thickness, thickness, 0);
+      normalTop.vertex(sidePieceJointLength + thickness, thickness, thickness);
+      normalTop.vertex(sidePieceJointLength + thickness, 0, 0);
+      normalTop.vertex(sidePieceJointLength + thickness, 0, thickness);
+      //svg.line(sidePieceJointLength + thickness, 0, sidePieceJointLength * 2 + thickness, 0);
+      normalTop.vertex(sidePieceJointLength + thickness, 0, 0);
+      normalTop.vertex(sidePieceJointLength + thickness, 0, thickness);
+      normalTop.vertex(sidePieceJointLength * 2 + thickness, 0, 0);
+      normalTop.vertex(sidePieceJointLength * 2 + thickness, 0, thickness);
+      //svg.line(sidePieceJointLength * 2 + thickness, 0, sidePieceJointLength * 2 + thickness, thickness);
+      normalTop.vertex(sidePieceJointLength * 2 + thickness, 0, 0);
+      normalTop.vertex(sidePieceJointLength * 2 + thickness, 0, thickness);
+      normalTop.vertex(sidePieceJointLength * 2 + thickness, thickness, 0);
+      normalTop.vertex(sidePieceJointLength * 2 + thickness, thickness, thickness);
+      //svg.line(sidePieceJointLength * 2 + thickness, thickness, boxLength - thickness, thickness);
+      normalTop.vertex(sidePieceJointLength * 2 + thickness, thickness, 0);
+      normalTop.vertex(sidePieceJointLength * 2 + thickness, thickness, thickness);
+      normalTop.vertex(boxLength - thickness, thickness, 0);
+      normalTop.vertex(boxLength - thickness, thickness, thickness);
+    }
+    normalTop.endShape(CLOSE);
+    top.addChild(normalTop);
   }
 }

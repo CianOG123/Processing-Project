@@ -15,7 +15,7 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
   TD_Shape_Cross_Piece() {
     crossPiece = constructCenterJoints(INVERT_JOINTS);
     slots = constructSlots(IS_NOT_CENTER_PIECE, endPieceJointLength, centerJointPos, constructCenter);
-    top = createTop();
+    createTop();
   } 
 
   private void draw() {
@@ -32,7 +32,7 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
   }
 
   // Draws the top of the cross piece
-  private PShape createTop() {
+  private void createTop() {
     top = createShape(GROUP);
     top.beginShape();
     initialise(top);
@@ -128,6 +128,5 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
       rightTop.endShape(CLOSE);
       top.addChild(rightTop);
     }
-    return top;
   }
 }
