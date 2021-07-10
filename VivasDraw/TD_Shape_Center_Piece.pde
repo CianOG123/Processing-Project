@@ -179,15 +179,15 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
         leftTop.vertex(startPoint, yPosition, thickness);
         leftTop.vertex(jointPoint, yPosition, 0);
         leftTop.vertex(jointPoint, yPosition, thickness);
-        leftTop.endShape(CLOSE);
-        complexTop.addChild(leftTop);
         if (lastJoint == false) {
           if (jointPoints.get(i + 1) < sidePieceJointLength * 2 + thickness && pastJointStart == true) {
-            startPoint = drawDip(complexTop, jointPoint, jointPoints.get(i + 1));
+            startPoint = drawDip(leftTop, jointPoint, jointPoints.get(i + 1));
           } else
             startPoint = jointPoint + thickness;
         } else
           startPoint = jointPoint + thickness;
+        leftTop.endShape(CLOSE);
+        complexTop.addChild(leftTop);
       } else {
         // joint on start edge
         if (jointPoint <= sidePieceJointLength + thickness && jointPoint + thickness > sidePieceJointLength + thickness) {
@@ -200,15 +200,15 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
           startEdge.vertex(startPoint, yPosition, thickness);
           startEdge.vertex(jointPoint, yPosition, 0);
           startEdge.vertex(jointPoint, yPosition, thickness);
-          startEdge.endShape(CLOSE);
-          complexTop.addChild(startEdge);
           if (lastJoint == false) {
             if (jointPoints.get(i + 1) < sidePieceJointLength * 2 + thickness && jointPoints.get(i + 1) > sidePieceJointLength + thickness) {
-              startPoint = drawDip(complexTop, jointPoint, jointPoints.get(i + 1));
+              startPoint = drawDip(startEdge, jointPoint, jointPoints.get(i + 1));
             }
           } else
             startPoint = jointPoint;
           yPosition -= thickness;
+          startEdge.endShape(CLOSE);
+          complexTop.addChild(startEdge);
         }
         // joint on end edge
         else if (jointPoint <= sidePieceJointLength * 2 + thickness && jointPoint + thickness > sidePieceJointLength * 2 + thickness) {
@@ -240,8 +240,6 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
           pastStart.vertex(jointPoint, yPosition, 0);
           pastStart.vertex(jointPoint, yPosition, thickness);
           //svg.line(jointPoint + xOffset, yPosition, jointPoint + xOffset, yPosition - thicknessC);
-          pastStart.vertex(startPoint, yPosition, 0);
-          pastStart.vertex(startPoint, yPosition, thickness);
           pastStart.vertex(jointPoint, yPosition - thickness, 0);
           pastStart.vertex(jointPoint, yPosition - thickness, thickness);
           pastStart.endShape(CLOSE);
@@ -263,8 +261,6 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
           pastEnd.vertex(jointPoint, yPosition, 0);
           pastEnd.vertex(jointPoint, yPosition, thickness);
           //svg.line(jointPoint + xOffset, yPosition, jointPoint + xOffset, yPosition + thicknessC);
-          pastEnd.vertex(jointPoint, yPosition, 0);
-          pastEnd.vertex(jointPoint, yPosition, thickness);
           pastEnd.vertex(jointPoint, yPosition + thickness, 0);
           pastEnd.vertex(jointPoint, yPosition + thickness, thickness);
           pastEnd.endShape(CLOSE);
@@ -275,9 +271,23 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
         // joint before start
         else {
           //svg.line(startPoint, yPosition, jointPoint + xOffset, yPosition);
+          PShape jointBeforeStart = createShape();
+          jointBeforeStart.beginShape(TRIANGLE_STRIP);
+          initialise(jointBeforeStart);
+          jointBeforeStart.vertex(startPoint, yPosition, 0);
+          jointBeforeStart.vertex(startPoint, yPosition, thickness);
+          jointBeforeStart.vertex(jointPoint, yPosition, 0);
+          jointBeforeStart.vertex(jointPoint, yPosition, thickness);
+          jointBeforeStart.endShape(CLOSE);
+          complexTop.addChild(jointBeforeStart);
           if (lastJoint == false) {
             if (jointPoints.get(i + 1) < sidePieceJointLength * 2 + thickness && pastJointStart == true) {
-              startPoint = drawDip(complexTop, jointPoint, jointPoints.get(i + 1));
+              PShape dip = createShape();
+              dip.beginShape(TRIANGLE_STRIP);
+              initialise(dip);
+              startPoint = drawDip(dip, jointPoint, jointPoints.get(i + 1));
+              dip.endShape(CLOSE);
+              complexTop.addChild(dip);
             } else
               startPoint = jointPoint + thickness;
           } else
@@ -298,8 +308,6 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
       pastEnd.vertex(jointPoint, yPosition, 0);
       pastEnd.vertex(jointPoint, yPosition, thickness);
       //svg.line(jointPoint + xOffset, yPosition, jointPoint + xOffset, yPosition + thicknessC);
-      pastEnd.vertex(jointPoint, yPosition, 0);
-      pastEnd.vertex(jointPoint, yPosition, thickness);
       pastEnd.vertex(jointPoint, yPosition + thickness, 0);
       pastEnd.vertex(jointPoint, yPosition + thickness, thickness);
       pastEnd.endShape(CLOSE);
@@ -340,10 +348,10 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
     shape.vertex(dipPosition + thickness, thickness, 0);
     shape.vertex(dipPosition + thickness, thickness, thickness);
     //svg.line(dipPosition + thickness, thickness, dipPosition + thickness, 0);
-    //shape.vertex(dipPosition + thickness, thickness, 0);
-    //shape.vertex(dipPosition + thickness,thickness, thickness);
-    //shape.vertex(dipPosition + thickness, 0, 0);
-    //shape.vertex(dipPosition + thickness, 0, thickness);
+    shape.vertex(dipPosition + thickness, thickness, 0);
+    shape.vertex(dipPosition + thickness, thickness, thickness);
+    shape.vertex(dipPosition + thickness, 0, 0);
+    shape.vertex(dipPosition + thickness, 0, thickness);
     return dipPosition + thickness;
   }
 

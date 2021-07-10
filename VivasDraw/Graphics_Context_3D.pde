@@ -90,7 +90,7 @@ private class Graphic_Context_3D_Container {
       box.draw(graphicContainer);
       break;
     case BOX_CROSS_SECTION:
-      constructTop = false;
+      constructTop = true;
       constructBottom = true;
       floorOffsetEnabled = false;
       disableCenterPieces();

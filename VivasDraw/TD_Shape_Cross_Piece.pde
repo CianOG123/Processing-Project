@@ -67,7 +67,7 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
       leftTop.endShape(CLOSE);
       top.addChild(leftTop);
       // Joint
-      float startPosition = endPieceJointLengthC + thicknessC;
+      float startPosition = endPieceJointLength + thickness;
       for (int i = 0; i < jointDips.size(); i++) {
         float jointDipPos = jointDips.get(i);
         //svg.line(startPosition, yPosition - thicknessC, jointDipPos, yPosition - thicknessC);
@@ -98,7 +98,7 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
         leftTop.vertex(jointDipPos + thickness, yPosition - thickness, thickness);
         joint.endShape(CLOSE);
         top.addChild(joint);
-        startPosition = jointDipPos + thicknessC;
+        startPosition = jointDipPos + thickness;
       }
       //svg.line(startPosition, yPosition - thicknessC, (endPieceJointLengthC * 2) + thicknessC + xOffset, yPosition - thicknessC);
       PShape close = createShape();
