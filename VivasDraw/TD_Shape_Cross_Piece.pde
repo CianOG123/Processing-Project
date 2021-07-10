@@ -237,18 +237,12 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
     //svg.line(jointPos1 + thicknessC + xOffset, yPosition, dipPosition, yPosition);
     shape.vertex(jointPos1 + thickness, yPosition, 0);
     shape.vertex(jointPos1 + thickness, yPosition, thickness);
-    shape.vertex(dipPosition, yPosition, 0);
-    shape.vertex(dipPosition, yPosition, thickness);
     //svg.line(dipPosition, yPosition, dipPosition, yPosition - thicknessC);
     shape.vertex(dipPosition, yPosition, 0);
     shape.vertex(dipPosition, yPosition, thickness);
-    shape.vertex(dipPosition, yPosition - thickness, 0);
-    shape.vertex(dipPosition, yPosition - thickness, thickness);
     //svg.line(dipPosition, yPosition - thicknessC, dipPosition + thicknessC,  yPosition - thicknessC);
     shape.vertex(dipPosition, yPosition - thickness, 0);
     shape.vertex(dipPosition, yPosition - thickness, thickness);
-    shape.vertex(dipPosition + thickness, yPosition - thickness, 0);
-    shape.vertex(dipPosition + thickness, yPosition - thickness, thickness);
     //svg.line(dipPosition + thicknessC, yPosition - thicknessC, dipPosition + thicknessC, yPosition);
     shape.vertex(dipPosition + thickness, yPosition - thickness, 0);
     shape.vertex(dipPosition + thickness, yPosition - thickness, thickness);
@@ -258,19 +252,40 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
   }
 
   private void drawNormalBottom() {
+    PShape normalBottom = createShape();
+    normalBottom.beginShape(TRIANGLE_STRIP);
+    initialise(normalBottom);
     if (constructBottom == false) {
       //svg.line(thicknessC + xOffset, boxHeightC + yOffset, boxWidthC - thicknessC + xOffset, boxHeightC + yOffset);
+      normalBottom.vertex(thickness, boxHeight, 0);
+      normalBottom.vertex(thickness, boxHeight, thickness);
+      normalBottom.vertex(boxWidth - thickness, boxHeight, 0);
+      normalBottom.vertex(boxWidth - thickness, boxHeight, thickness);
     } else {
       float yPosition = boxHeight;
       if (floorOffsetEnabled == true) {
         yPosition -= floorOffset;
       }
       //svg.line(thicknessC + xOffset, yPosition, endPieceJointLengthC + thicknessC + xOffset, yPosition);
-      //svg.line(endPieceJointLengthC + thicknessC + xOffset, yPosition, endPieceJointLengthC + thicknessC + xOffset, yPosition - thicknessC);
-      //svg.line(endPieceJointLengthC + thicknessC + xOffset, yPosition - thicknessC, endPieceJointLengthC * 2 + thicknessC + xOffset, yPosition - thicknessC);
-      //svg.line(endPieceJointLengthC * 2 + thicknessC + xOffset, yPosition - thicknessC, endPieceJointLengthC * 2 + thicknessC + xOffset, yPosition);
-      //svg.line(endPieceJointLengthC * 2 + thicknessC + xOffset, yPosition, boxWidthC - thicknessC + xOffset, yPosition);
+      normalBottom.vertex(thickness, yPosition, 0);
+      normalBottom.vertex(thickness, yPosition, thickness);
+      //svg.line(endPieceJointLength + thickness, yPosition, endPieceJointLength + thickness, yPosition - thickness);
+      normalBottom.vertex(endPieceJointLength + thickness, yPosition, 0);
+      normalBottom.vertex(endPieceJointLength + thickness, yPosition, thickness);
+      //svg.line(endPieceJointLength + thickness, yPosition - thickness, endPieceJointLength * 2 + thickness, yPosition - thickness);
+      normalBottom.vertex(endPieceJointLength + thickness, yPosition - thickness, 0);
+      normalBottom.vertex(endPieceJointLength + thickness, yPosition - thickness, thickness);
+      //svg.line(endPieceJointLength * 2 + thickness, yPosition - thickness, endPieceJointLength * 2 + thickness, yPosition);
+      normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition - thickness, 0);
+      normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition - thickness, thickness);
+      //svg.line(endPieceJointLength * 2 + thickness, yPosition, boxWidth - thickness, yPosition);
+      normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition, 0);
+      normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition, thickness);
+      normalBottom.vertex(boxWidth - thickness, yPosition, 0);
+      normalBottom.vertex(boxWidth - thickness, yPosition, thickness);
     }
+    normalBottom.endShape(CLOSE);
+    bottom.addChild(normalBottom);
   }
 
   // Draws the top of the cross piece

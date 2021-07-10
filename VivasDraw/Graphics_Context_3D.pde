@@ -90,15 +90,13 @@ private class Graphic_Context_3D_Container {
       box.draw(graphicContainer);
       break;
     case BOX_CROSS_SECTION:
-      constructTop = true;
+      constructTop = false;
       constructBottom = true;
       floorOffsetEnabled = false;
       disableCenterPieces();
       constructCenter[0] = true;
-      constructCenter[1] = true;
       disableCrossPieces();
       constructCross[0] = true;
-      constructCross[1] = true;
       box = new TD_Box(graphicContainer);
       box.draw(graphicContainer);
       break;
