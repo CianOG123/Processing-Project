@@ -12,8 +12,8 @@ private class TD_Box {
   private TD_Shape_End_Piece endPieceTwo;
   private TD_Shape_Floor_Piece floorPiece;
   private TD_Shape_Floor_Piece topPiece;
-  private TD_Shape_Center_Piece centerPiece;
-  private TD_Shape_Cross_Piece crossPiece;
+  private TD_Shape_Center_Piece[] centerPieces = new TD_Shape_Center_Piece[constructCenter.length];
+  private TD_Shape_Cross_Piece[] crossPieces = new TD_Shape_Cross_Piece[constructCross.length];
 
   TD_Box(PGraphics graphicContext) {
 
@@ -26,8 +26,10 @@ private class TD_Box {
     endPieceTwo = new TD_Shape_End_Piece(constructTop, enableFloorJoint);
     floorPiece = new TD_Shape_Floor_Piece();
     topPiece = new TD_Shape_Floor_Piece();
-    centerPiece = new TD_Shape_Center_Piece();
-    crossPiece = new TD_Shape_Cross_Piece();
+    for (int i = 0; i < centerPieces.length; i++) {
+      centerPieces[i] = new TD_Shape_Center_Piece();
+      crossPieces[i] = new TD_Shape_Cross_Piece();
+    }
     setGraphicContext(graphicContext);
   }
 
@@ -62,8 +64,8 @@ private class TD_Box {
           if (constructCenter[i] == true) {
             graphics.pushMatrix();
             {
-              graphics.translate(0, 0, - ((endPieceLength + thickness) / 2));
-              centerPiece.draw();
+              graphics.translate(0, 0, -centerJointPos[i]);
+              centerPieces[i].draw();
             }
             graphics.popMatrix();
           }
@@ -79,8 +81,8 @@ private class TD_Box {
           if (constructCross[i] == true) {
             graphics.pushMatrix();
             {
-              graphics.translate(-thickness, 0, (boxLength - thickness) / 2);
-              crossPiece.draw();
+              graphics.translate(-thickness, 0, crossJointPos[i]);
+              crossPieces[i].draw();
             }
             graphics.popMatrix();
           }
@@ -144,7 +146,9 @@ private class TD_Box {
     endPieceTwo.setGraphicContext(graphicContext);
     floorPiece.setGraphicContext(graphicContext);
     topPiece.setGraphicContext(graphicContext);
-    centerPiece.setGraphicContext(graphicContext);
-    crossPiece.setGraphicContext(graphicContext);
+    for (int i = 0; i < centerPieces.length; i++) {
+      centerPieces[i].setGraphicContext(graphicContext);
+      crossPieces[i].setGraphicContext(graphicContext);
+    }
   }
 }
