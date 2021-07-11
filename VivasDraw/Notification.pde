@@ -2,8 +2,8 @@
  *  Class to control pop-up notification.
  *  Created 11-07-2021
  */
-class Notification{
-  
+class Notification {
+
   // Constants
   private static final int X_POSITION = 10;
   private static final int Y_POSITION = 620;
@@ -20,7 +20,7 @@ class Notification{
   private static final int CURVE = 10;
   private static final int TIME_LIMIT = 400;
   private static final int ALPHA_LIMIT = 100;
-  
+
   // Variables
   private String heading;
   private String body;
@@ -29,25 +29,26 @@ class Notification{
   private int timer = 0;
   boolean boxLoaded = false;
   boolean isFinished = false;
-  
-  Notification(String heading, String body){
+  private boolean warningRendered = false;
+
+  Notification(String heading, String body) {
     this.heading = heading;
     this.body = body;
   }
-  
-  private void draw(){
-    if(alpha < ALPHA_LIMIT && boxLoaded == false){
-      alpha++;
-      textAlpha += 3;
-      if(alpha >= ALPHA_LIMIT){
-       boxLoaded = true; 
+
+  private void draw() {
+    if (alpha < ALPHA_LIMIT && boxLoaded == false) {
+      alpha += 2;
+      textAlpha += 6;
+      if (alpha >= ALPHA_LIMIT) {
+        boxLoaded = true;
       }
     }
-    if(timer >= TIME_LIMIT){
+    if (timer >= TIME_LIMIT) {
       alpha--;
       textAlpha -= 3;
     }
-    if(alpha > 0){
+    if (alpha > 0) {
       noStroke();
       fill(0, 0, 0, alpha);
       rect(X_POSITION, Y_POSITION, BOX_WIDTH, BOX_HEIGHT, CURVE);
@@ -58,12 +59,15 @@ class Notification{
       textFont(robotoLight13);
       text(body, TEXT_X, BODY_Y, TEXT_WIDTH, BOX_HEIGHT);
       fill(IMAGE_FILL, IMAGE_FILL, IMAGE_FILL, alpha);
-      shape(warning, IMAGE_X, IMAGE_Y, IMAGE_SIZE, IMAGE_SIZE);
+      if (warningRendered == false) {
+        shape(warning, -1000, -1000, IMAGE_SIZE, IMAGE_SIZE);  // Stopped bug with alpha value on initial load
+        warningRendered = true;
+      } else
+        shape(warning, IMAGE_X, IMAGE_Y, IMAGE_SIZE, IMAGE_SIZE);
       textAlign(LEFT, BOTTOM);
       warning.disableStyle();
       timer++;
-    }
-    else{
+    } else {
       isFinished = true;
     }
   }
