@@ -33,6 +33,12 @@ private class GUI_Main {
  */
 private class GUI_Selector_Box {
 
+  // Scroll box graphic context 
+  static final int SCROLL_CONTEXT_X_POSITION = 960;
+  static final int SCROLL_CONTEXT_Y_POSITION = 115;
+  static final int SCROLL_CONTEXT_BOX_WIDTH = 310;
+  static final int SCROLL_CONTEXT_BOX_HEIGHT = 150;
+
   //Objects
   private PGraphics graphics;
   private Scroll_Bar scrollBar;
@@ -61,7 +67,7 @@ private class GUI_Selector_Box {
   private static final int BUTTON_HEIGHT = 70;
   private static final int BUTTON_X_BOUNDARY = (AREA_WIDTH - BUTTON_WIDTH) / 2;      // The distance from the area edge to the button edge
   private static final int BUTTON_Y_BOUNDARY = 10;
-  
+
   private static final float TRIM_X_POSITION = AREA_WIDTH;
   private static final int TRIM_Y_POSITION = 10;
   private static final int TRIM_WIDTH = 1;
@@ -101,12 +107,12 @@ private class GUI_Selector_Box {
 
   // Draws the button to the screen
   private void drawButtons() {
-    boxOpenTopButton.draw(shiftAmount);
-    boxClosedButton.draw(shiftAmount);
-    boxOpenThroughButton.draw(shiftAmount);
-    boxCenterPart.draw(shiftAmount);
-    boxCrossSection.draw(shiftAmount);
-    boxRaisedFloor.draw(shiftAmount);
+    boxOpenTopButton.draw(shiftAmount, SCROLL_CONTEXT_X_POSITION, SCROLL_CONTEXT_Y_POSITION, SCROLL_CONTEXT_BOX_WIDTH, SCROLL_CONTEXT_BOX_HEIGHT);
+    boxClosedButton.draw(shiftAmount, SCROLL_CONTEXT_X_POSITION, SCROLL_CONTEXT_Y_POSITION, SCROLL_CONTEXT_BOX_WIDTH, SCROLL_CONTEXT_BOX_HEIGHT);
+    boxOpenThroughButton.draw(shiftAmount, SCROLL_CONTEXT_X_POSITION, SCROLL_CONTEXT_Y_POSITION, SCROLL_CONTEXT_BOX_WIDTH, SCROLL_CONTEXT_BOX_HEIGHT);
+    boxCenterPart.draw(shiftAmount, SCROLL_CONTEXT_X_POSITION, SCROLL_CONTEXT_Y_POSITION, SCROLL_CONTEXT_BOX_WIDTH, SCROLL_CONTEXT_BOX_HEIGHT);
+    boxCrossSection.draw(shiftAmount, SCROLL_CONTEXT_X_POSITION, SCROLL_CONTEXT_Y_POSITION, SCROLL_CONTEXT_BOX_WIDTH, SCROLL_CONTEXT_BOX_HEIGHT);
+    boxRaisedFloor.draw(shiftAmount, SCROLL_CONTEXT_X_POSITION, SCROLL_CONTEXT_Y_POSITION, SCROLL_CONTEXT_BOX_WIDTH, SCROLL_CONTEXT_BOX_HEIGHT);
   }
 
   // Creates the scrollable context area
@@ -158,7 +164,7 @@ private class GUI_Top {
   private static final int TRIM_WIDTH = 1;
   private static final int LOGO_X_POSITION = 15;
   private static final int LOGO_Y_POSITION = 10;
-  
+
   private static final int EXPORT_BUTTON_X = 1220;
   private static final int EXPORT_BUTTON_Y = 25;
 
@@ -199,6 +205,7 @@ private class GUI_Top {
       print("\nRendering...\n");
       svgRenderer = new SVG_Render();
       print("\nRender complete!\n");
+      notificationHandler.createNotification("Render Complete", "The render should be available in your directory.");
     }
   }
 
@@ -262,17 +269,21 @@ private class GUI_Options_Panel {
 
 
   GUI_Options_Panel() {
-    boxLengthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET, "Length: ", boxLength, LENGTH);
-    boxWidthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET), "Width: ", boxWidth, WIDTH);
-    boxHeightInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 2), "Height: ", boxHeight, HEIGHT);
-    boxThicknessInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 3), "Material Thickness: ", thickness, THICKNESS);
-    floorOffsetInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 4), "Floor Offset: ", floorOffset, FLOOR_OFFSET);
-    boxJointAmountInput = new Joint_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 5), "Joint Amount: ", jointAmount, JOINT_AMOUNT);
+    initialiseButtons();
   }
 
   private void draw() {
     drawBackground();
     drawValues();
+  }
+
+  private void initialiseButtons() {
+    boxLengthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET, "Length: ", boxLength, LENGTH);
+    boxWidthInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET), "Width: ", boxWidth, WIDTH);
+    boxHeightInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 2), "Height: ", boxHeight, HEIGHT);
+    boxThicknessInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 3), "Material Thickness: ", thickness, THICKNESS);
+    boxJointAmountInput = new Joint_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 4), "Joint Amount: ", jointAmount, JOINT_AMOUNT);
+    floorOffsetInput = new Text_Input(UNDERLINE_TRIM_X_POSITION, UNDERLINE_TRIM_Y_POSITION - TEXT_BUTTON_Y_OFFSET + (TRIM_SELECT_Y_OFFSET * 5), "Floor Offset: ", floorOffset, FLOOR_OFFSET);
   }
 
   // Draws the text and values

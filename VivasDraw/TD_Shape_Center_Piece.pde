@@ -196,19 +196,24 @@ private class TD_Shape_Center_Piece extends TD_Shape_Internal_Piece {
           startEdge.beginShape(TRIANGLE_STRIP);
           initialise(startEdge);
           //svg.line(startPoint, yPosition, jointPoint + xOffset, yPosition);
-          startEdge.vertex(startPoint, yPosition, 0);
-          startEdge.vertex(startPoint, yPosition, thickness);
           startEdge.vertex(jointPoint, yPosition, 0);
           startEdge.vertex(jointPoint, yPosition, thickness);
+          startEdge.vertex(startPoint, yPosition, 0);
+          startEdge.vertex(startPoint, yPosition, thickness);
+          startEdge.endShape(CLOSE);
+          complexTop.addChild(startEdge);
           if (lastJoint == false) {
             if (jointPoints.get(i + 1) < sidePieceJointLength * 2 + thickness && jointPoints.get(i + 1) > sidePieceJointLength + thickness) {
-              startPoint = drawDip(startEdge, jointPoint, jointPoints.get(i + 1));
+              PShape dip = createShape();
+              dip.beginShape(TRIANGLE_STRIP);
+              initialise(dip);
+              startPoint = drawDip(dip, jointPoint, jointPoints.get(i + 1));
+              dip.endShape(CLOSE);
+              complexTop.addChild(dip);
             }
           } else
             startPoint = jointPoint;
           yPosition -= thickness;
-          startEdge.endShape(CLOSE);
-          complexTop.addChild(startEdge);
         }
         // joint on end edge
         else if (jointPoint <= sidePieceJointLength * 2 + thickness && jointPoint + thickness > sidePieceJointLength * 2 + thickness) {

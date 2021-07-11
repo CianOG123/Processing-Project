@@ -15,8 +15,8 @@ boolean centerExtrudeThroughSideEnabled = true;
 
 int displayedBox = 1;
 
-float boxLength = 150;
-float boxWidth = 100;
+float boxLength = 300;
+float boxWidth = 300;
 float boxHeight = 50;
 float thickness = 3;
 float floorOffset = 5;
@@ -163,13 +163,13 @@ void disableCrossPieces() {
 
 void setCenterJointPosition() {
   centerJointPos[0] = (boxWidth - thickness) / 2;
-  centerJointPos[1] = (boxWidth - thickness) / 2  + (thickness * 3);
-  centerJointPos[2] = (boxWidth - thickness) / 2 + (thickness * 5);
+  centerJointPos[1] = (boxWidth - thickness) / 2  - (thickness * 8);
+  centerJointPos[2] = (boxWidth - thickness) / 2 + (thickness * 8);
 
   float test = (boxLength - thickness) / 2;
   crossJointPos[0] = test;
-  crossJointPos[1] = test  + (thickness * 3);
-  crossJointPos[2] = test + (thickness * 5);
+  crossJointPos[1] = test  - (thickness * 7.7);
+  crossJointPos[2] = test + (thickness * 7.7);
 }
 
 // Variables
@@ -194,12 +194,6 @@ boolean buttonAutoRotate = false;  // Set to true if the auto rotate checkbox ha
 // GUI Top button events
 static final int EVENT_NULL = 0;
 static final int BUTTON_EXPORT = 1;
-
-// Scroll box graphic context 
-static final int SCROLL_CONTEXT_X_POSITION = 960;
-static final int SCROLL_CONTEXT_Y_POSITION = 115;
-static final int SCROLL_CONTEXT_BOX_WIDTH = 310;
-static final int SCROLL_CONTEXT_BOX_HEIGHT = 150;
 
 // Length type
 static final int LENGTH = 1;
@@ -235,6 +229,7 @@ static final int Y_AXIS = 1;
 
 // Fonts
 PFont robotoLight25;
+PFont robotoLight13;
 PFont robotoLight15;
 PFont robotoLight16;
 PFont robotoLight20;
@@ -244,4 +239,5 @@ void initialiseFonts() {
   robotoLight15 = loadFont("Roboto-Light-15.vlw");
   robotoLight16 = loadFont("Roboto-Light-16.vlw");
   robotoLight20 = loadFont("Roboto-Light-20.vlw");
+  robotoLight13 = loadFont("Roboto-Light-13.vlw");
 }

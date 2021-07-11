@@ -262,7 +262,7 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
       normalBottom.vertex(boxWidth - thickness, boxHeight, 0);
       normalBottom.vertex(boxWidth - thickness, boxHeight, thickness);
     } else {
-      float yPosition = boxHeight;
+      float yPosition = boxHeight - thickness;
       if (floorOffsetEnabled == true) {
         yPosition -= floorOffset;
       }
@@ -273,11 +273,11 @@ private class TD_Shape_Cross_Piece extends TD_Shape_Internal_Piece {
       normalBottom.vertex(endPieceJointLength + thickness, yPosition, 0);
       normalBottom.vertex(endPieceJointLength + thickness, yPosition, thickness);
       //svg.line(endPieceJointLength + thickness, yPosition - thickness, endPieceJointLength * 2 + thickness, yPosition - thickness);
-      normalBottom.vertex(endPieceJointLength + thickness, yPosition - thickness, 0);
-      normalBottom.vertex(endPieceJointLength + thickness, yPosition - thickness, thickness);
+      normalBottom.vertex(endPieceJointLength + thickness, yPosition + thickness, 0);
+      normalBottom.vertex(endPieceJointLength + thickness, yPosition + thickness, thickness);
       //svg.line(endPieceJointLength * 2 + thickness, yPosition - thickness, endPieceJointLength * 2 + thickness, yPosition);
-      normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition - thickness, 0);
-      normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition - thickness, thickness);
+      normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition + thickness, 0);
+      normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition + thickness, thickness);
       //svg.line(endPieceJointLength * 2 + thickness, yPosition, boxWidth - thickness, yPosition);
       normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition, 0);
       normalBottom.vertex(endPieceJointLength * 2 + thickness, yPosition, thickness);

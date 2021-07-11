@@ -129,6 +129,8 @@ private class TD_Box {
           {    
             graphics.rotateY(radians(90));                      // Rotating the graphic context 90 degrees
             graphics.translate(0, (boxHeight - thickness), 0);  // Translating on the local Y axis.
+            if(floorOffsetEnabled == true)
+              graphics.translate(0, -floorOffset, 0);
             floorPiece.draw();
           }
           graphics.popMatrix();

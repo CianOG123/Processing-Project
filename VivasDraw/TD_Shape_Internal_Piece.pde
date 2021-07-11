@@ -23,6 +23,9 @@ private class TD_Shape_Internal_Piece extends TD_Shape_Template {
       jointYPosition = boxHeight;
       if (constructBottom == false) {
         yPosition = boxHeight;
+      } else if (floorOffsetEnabled == true) {
+        yPosition -= floorOffset;
+        jointYPosition -= floorOffset;
       }
     }
     float centerPoint = (boxHeight / 2);
@@ -66,7 +69,7 @@ private class TD_Shape_Internal_Piece extends TD_Shape_Template {
     }
     return crossSlots;
   }
-  
+
   protected void findDipPositions(float pieceJointLength, boolean constructPiece) {
     Collections.sort(jointPoints);
     float startPoint = thickness;
@@ -75,9 +78,10 @@ private class TD_Shape_Internal_Piece extends TD_Shape_Template {
     boolean lastJoint = false;
     int i = 0;
     float jointPoint;
-    try{
-    jointPoint = jointPoints.get(i);
-    } catch(IndexOutOfBoundsException e){
+    try {
+      jointPoint = jointPoints.get(i);
+    } 
+    catch(IndexOutOfBoundsException e) {
     }
     while (i < jointPoints.size()) {
       if (i == jointPoints.size() - 1)

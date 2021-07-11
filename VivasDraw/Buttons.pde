@@ -130,8 +130,8 @@ private class Image_Button {
     this.buttonText = buttonText;
   }
 
-  private void draw(float scrollOffset) {
-    changeCursor(scrollOffset);
+  private void draw(float scrollOffset, int scrollContextXPosition, int scrollContextYPosition, int scrollContextBoxWidth, int scrollContextBoxHeight) {
+    changeCursor(scrollOffset, scrollContextXPosition, scrollContextYPosition, scrollContextBoxWidth, scrollContextBoxHeight);
     if (canPress == true) {
       graphics.stroke(TEXT_WHITE);
     } else {
@@ -152,13 +152,13 @@ private class Image_Button {
   }
 
   // Function handles the cursor image
-  private void changeCursor(float scrollOffset) {
+  private void changeCursor(float scrollOffset, int scrollContextXPosition, int scrollContextYPosition, int scrollContextBoxWidth, int scrollContextBoxHeight) {
     // Checking to see if mouse is within the scroll graphic context limits
-    if ((mouseX > SCROLL_CONTEXT_X_POSITION) && (mouseX < SCROLL_CONTEXT_X_POSITION + SCROLL_CONTEXT_BOX_WIDTH)) {
-      if ((mouseY > SCROLL_CONTEXT_Y_POSITION) && (mouseY < SCROLL_CONTEXT_Y_POSITION + SCROLL_CONTEXT_BOX_HEIGHT)) {
+    if ((mouseX > scrollContextXPosition) && (mouseX < scrollContextXPosition + scrollContextBoxWidth)) {
+      if ((mouseY > scrollContextYPosition) && (mouseY < scrollContextYPosition + scrollContextBoxHeight)) {
         // Checking to see if the mouse is within the limits of the button
-        if ((mouseX > xPosition + SCROLL_CONTEXT_X_POSITION + scrollOffset) && (mouseX < xPosition + buttonWidth + SCROLL_CONTEXT_X_POSITION + scrollOffset)) {
-          if ((mouseY > yPosition + SCROLL_CONTEXT_Y_POSITION) && (mouseY < yPosition + buttonHeight + SCROLL_CONTEXT_Y_POSITION)) {
+        if ((mouseX > xPosition + scrollContextXPosition + scrollOffset) && (mouseX < xPosition + buttonWidth + scrollContextXPosition + scrollOffset)) {
+          if ((mouseY > yPosition + scrollContextYPosition) && (mouseY < yPosition + buttonHeight + scrollContextYPosition)) {
             if (cursorChanged == false) {
               cursorChanged = true;
               canPress = true;
@@ -190,8 +190,6 @@ private class Image_Button {
     }
   }
 }
-
-
 
 
 /** 
@@ -238,7 +236,7 @@ private class Scroll_Bar {
   private boolean mouseHeld = false;   // Set to true if the mouse button is being held down
   private boolean cursorChanged = false;  // Set to true if the cursor is anything but the arrow
 
-  Scroll_Bar(int xPosition, int yPosition, int scrollWidth, int scrollHeight, PGraphics graphics, int contextXOffset, int contextYOffset) {
+   Scroll_Bar(int xPosition, int yPosition, int scrollWidth, int scrollHeight, PGraphics graphics, int contextXOffset, int contextYOffset){
     this.graphics = graphics;
     this.xPosition = xPosition;
     this.yPosition = yPosition;
@@ -334,9 +332,6 @@ private class Scroll_Bar {
     return scrollOffset;
   }
 }
-
-
-
 
 /**
  *  Check box button class
